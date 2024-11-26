@@ -19,7 +19,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Book, Review, LendedBook, Wishlist
-from .serializers import BookSerializer, ReviewSerializer, LendedBookSerializer, WishlistSerializer, UserSerializer
+from .serializers import BookSerializer, ReviewSerializer, LendedBookSerializer, WishlistSerializer, UserSerializer, UserAccountSerializer
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.viewsets import ModelViewSet
 from django.http import JsonResponse
@@ -193,4 +193,11 @@ def api_login(request):
 def api_logout(request):
     logout(request)
     return Response({'success': 'Logged out successfully.'}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_user_account(request):
+    user = request.user
+    serializer = UserAccountSerializer(user, context={'request': request})
+    return Response(serializer.data)
 

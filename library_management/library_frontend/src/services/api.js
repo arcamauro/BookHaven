@@ -48,4 +48,15 @@ export const logoutUser = async () => {
   }
 };
 
+// Function to fetch the user's account information
+export const fetchUserAccount = async () => {
+  try {
+    const response = await api.get('account/');
+    return response.data;
+  } catch (error) {
+    console.error('Fetch user account error:', error);
+    throw error;
+  }
+};
+
 // Add more API functions as needed

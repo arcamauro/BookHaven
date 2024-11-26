@@ -2,10 +2,10 @@ import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 import './BookCard.css'; // Import the CSS file for styling
 
-const BookCard = ({ book }) => {
+const BookCard = ({ book, onClick }) => {
   return (
-    <Card className="book-card">
-      <img src={book.cover} className="book-cover" />
+    <Card className="book-card" onClick={onClick}>
+      <img src={book.cover} className="book-cover" alt={`${book.title} cover`} />
       <CardContent>
         <Typography variant="h5">{book.title}</Typography>
         <Typography variant="subtitle1">

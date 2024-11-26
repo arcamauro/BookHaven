@@ -16,7 +16,6 @@ class GenreSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     authors = AuthorSerializer(many=True, read_only=True)
     genres = GenreSerializer(many=True, read_only=True)
-    cover = serializers.SerializerMethodField()
 
     class Meta:
         model = Book
@@ -48,3 +47,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email']
+
+class UserAccountSerializer(serializers.ModelSerializer):
+    borrowed_books = LendedBookSerializer(many=True, read_only=True, source='lendedbook_set')
+    wishlist = WishlistSerializer(many=True, read_only=True, source='wishlist_set')
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'borrowed_books', 'wishlist']
