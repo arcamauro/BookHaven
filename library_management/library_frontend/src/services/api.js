@@ -59,4 +59,26 @@ export const fetchUserAccount = async () => {
   }
 };
 
+// Function to borrow a book
+export const borrowBook = async (isbn) => {
+  try {
+    const response = await api.post('borrow/', { isbn });
+    return response.data;
+  } catch (error) {
+    console.error('Borrow book error:', error);
+    throw error;
+  }
+};
+
+// Function to toggle the wishlist
+export const toggleWishlist = async (isbn) => {
+  try {
+    const response = await api.post('wishlist/', { isbn });
+    return response.data;
+  } catch (error) {
+    console.error('Toggle wishlist error:', error);
+    throw error;
+  }
+};
+
 // Add more API functions as needed

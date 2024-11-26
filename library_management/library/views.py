@@ -201,3 +201,36 @@ def api_user_account(request):
     serializer = UserAccountSerializer(user, context={'request': request})
     return Response(serializer.data)
 
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Book, LendedBook, Wishlist
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def api_borrow_book(request):
+    isbn = request.data.get('isbn')
+    book = get_object_or_404(Book, isbn=isbn)
+
+    if book.copies > book.lended:
+        book.lended += 1
+        book.save()
+        LendedBook.objects.create(user=request.user, book=book, number=1)
+        return Response({'success': 'Book borrowed successfully.'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'error': 'No copies available.'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def api_toggle_wishlist(request):
+    isbn = request.data.get('isbn')
+    book = get_object_or_404(Book, isbn=isbn)
+    wishlist_item, created = Wishlist.objects.get_or_create(user=request.user, book=book)
+
+    if not created:
+        wishlist_item.delete()
+        return Response({'success': 'Book removed from wishlist.'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'success': 'Book added to wishlist.'}, status=status.HTTP_200_OK)

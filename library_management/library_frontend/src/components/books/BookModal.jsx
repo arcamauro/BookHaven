@@ -1,8 +1,27 @@
 import React from 'react';
 import { Modal, Box, Typography, Button } from '@mui/material';
-import './BookModal.css'; // Import the CSS file for styling
+import './BookModal.css';
+import { borrowBook, toggleWishlist } from '../../services/api'; // Import API functions
 
 const BookModal = ({ book, onClose }) => {
+  const handleBorrow = async () => {
+    try {
+      await borrowBook(book.isbn);
+      alert('Book borrowed successfully!');
+    } catch (error) {
+      alert('Failed to borrow book.');
+    }
+  };
+
+  const handleToggleWishlist = async () => {
+    try {
+      await toggleWishlist(book.isbn);
+      alert('Wishlist updated successfully!');
+    } catch (error) {
+      alert('Failed to update wishlist.');
+    }
+  };
+
   return (
     <Modal open={!!book} onClose={onClose}>
       <Box className="book-modal">
@@ -15,7 +34,12 @@ const BookModal = ({ book, onClose }) => {
           Genre: {book.genres.map(genre => genre.name).join(', ')}
         </Typography>
         <Typography variant="subtitle2" gutterBottom>ISBN: {book.isbn}</Typography>
-        <Typography variant="body1" paragraph>{book.description}</Typography>
+        <Button variant="contained" color="primary" onClick={handleBorrow}>
+          Borrow
+        </Button>
+        <Button variant="contained" color="secondary" onClick={handleToggleWishlist}>
+          {book.wishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
+        </Button>
         <Button variant="contained" color="primary" onClick={onClose}>
           Close
         </Button>

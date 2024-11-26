@@ -33,7 +33,7 @@ function AccountPage() {
       {accountInfo.borrowed_books.length > 0 ? (
         <ul>
           {accountInfo.borrowed_books.map(book => (
-            <li key={book.id}>{book.title}</li>
+            <li key={book.isbn}>{book.title}</li>
           ))}
         </ul>
       ) : (
@@ -44,7 +44,7 @@ function AccountPage() {
       {accountInfo.wishlist.length > 0 ? (
         <ul>
           {accountInfo.wishlist.map(book => (
-            <li key={book.id}>{book.title}</li>
+            <li key={book.isbn}>{book.title}</li>
           ))}
         </ul>
       ) : (
