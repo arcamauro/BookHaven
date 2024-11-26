@@ -6,6 +6,15 @@ const api = axios.create({
   withCredentials: true, // Include cookies for authentication
 });
 
+// Add a request interceptor to include the CSRF token
+api.interceptors.request.use((config) => {
+  const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')).split('=')[1];
+  config.headers['X-CSRFToken'] = csrfToken;
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
 // Function to fetch the list of books
 export const fetchBooks = async () => {
   try {
@@ -24,6 +33,17 @@ export const loginUser = async (username, password) => {
     return response.data;
   } catch (error) {
     console.error('Login error:', error);
+    throw error;
+  }
+};
+
+// Function to logout a user
+export const logoutUser = async () => {
+  try {
+    const response = await api.post('logout/');
+    return response.data;
+  } catch (error) {
+    console.error('Logout error:', error);
     throw error;
   }
 };

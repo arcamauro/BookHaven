@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -26,6 +26,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 # # Old Views (Template-based)
 
@@ -184,4 +185,12 @@ def api_login(request):
         return Response({'success': 'Logged in successfully.'}, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@ensure_csrf_cookie
+def api_logout(request):
+    logout(request)
+    return Response({'success': 'Logged out successfully.'}, status=status.HTTP_200_OK)
 
