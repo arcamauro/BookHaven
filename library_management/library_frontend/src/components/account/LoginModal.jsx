@@ -10,6 +10,8 @@ export default function LoginModal({ open, handleClose }) {
   const handleLogin = async () => {
     const success = await login(username, password);
     if (success) {
+      setUsername('');
+      setPassword('');
       handleClose();
     } else {
       alert('Login failed. Please check your credentials.');
