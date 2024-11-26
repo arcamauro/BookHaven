@@ -4,8 +4,17 @@ import { logoutUser } from '../services/api';
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    // Load user from localStorage if available
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Set loading to false once the user is loaded
+    setLoading(false);
+  }, []);
 
   const login = async (username, password) => {
     try {
@@ -21,6 +30,7 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData)); // Save user to localStorage
         return true;
       }
       return false;
@@ -34,6 +44,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await logoutUser();
       setUser(null);
+      localStorage.removeItem('user'); // Remove user from localStorage
     } catch (error) {
       console.error('Logout failed:', error);
     }
