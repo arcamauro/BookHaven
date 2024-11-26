@@ -34,14 +34,18 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class LendedBookSerializer(serializers.ModelSerializer):
+    book = BookSerializer(read_only=True)
+
     class Meta:
         model = LendedBook
-        fields = '__all__'
+        fields = ['book', 'borrowed_on', 'return_on']
 
 class WishlistSerializer(serializers.ModelSerializer):
+    book = BookSerializer(read_only=True)
+
     class Meta:
         model = Wishlist
-        fields = '__all__'
+        fields = ['book']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
