@@ -81,4 +81,26 @@ export const toggleWishlist = async (isbn) => {
   }
 };
 
+// Function to leave a review
+export const leaveReview = async (isbn, rating, content) => {
+  try {
+    const response = await api.post('review/', { isbn, rating, content });
+    return response.data;
+  } catch (error) {
+    console.error('Leave review error:', error);
+    throw error;
+  }
+};
+
+// Function to fetch reviews for a book
+export const fetchReviews = async (isbn) => {
+  try {
+    const response = await api.get(`reviews/${isbn}/`);
+    return response.data;
+  } catch (error) {
+    console.error('Fetch reviews error:', error);
+    throw error;
+  }
+};
+
 // Add more API functions as needed

@@ -23,6 +23,12 @@
   margin-bottom: 16px;
 }
 
+.button-group {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  gap: 10px; /* Add space between buttons */
+}
+
 @media (min-width: 768px) {
   .book-modal {
     max-width: 500px;

@@ -234,3 +234,33 @@ def api_toggle_wishlist(request):
         return Response({'success': 'Book removed from wishlist.'}, status=status.HTTP_200_OK)
     else:
         return Response({'success': 'Book added to wishlist.'}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def api_leave_review(request):
+    isbn = request.data.get('isbn')
+    rating = request.data.get('rating')
+    content = request.data.get('content')
+
+    book = get_object_or_404(Book, isbn=isbn)
+    existing_review = Review.objects.filter(book=book, user=request.user).first()
+
+    if existing_review:
+        # Update the existing review
+        existing_review.rating = rating
+        existing_review.content = content
+        existing_review.save()
+        serializer = ReviewSerializer(existing_review)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        # Create a new review
+        review = Review.objects.create(book=book, user=request.user, rating=rating, content=content)
+        serializer = ReviewSerializer(review)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def api_get_reviews(request, isbn):
+    reviews = Review.objects.filter(book__isbn=isbn)
+    serializer = ReviewSerializer(reviews, many=True)
+    return Response(serializer.data)
