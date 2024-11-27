@@ -24,9 +24,6 @@ export default function Navbar() {
         
         {user ? (
           <>
-            <Button color="inherit" onClick={() => navigate('/borrow')}>
-              Borrow
-            </Button>
             <Button color="inherit" onClick={() => navigate('/account')}>
               Account
             </Button>

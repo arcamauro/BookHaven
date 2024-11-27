@@ -1,5 +1,5 @@
 from django.urls import path, reverse_lazy
-from .views import api_book_list, api_login, api_logout, api_user_account, api_borrow_book, api_toggle_wishlist, api_leave_review, api_get_reviews, api_search_books
+from .views import api_book_list, api_login, api_logout, api_user_account, api_borrow_book, api_toggle_wishlist, api_leave_review, api_get_reviews
 # from .views import home, login_view, register_view, book_detail, toggle_wishlist
 from .librarian_views import librarian_page, search_user_books, return_book, add_book, edit_book, search_books_for_edit, delete_book
 from django.contrib.auth import views as auth_views
@@ -41,5 +41,4 @@ urlpatterns = [
     path('api/wishlist/', api_toggle_wishlist, name='api_toggle_wishlist'),
     path('api/review/', api_leave_review, name='api_leave_review'),
     path('api/reviews/<str:isbn>/', api_get_reviews, name='api_get_reviews'),
-    path('api/search/', api_search_books, name='api_search_books'),
 ]

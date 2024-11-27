@@ -16,9 +16,9 @@ api.interceptors.request.use((config) => {
 });
 
 // Function to fetch the list of books
-export const fetchBooks = async (query) => {
+export const fetchBooks = async () => {
   try {
-    const response = await api.get(`search/?query=${query}`);
+    const response = await api.get('books/');
     return response.data;
   } catch (error) {
     console.error('Fetch books error:', error);
