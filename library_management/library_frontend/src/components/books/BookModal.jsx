@@ -99,6 +99,23 @@ const BookModal = ({ book, onClose }) => {
             Submit Review
           </Button>
         </div>
+
+        <div className="reviews-list">
+          <Typography variant="h6" gutterBottom>Reviews</Typography>
+          {reviews.length > 0 ? (
+            reviews.map((review, index) => (
+              <Box key={index} className="review-item">
+                <Typography variant="subtitle1">
+                  {(review.username || 'Anonymous')} - <Rating value={review.rating} readOnly />
+                </Typography>
+                <Typography variant="body2">{review.content}</Typography>
+              </Box>
+            ))
+          ) : (
+            <Typography variant="body2">No reviews yet.</Typography>
+          )}
+        </div>
+
         <Button variant="contained" color="primary" onClick={onClose} style={{ marginTop: '10px' }}>
           Close
         </Button>
