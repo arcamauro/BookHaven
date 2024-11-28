@@ -6,4 +6,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
+}
+
+.book-card {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.book-card:hover {
+  transform: scale(1.05);
 } 

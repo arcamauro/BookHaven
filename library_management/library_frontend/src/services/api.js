@@ -103,4 +103,15 @@ export const fetchReviews = async (isbn) => {
   }
 };
 
+// Function to search for books
+export const searchBooks = async (query) => {
+  try {
+    const response = await api.get('search/', { params: { q: query } });
+    return response.data;
+  } catch (error) {
+    console.error('Search books error:', error);
+    throw error;
+  }
+};
+
 // Add more API functions as needed

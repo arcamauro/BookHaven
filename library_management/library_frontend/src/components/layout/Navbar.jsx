@@ -21,7 +21,9 @@ export default function Navbar() {
         <Button color="inherit" onClick={() => navigate('/')}>
           Home
         </Button>
-        
+        <Button color="inherit" onClick={() => navigate('/search')}>
+          Search a book
+        </Button>
         {user ? (
           <>
             <Button color="inherit" onClick={() => navigate('/account')}>

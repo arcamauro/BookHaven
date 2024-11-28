@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg, Q, F
+from django.db.models import Avg, Q, F, Count
 # from datetime import datehome
 from dateutil.relativedelta import relativedelta
 import threading
@@ -262,3 +262,21 @@ def api_get_reviews(request, isbn):
     reviews = Review.objects.filter(book__isbn=isbn)
     serializer = ReviewSerializer(reviews, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def api_search_books(request):
+    query = request.query_params.get('q', '')
+    if not query:
+        return Response({'error': 'No search query provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    books = Book.objects.filter(
+        Q(title__icontains=query) |
+        Q(authors__name__icontains=query) |
+        Q(isbn__icontains=query)
+    ).annotate(
+        relevance=Count('authors') + Count('title')
+    ).order_by('-relevance').distinct()
+
+    serializer = BookSerializer(books, many=True, context={'request': request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
