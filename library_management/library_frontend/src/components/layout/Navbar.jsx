@@ -1,15 +1,33 @@
 import { AppBar, Toolbar, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoginModal from '../account/LoginModal';
 import RegisterModal from '../account/RegisterModal';
+import axios from 'axios';
+import { checkStaffStatus } from '../../services/api';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isLoginOpen, setLoginOpen] = useState(false);
   const [isRegisterOpen, setRegisterOpen] = useState(false);
+  const [isStaff, setIsStaff] = useState(false);
+
+  useEffect(() => {
+    const fetchStaffStatus = async () => {
+      if (user) {
+        try {
+          const isStaff = await checkStaffStatus();
+          setIsStaff(isStaff);
+        } catch (error) {
+          console.error('Error fetching staff status:', error);
+        }
+      }
+    };
+
+    fetchStaffStatus();
+  }, [user]);
 
   return (
     <AppBar position="static">
@@ -29,7 +47,7 @@ export default function Navbar() {
             <Button color="inherit" onClick={() => navigate('/account')}>
               Account
             </Button>
-            {user.is_staff && (
+            {isStaff && (
               <Button color="inherit" onClick={() => navigate('/librarian')}>
                 Librarian
               </Button>

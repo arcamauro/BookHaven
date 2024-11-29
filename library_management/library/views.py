@@ -32,6 +32,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
 from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 # # Old Views (Template-based)
 
@@ -280,3 +283,9 @@ def api_search_books(request):
 
     serializer = BookSerializer(books, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def check_staff_status(request):
+    is_staff = request.user.is_staff
+    return Response({'is_staff': request.user.is_staff}, status=status.HTTP_200_OK)

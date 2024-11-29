@@ -114,4 +114,15 @@ export const searchBooks = async (query) => {
   }
 };
 
+// Function to check if the user is staff
+export const checkStaffStatus = async () => {
+  try {
+    const response = await api.get('check_staff/');
+    return response.data.is_staff;
+  } catch (error) {
+    console.error('Check staff status error:', error);
+    throw error;
+  }
+};
+
 // Add more API functions as needed
