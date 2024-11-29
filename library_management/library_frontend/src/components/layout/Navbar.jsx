@@ -47,8 +47,8 @@ export default function Navbar() {
               Account
             </Button>
             {isStaff && (
-              <Button color="inherit" onClick={() => navigate('/users-books')}>
-                Manage users' books
+              <Button color="inherit" onClick={() => navigate('/librarian-page')}>
+                Librarian page
               </Button>
             )}
             <Button color="inherit" onClick={logout}>

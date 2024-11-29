@@ -16,7 +16,7 @@ const LibrarianPage = () => {
 
   return (
     <div>
-      <h1>Manage users' books</h1>
+      <h1>Welcome to the librarian page</h1>
       <input
         type="text"
         value={searchQuery}
