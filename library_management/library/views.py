@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg, Q, F, Count
+from django.db.models import Avg, Q, F, Count, Case, When, Value, IntegerField
 # from datetime import datehome
 from dateutil.relativedelta import relativedelta
 import threading
@@ -272,16 +272,31 @@ def api_get_reviews(request, isbn):
 @permission_classes([AllowAny])
 def api_search_books(request):
     query = request.query_params.get('q', '')
-    if not query:
-        return Response({'error': 'No search query provided.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Return empty list for very short queries to avoid unnecessary searches
+    if len(query) < 2:
+        return Response([], status=status.HTTP_200_OK)
 
     books = Book.objects.filter(
         Q(title__icontains=query) |
         Q(authors__name__icontains=query) |
         Q(isbn__icontains=query)
     ).annotate(
-        relevance=Count('authors') + Count('title')
-    ).order_by('-relevance').distinct()
+        relevance=Count('authors') + (
+            # Prioritize matches at the start of titles
+            Case(
+                When(title__istartswith=query, then=Value(10)),
+                default=Value(0),
+                output_field=IntegerField(),
+            ) +
+            # Prioritize exact matches in title
+            Case(
+                When(title__iexact=query, then=Value(5)),
+                default=Value(0),
+                output_field=IntegerField(),
+            )
+        )
+    ).order_by('-relevance').distinct()[:10]  # Limit to 10 results for better performance
 
     serializer = BookSerializer(books, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)

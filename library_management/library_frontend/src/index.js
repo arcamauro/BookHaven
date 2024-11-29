@@ -8,7 +8,23 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
 const theme = createTheme({
-  // You can customize your theme here
+  palette: {
+    primary: {
+      main: '#FFBA08',
+    },
+    secondary: {
+      main: '#14213D',
+    },
+    text: {
+      primary: '#000000',
+    },
+    background: {
+      default: '#E5E5E5',
+    },
+  },
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

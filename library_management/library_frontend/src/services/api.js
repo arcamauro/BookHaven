@@ -41,6 +41,7 @@ export const loginUser = async (username, password) => {
 export const logoutUser = async () => {
   try {
     const response = await api.post('logout/');
+    window.location.href = '/';
     return response.data;
   } catch (error) {
     console.error('Logout error:', error);

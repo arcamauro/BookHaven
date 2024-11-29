@@ -68,10 +68,26 @@ const BookModal = ({ book, onClose }) => {
         </Typography>
         <Typography variant="subtitle2" gutterBottom>ISBN: {book.isbn}</Typography>
         <div className="button-group">
-          <Button variant="contained" color="primary" onClick={handleBorrow}>
+          <Button 
+            variant="contained" 
+            sx={{ 
+              backgroundColor: '#FFBA08', 
+              color: '#000000', 
+              '&:hover': { backgroundColor: '#e0a806' } 
+            }}
+            onClick={handleBorrow}
+          >
             Borrow Book
           </Button>
-          <Button variant="outlined" color="secondary" onClick={handleToggleWishlist}>
+          <Button 
+            variant="outlined" 
+            sx={{ 
+              borderColor: '#FFBA08', 
+              color: '#FFBA08', 
+              '&:hover': { borderColor: '#e0a806', color: '#e0a806' } 
+            }}
+            onClick={handleToggleWishlist}
+          >
             Add to Wishlist
           </Button>
         </div>

@@ -1,20 +1,23 @@
 import React from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
-import './BookCard.css'; // Import the CSS file for styling
+import { Card, CardContent, Typography, Box } from '@mui/material';
+import './BookCard.css';
 
 const BookCard = ({ book, onClick }) => {
   return (
     <Card className="book-card" onClick={onClick}>
-      <img src={book.cover} className="book-cover" alt={`${book.title} cover`} />
+      <Box className="book-cover-container">
+        <img src={book.cover} className="book-cover" alt={`${book.title} cover`} />
+      </Box>
       <CardContent>
-        <Typography variant="h5">{book.title}</Typography>
-        <Typography variant="subtitle1">
+        <Typography variant="h6" className="book-title" noWrap>
+          {book.title}
+        </Typography>
+        <Typography variant="subtitle2" color="text.secondary" noWrap>
           by {book.authors.map(author => author.name).join(', ')}
         </Typography>
-        <Typography variant="body2">
-          Genre: {book.genres.map(genre => genre.name).join(', ')}
+        <Typography variant="body2" color="text.secondary" className="book-genre">
+          {book.genres.map(genre => genre.name).join(', ')}
         </Typography>
-        <Typography variant="subtitle2">ISBN: {book.isbn}</Typography>
       </CardContent>
     </Card>
   );

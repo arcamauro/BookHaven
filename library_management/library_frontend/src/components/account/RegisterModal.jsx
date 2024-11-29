@@ -132,7 +132,11 @@ export default function RegisterModal({ open, handleClose }) {
         />
         <Button 
           variant="contained" 
-          color="primary" 
+          sx={{ 
+            backgroundColor: '#FFBA08', 
+            color: '#000000', 
+            '&:hover': { backgroundColor: '#e0a806' } 
+          }}
           fullWidth 
           type="submit"
         >
