@@ -5,7 +5,7 @@ import BookList from './components/books/BookList';
 import AccountPage from './components/account/AccountPage';
 import Searching from './components/books/Searching';
 import LibrarianPage from './components/librarian/LibrarianPage';
-
+import EmailVerification from './components/account/EmailVerification';
 function App() {
   return (
     <Router>
@@ -15,6 +15,7 @@ function App() {
         <Route path="/account" element={<AccountPage />} />
         <Route path="/search" element={<Searching />} />
         <Route path="/librarian-page" element={<LibrarianPage />} />
+        <Route path="/verify-email/:uidb64/:token" element={<EmailVerification />} />
       </Routes>
     </Router>
   );

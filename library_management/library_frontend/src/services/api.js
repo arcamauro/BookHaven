@@ -135,4 +135,34 @@ export const searchUserBooks = async (query) => {
   }
 };
 
+// Function to register a new user
+export const registerUser = async (userData) => {
+  try {
+    const response = await api.post('register/', userData);
+    return response.data;
+  } catch (error) {
+    console.error('Registration error:', error.response?.data || error.message);
+    if (error.response?.data) {
+      // If it's an error from the backend
+      throw error.response.data;
+    } else {
+      // If it's a network error or other type of error
+      throw { error: 'Registration failed. Please try again.' };
+    }
+  }
+};
+
+// Function to verify email
+export const verifyEmail = async (uidb64, token) => {
+  try {
+    const response = await api.get(`verify-email/${uidb64}/${token}/`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw error;
+  }
+};
+
 // Add more API functions as needed

@@ -35,6 +35,8 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.http import require_http_methods
 
 # # Old Views (Template-based)
 
@@ -289,3 +291,88 @@ def api_search_books(request):
 def check_staff_status(request):
     is_staff = request.user.is_staff
     return Response({'is_staff': request.user.is_staff}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def api_register(request):
+    try:
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
+        email = request.data.get('email')
+        username = request.data.get('username')
+        password = request.data.get('password')
+        confirm_password = request.data.get('confirm_password')
+
+        # Validate required fields
+        if not all([first_name, last_name, email, username, password, confirm_password]):
+            return Response({'error': 'All fields are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if password != confirm_password:
+            return Response({'error': 'Passwords do not match.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            validate_password(password)
+        except ValidationError as e:
+            return Response({'error': list(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(username=username).exists():
+            return Response({'error': 'Username already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(email=email).exists():
+            return Response({'error': 'Email already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            email=email,
+            password=password,
+            is_active=False
+        )
+
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        verification_url = f"http://localhost:3000/verify-email/{uid}/{token}/"
+
+        try:
+            send_mail(
+                'Verify your email',
+                f'Please verify your email by clicking the following link: {verification_url}',
+                'from@example.com',
+                [email],
+                fail_silently=False,
+            )
+        except Exception as e:
+            # If email sending fails, delete the user and return error
+            user.delete()
+            return Response(
+                {'error': 'Failed to send verification email. Please try again.'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        return Response(
+            {'success': 'Registration successful. Check your email to verify your account.'},
+            status=status.HTTP_201_CREATED
+        )
+
+    except Exception as e:
+        return Response(
+            {'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def api_verify_email(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return Response({'success': 'Email verified successfully.'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'error': 'Invalid verification link.'}, status=status.HTTP_400_BAD_REQUEST)
