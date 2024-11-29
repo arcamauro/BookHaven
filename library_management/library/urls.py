@@ -1,7 +1,7 @@
 from django.urls import path, reverse_lazy
 from .views import api_book_list, api_login, api_logout, api_user_account, api_borrow_book, api_toggle_wishlist, api_leave_review, api_get_reviews, api_search_books, check_staff_status
 # from .views import home, login_view, register_view, book_detail, toggle_wishlist
-from .librarian_views import librarian_page, search_user_books, return_book, add_book, edit_book, search_books_for_edit, delete_book
+from .librarian_views import api_search_user_books
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import SetPasswordForm
 
@@ -43,4 +43,5 @@ urlpatterns = [
     path('api/reviews/<str:isbn>/', api_get_reviews, name='api_get_reviews'),
     path('api/search/', api_search_books, name='api_search_books'),
     path('api/check_staff/', check_staff_status, name='check_staff_status'),
+    path('api/search_user/', api_search_user_books, name='api_search_user_books'),
 ]

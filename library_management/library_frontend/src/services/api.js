@@ -125,4 +125,24 @@ export const checkStaffStatus = async () => {
   }
 };
 
+export const searchUserBooks = async (query) => {
+  try {
+    const response = await api.get('search_user/', { params: { query } });
+    return response.data.books;
+  } catch (error) {
+    console.error('Error searching user books:', error);
+    throw error;
+  }
+};
+
+export const returnBook = async (lendedBookId, quantity) => {
+  try {
+    const response = await api.post(`librarian/return_book/${lendedBookId}/`, { quantity });
+    return response.data;
+  } catch (error) {
+    console.error('Error returning book:', error);
+    throw error;
+  }
+};
+
 // Add more API functions as needed
