@@ -4,7 +4,6 @@ import { useAuth } from '../../context/AuthContext';
 import React, { useState, useEffect } from 'react';
 import LoginModal from '../account/LoginModal';
 import RegisterModal from '../account/RegisterModal';
-import axios from 'axios';
 import { checkStaffStatus } from '../../services/api';
 
 export default function Navbar() {
@@ -48,8 +47,8 @@ export default function Navbar() {
               Account
             </Button>
             {isStaff && (
-              <Button color="inherit" onClick={() => navigate('/librarian')}>
-                Librarian
+              <Button color="inherit" onClick={() => navigate('/users-books')}>
+                Manage users' books
               </Button>
             )}
             <Button color="inherit" onClick={logout}>

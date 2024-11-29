@@ -135,14 +135,4 @@ export const searchUserBooks = async (query) => {
   }
 };
 
-export const returnBook = async (lendedBookId, quantity) => {
-  try {
-    const response = await api.post(`librarian/return_book/${lendedBookId}/`, { quantity });
-    return response.data;
-  } catch (error) {
-    console.error('Error returning book:', error);
-    throw error;
-  }
-};
-
 // Add more API functions as needed

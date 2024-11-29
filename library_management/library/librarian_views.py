@@ -40,23 +40,25 @@ def search_user_books(request):
 
     return render(request, 'librarian/search_user.html', {'books': searched_books, 'query': query})
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def api_return_book(request, lended_book_id):
-    quantity = int(request.data.get('quantity', 1))
-    returnedBook = get_object_or_404(LendedBook, id=lended_book_id)
-
-    if returnedBook.number >= quantity:
-        if returnedBook.number == quantity:
-            returnedBook.delete()
+def return_book(request, book_id, username):
+    if request.method == "POST":
+        quantity = int(request.POST.get('quantity', 1))
+        
+        returnedBook = get_object_or_404(LendedBook, book_id=book_id, user__username = username)
+        
+        if returnedBook.number >= quantity:
+            if returnedBook.number == quantity:
+                returnedBook.delete()
+            else:
+                returnedBook.number -= quantity
+                returnedBook.save()
+                
+            Book.objects.filter(isbn=book_id).update(lended=F('lended') - quantity)
+            messages.success(request, f"{quantity} book(s) returned successfully.")
         else:
-            returnedBook.number -= quantity
-            returnedBook.save()
-
-        Book.objects.filter(isbn=returnedBook.book.isbn).update(lended=F('lended') - quantity)
-        return Response({'success': f"{quantity} book(s) returned successfully."})
-    else:
-        return Response({'error': "Cannot return more books than borrowed."}, status=400)
+            messages.error(request, "Cannot return more books than borrowed.")
+    
+    return redirect('librarian')
 
 def add_book(request):
     if request.method == 'POST':
@@ -111,7 +113,7 @@ def api_search_user_books(request):
             Q(book__title__icontains=query) |
             Q(book__isbn__icontains=query) |
             Q(book__authors__name__icontains=query)
-        ).distinct().select_related('book').prefetch_related(
+        ).distinct().select_related('book', 'user').prefetch_related(
             Prefetch('book__authors', queryset=Author.objects.all())
         )
 
@@ -122,7 +124,8 @@ def api_search_user_books(request):
             'id': lended_book.id,
             'title': lended_book.book.title,
             'isbn': lended_book.book.isbn,
-            'authors': authors
+            'authors': authors,
+            'borrower': lended_book.user.username
         })
 
     return Response({'books': books_data, 'query': query})

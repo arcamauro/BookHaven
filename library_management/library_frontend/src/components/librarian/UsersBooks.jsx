@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { searchUserBooks, returnBook } from '../../services/api';
+import { searchUserBooks } from '../../services/api';
 
 const LibrarianPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchedBooks, setSearchedBooks] = useState([]);
-  const [returnQuantity, setReturnQuantity] = useState(1);
 
   const handleSearch = async () => {
     try {
@@ -15,19 +14,9 @@ const LibrarianPage = () => {
     }
   };
 
-  const handleReturn = async (lendedBookId) => {
-    try {
-      const response = await returnBook(lendedBookId, returnQuantity);
-      console.log(response.success);
-      // Optionally refresh the list or update the UI
-    } catch (error) {
-      console.error('Error returning book:', error);
-    }
-  };
-
   return (
     <div>
-      <h1>Librarian Page</h1>
+      <h1>Manage users' books</h1>
       <input
         type="text"
         value={searchQuery}
@@ -38,14 +27,7 @@ const LibrarianPage = () => {
       <ul>
         {searchedBooks.map((book) => (
           <li key={book.id}>
-            {book.title} by {book.authors}
-            <input
-              type="number"
-              value={returnQuantity}
-              onChange={(e) => setReturnQuantity(e.target.value)}
-              min="1"
-            />
-            <button onClick={() => handleReturn(book.id)}>Return</button>
+            {book.title} by {book.authors} borrowed by {book.borrower}
           </li>
         ))}
       </ul>
