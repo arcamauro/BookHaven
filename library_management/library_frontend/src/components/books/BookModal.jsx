@@ -103,14 +103,16 @@ const BookModal = ({ book, onClose }) => {
     <Modal open={!!book} onClose={onClose}>
       <Box className="book-modal">
         <img src={book.cover} alt={`${book.title} cover`} className="book-cover" />
-        <Typography variant="h4" gutterBottom>{book.title}</Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          by {book.authors.map(author => author.name).join(', ')}
-        </Typography>
-        <Typography variant="body2" gutterBottom>
-          Genre: {book.genres.map(genre => genre.name).join(', ')}
-        </Typography>
-        <Typography variant="subtitle2" gutterBottom>ISBN: {book.isbn}</Typography>
+        <div className="book-info">
+          <Typography variant="h4" gutterBottom>{book.title}</Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            by {book.authors.map(author => author.name).join(', ')}
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            Genre: {book.genres.map(genre => genre.name).join(', ')}
+          </Typography>
+          <Typography variant="subtitle2" gutterBottom>ISBN: {book.isbn}</Typography>
+        </div>
         <div className="button-group">
           <Button 
             variant="contained" 
@@ -165,10 +167,15 @@ const BookModal = ({ book, onClose }) => {
           {reviews.length > 0 ? (
             reviews.map((review, index) => (
               <Box key={index} className="review-item">
-                <Typography variant="subtitle1">
-                  {(review.username || 'Anonymous')} - <Rating value={review.rating} readOnly />
+                <div className="review-header">
+                  <Typography variant="subtitle1" className="review-username">
+                    {review.username || 'Anonymous'}
+                  </Typography>
+                  <Rating value={review.rating} readOnly size="small" />
+                </div>
+                <Typography variant="body2" className="review-content">
+                  {review.content}
                 </Typography>
-                <Typography variant="body2">{review.content}</Typography>
               </Box>
             ))
           ) : (

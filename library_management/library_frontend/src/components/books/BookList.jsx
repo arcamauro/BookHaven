@@ -38,7 +38,7 @@ export default function BookList() {
   return (
     <div className="book-list">
       <div className="welcome-section">
-        <h1>Welcome to <span style={{ color: '#' }}>ReadHaven</span>!</h1>
+        <h1>Welcome to <span style={{ color: '' }}>ReadHaven</span>!</h1>
         <p>Here you will find a safe place to read and share your favorite books.</p>
       </div>
       

@@ -3,34 +3,84 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 450px;
+  width: 95%;
+  max-width: 1000px;
   background-color: #FFFFFF;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 32px;
   outline: none;
   overflow-y: auto;
-  max-height: 80vh;
+  max-height: 90vh;
 }
 
-.book-cover {
-  width: 100%;
+.book-modal .book-cover {
+  min-width: 200px;
+  min-height: 300px;
+  width: auto;
   height: auto;
-  max-height: 250px;
+  max-width: 300px;
   object-fit: contain;
+  border-radius: 12px;
+  margin: 0 auto 24px;
+  display: block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.book-modal .book-info {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.book-modal .button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.book-modal .review-section {
+  background-color: #f8f9fa;
+  padding: 24px;
+  border-radius: 12px;
+  margin: 24px 0;
+}
+
+.book-modal .reviews-list {
+  margin-top: 24px;
+}
+
+.book-modal .review-item {
+  background-color: #f8f9fa;
+  padding: 16px;
   border-radius: 8px;
   margin-bottom: 16px;
 }
 
-.button-group {
+.book-modal .review-header {
   display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  gap: 10px; /* Add space between buttons */
+  align-items: center;
+  margin-bottom: 8px;
 }
 
-@media (min-width: 768px) {
+.book-modal .review-username {
+  font-weight: 500;
+  min-width: 80px;
+}
+
+.book-modal .review-content {
+  margin-top: 8px;
+  padding-left: 4px;
+}
+
+@media (max-width: 768px) {
   .book-modal {
     max-width: 500px;
+  }
+  .book-modal .book-cover {
+    min-width: 150px;
+    min-height: 225px;
+    max-width: 200px;
   }
 } 
