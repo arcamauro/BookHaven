@@ -41,7 +41,7 @@ class LendedBookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LendedBook
-        fields = ['book', 'borrowed_on', 'return_on']
+        fields = ['book', 'borrowed_on', 'return_on', 'number']
 
 class WishlistSerializer(serializers.ModelSerializer):
     book = BookSerializer(read_only=True)

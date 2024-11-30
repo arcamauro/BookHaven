@@ -56,7 +56,7 @@ function AccountPage() {
                         <span className="return-on">Return On: {item.return_on ? new Date(item.return_on).toLocaleString() : 'N/A'}</span>
                       </div>
                       <div className="copies-borrowed">
-                        <span className="number">{item.book.lended}</span>
+                        <span className="number">{item.number}</span>
                         <span className="copies-text">copies borrowed</span>
                       </div>
                     </div>

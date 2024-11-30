@@ -38,12 +38,12 @@ export default function BookList() {
   return (
     <div className="book-list">
       <div className="welcome-section">
-        <h1>Welcome to <span style={{ color: '' }}>ReadHaven</span>!</h1>
+        <h1>Welcome to <span className="readhaven-title">ReadHaven</span>!</h1>
         <p>Here you will find a safe place to read and share your favorite books.</p>
       </div>
       
       <div className="books-section">
-        <h2 className="section-title">Available Books</h2>
+        <h2 className="section-title">The books you can find here</h2>
         {loading ? (
           <div className="loading-container">
             <CircularProgress />

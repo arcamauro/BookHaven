@@ -1,0 +1,35 @@
+.navbar {
+  background-color: #14213D !important;  /* Force secondary.main color */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #FFFFFF !important;  /* Force white color */
+  cursor: pointer;
+}
+
+.navbar-brand:hover {
+  opacity: 0.9;
+}
+
+.nav-button {
+  color: #FFBA08 !important;  /* Force primary.main color */
+  background-color: transparent !important;  /* Remove background */
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 186, 8, 0.1) !important;  /* Semi-transparent primary color */
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 8px;
+}

@@ -1,10 +1,11 @@
-import { AppBar, Toolbar, Button, Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import React, { useState, useEffect } from 'react';
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import LoginModal from '../account/LoginModal';
 import RegisterModal from '../account/RegisterModal';
 import { checkStaffStatus } from '../../services/api';
+import './Navbar.css';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -31,71 +32,41 @@ export default function Navbar() {
   return (
     <AppBar 
       position="static" 
-      sx={{ 
-        backgroundColor: '#14213D',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-      }}
+      elevation={0} 
+      className="navbar"
     >
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         {/* Logo/Brand Section */}
         <Typography 
           variant="h5" 
-          sx={{ 
-            fontWeight: 'bold',
-            color: '#FFFFFF',
-            cursor: 'pointer',
-            '&:hover': { opacity: 0.9 }
-          }}
+          className="navbar-brand"
           onClick={() => navigate('/')}
         >
           ReadHaven
         </Typography>
 
         {/* Navigation Links */}
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+        <Box className="nav-links">
           <Button 
             onClick={() => navigate('/')} 
-            sx={{ 
-              color: '#FFFFFF',
-              '&:hover': { 
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                transform: 'translateY(-2px)',
-              },
-              transition: 'all 0.2s ease-in-out'
-            }}
+            className="nav-button"
           >
             Home
           </Button>
           
           <Button 
             onClick={() => navigate('/search')} 
-            sx={{ 
-              color: '#FFFFFF',
-              '&:hover': { 
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                transform: 'translateY(-2px)',
-              },
-              transition: 'all 0.2s ease-in-out'
-            }}
+            className="nav-button"
           >
             Search Books
           </Button>
 
           {/* Auth Buttons */}
           {user ? (
-            <Box sx={{ display: 'flex', gap: 1 }}>
+            <Box className="auth-buttons">
               <Button 
                 onClick={() => navigate('/account')} 
-                sx={{ 
-                  color: '#14213D',
-                  backgroundColor: '#FFBA08',
-                  fontWeight: 'bold',
-                  '&:hover': { 
-                    backgroundColor: '#ffc534',
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.2s ease-in-out'
-                }}
+                className="nav-button"
               >
                 Account
               </Button>
@@ -103,16 +74,7 @@ export default function Navbar() {
               {isStaff && (
                 <Button 
                   onClick={() => navigate('/librarian-page')} 
-                  sx={{ 
-                    color: '#14213D',
-                    backgroundColor: '#FFBA08',
-                    fontWeight: 'bold',
-                    '&:hover': { 
-                      backgroundColor: '#ffc534',
-                      transform: 'translateY(-2px)',
-                    },
-                    transition: 'all 0.2s ease-in-out'
-                  }}
+                  className="nav-button"
                 >
                   Librarian
                 </Button>
@@ -120,50 +82,23 @@ export default function Navbar() {
               
               <Button 
                 onClick={logout} 
-                sx={{ 
-                  color: '#14213D',
-                  backgroundColor: '#FFBA08',
-                  fontWeight: 'bold',
-                  '&:hover': { 
-                    backgroundColor: '#ffc534',
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.2s ease-in-out'
-                }}
+                className="nav-button"
               >
                 Logout
               </Button>
             </Box>
           ) : (
-            <Box sx={{ display: 'flex', gap: 1 }}>
+            <Box className="auth-buttons">
               <Button 
                 onClick={() => setLoginOpen(true)} 
-                sx={{ 
-                  color: '#14213D',
-                  backgroundColor: '#FFBA08',
-                  fontWeight: 'bold',
-                  '&:hover': { 
-                    backgroundColor: '#ffc534',
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.2s ease-in-out'
-                }}
+                className="nav-button nav-button-bold"
               >
                 Login
               </Button>
               
               <Button 
                 onClick={() => setRegisterOpen(true)} 
-                sx={{ 
-                  color: '#14213D',
-                  backgroundColor: '#FFBA08',
-                  fontWeight: 'bold',
-                  '&:hover': { 
-                    backgroundColor: '#ffc534',
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.2s ease-in-out'
-                }}
+                className="nav-button nav-button-bold"
               >
                 Register
               </Button>

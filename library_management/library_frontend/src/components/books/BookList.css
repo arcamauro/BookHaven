@@ -1,10 +1,10 @@
 .book-list {
-  padding: 32px;
-  max-width: 100%;
+  padding: 32px 32px 32px 64px;
+  max-width: 1800px;
   margin: 0 auto;
   font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
-  background-color: #f5f5f5;
+  background-color: #E5E5E5;
 }
 
 .welcome-section {
@@ -46,6 +46,8 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 32px;
   padding: 16px;
+  max-width: 1700px;
+  margin: 0 auto;
 }
 
 .book-grid > div:hover {
@@ -63,7 +65,7 @@
   color: #333;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .book-list {
     padding: 16px;
   }
@@ -73,3 +75,17 @@
     gap: 16px;
   }
 } 
+
+.books-section {
+  text-align: center;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+.section-title {
+  margin-bottom: 24px;
+}
+
+.readhaven-title {
+  color: #FFBA08;
+}
