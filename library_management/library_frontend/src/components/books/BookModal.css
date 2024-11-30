@@ -11,6 +11,8 @@
   outline: none;
   overflow-y: auto;
   max-height: 90vh;
+  backdrop-filter: blur(8px);
+  background:url('../../../../media/img/bg-modal.jpg') rgba(0, 0, 0, 0.3);
 }
 
 .rh-modal-content {
