@@ -217,13 +217,35 @@ def api_borrow_book(request):
     isbn = request.data.get('isbn')
     book = get_object_or_404(Book, isbn=isbn)
 
+    # Check if user already has borrowed this book
+    if LendedBook.objects.filter(user=request.user, book=book).exists():
+        return Response(
+            {
+                'error': 'You have already borrowed this book.',
+                'type': 'already_borrowed'
+            }, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
     if book.copies > book.lended:
         book.lended += 1
         book.save()
         LendedBook.objects.create(user=request.user, book=book, number=1)
-        return Response({'success': 'Book borrowed successfully.'}, status=status.HTTP_200_OK)
+        return Response(
+            {
+                'success': 'Book borrowed successfully.',
+                'type': 'success'
+            }, 
+            status=status.HTTP_200_OK
+        )
     else:
-        return Response({'error': 'No copies available.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {
+                'error': 'No copies available. You can add it to your wishlist to be notified when it becomes available.',
+                'type': 'no_copies'
+            }, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

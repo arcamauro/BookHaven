@@ -50,23 +50,23 @@ export default function Searching() {
   };
 
   return (
-    <div className="book-list">
-      <div className="search-container">
-        <h1 className="search-title">Search In Our Library</h1>
-        <p className="search-subtitle">Find books by title, author, or ISBN number.<br/>Then click on the book to borrow; to add to wishlist; or to leave a review.</p>
+    <div className="book-search-page">
+      <div className="book-search-container">
+        <h1 className="book-search-title">Search In Our Library</h1>
+        <p className="book-search-subtitle">Find books by title, author, or ISBN number.<br/>Then click on the book to borrow; to add to wishlist; or to leave a review.</p>
         
-        <div className="search-box">
+        <div className="book-search-box">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="What are you looking for?"
-            className="search-input"
+            className="book-search-input"
           />
         </div>
 
         {loading ? (
-          <div className="loading-message">Loading...</div>
+          <div className="book-loading-message">Loading...</div>
         ) : (
           <>
             <div className="book-grid">

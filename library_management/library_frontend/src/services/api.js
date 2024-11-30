@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an axios instance with default settings
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api/', // Base URL for your Django API
+  baseURL: 'http://localhost:8000/api/', // Ensure this matches your server's address
   withCredentials: true, // Include cookies for authentication
 });
 
@@ -144,11 +144,11 @@ export const registerUser = async (userData) => {
   } catch (error) {
     console.error('Registration error:', error.response?.data || error.message);
     if (error.response?.data) {
-      // If it's an error from the backend
-      throw error.response.data;
+      // Create a new Error instance with the backend error message
+      throw new Error(JSON.stringify(error.response.data));
     } else {
-      // If it's a network error or other type of error
-      throw { error: 'Registration failed. Please try again.' };
+      // Create a new Error instance for network/other errors
+      throw new Error('Registration failed. Please try again.');
     }
   }
 };
@@ -162,6 +162,17 @@ export const verifyEmail = async (uidb64, token) => {
     if (error.response) {
       throw error.response.data;
     }
+    throw error;
+  }
+};
+
+// Function to return a book
+export const returnBook = async (bookId, username, quantity) => {
+  try {
+    const response = await api.post(`return_book/${bookId}/${username}/`, { quantity });
+    return response.data;
+  } catch (error) {
+    console.error('Return book error:', error);
     throw error;
   }
 };

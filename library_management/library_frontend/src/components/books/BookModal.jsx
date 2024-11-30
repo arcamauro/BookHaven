@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Box, Typography, Button, TextField } from '@mui/material';
+import { Modal, Box, Typography, Button, TextField, Snackbar, Alert } from '@mui/material';
 import Rating from '@mui/material/Rating'; // Import Rating component
 import './BookModal.css';
 import { borrowBook, toggleWishlist, leaveReview, fetchReviews } from '../../services/api'; // Import fetchReviews
@@ -8,6 +8,11 @@ const BookModal = ({ book, onClose }) => {
   const [reviewContent, setReviewContent] = useState('');
   const [reviewRating, setReviewRating] = useState(5);
   const [reviews, setReviews] = useState([]);
+  const [notification, setNotification] = useState({
+    open: false,
+    message: '',
+    severity: 'info'
+  });
 
   useEffect(() => {
     const loadReviews = async () => {
@@ -26,33 +31,72 @@ const BookModal = ({ book, onClose }) => {
 
   const handleBorrow = async () => {
     try {
-      await borrowBook(book.isbn);
-      alert('Book borrowed successfully!');
+      const response = await borrowBook(book.isbn);
+      setNotification({
+        open: true,
+        message: 'Book borrowed successfully!',
+        severity: 'success'
+      });
     } catch (error) {
-      alert('Failed to borrow book.');
+      const errorMessage = error.response?.data?.error || 'Failed to borrow book.';
+      const errorType = error.response?.data?.type;
+
+      let severity = 'error';
+      if (errorType === 'no_copies') {
+        severity = 'warning';
+      }
+
+      setNotification({
+        open: true,
+        message: errorMessage,
+        severity: severity
+      });
     }
   };
 
   const handleToggleWishlist = async () => {
     try {
       await toggleWishlist(book.isbn);
-      alert('Wishlist updated successfully!');
+      setNotification({
+        open: true,
+        message: 'Wishlist updated successfully!',
+        severity: 'success'
+      });
     } catch (error) {
-      alert('Failed to update wishlist.');
+      setNotification({
+        open: true,
+        message: 'Failed to update wishlist.',
+        severity: 'error'
+      });
     }
   };
 
   const handleLeaveReview = async () => {
     try {
       await leaveReview(book.isbn, reviewRating, reviewContent);
-      alert('Review submitted successfully!');
+      setNotification({
+        open: true,
+        message: 'Review submitted successfully!',
+        severity: 'success'
+      });
       setReviewContent('');
       setReviewRating(5);
       const updatedReviews = await fetchReviews(book.isbn);
       setReviews(updatedReviews);
     } catch (error) {
-      alert('Failed to submit review.');
+      setNotification({
+        open: true,
+        message: 'Failed to submit review.',
+        severity: 'error'
+      });
     }
+  };
+
+  const handleCloseNotification = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setNotification({ ...notification, open: false });
   };
 
   return (
@@ -135,6 +179,21 @@ const BookModal = ({ book, onClose }) => {
         <Button variant="contained" color="primary" onClick={onClose} style={{ marginTop: '10px' }}>
           Close
         </Button>
+
+        <Snackbar 
+          open={notification.open} 
+          autoHideDuration={6000} 
+          onClose={handleCloseNotification}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert 
+            onClose={handleCloseNotification} 
+            severity={notification.severity}
+            sx={{ width: '100%' }}
+          >
+            {notification.message}
+          </Alert>
+        </Snackbar>
       </Box>
     </Modal>
   );

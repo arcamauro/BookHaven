@@ -122,10 +122,29 @@ def api_search_user_books(request):
         authors = ', '.join(author.name for author in lended_book.book.authors.all())
         books_data.append({
             'id': lended_book.id,
-            'title': lended_book.book.title,
             'isbn': lended_book.book.isbn,
+            'title': lended_book.book.title,
             'authors': authors,
             'borrower': lended_book.user.username
         })
 
     return Response({'books': books_data, 'query': query})
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def api_return_book(request, book_id, username):
+    quantity = int(request.data.get('quantity', 1))
+    
+    returnedBook = get_object_or_404(LendedBook, book__isbn=book_id, user__username=username)
+    
+    if returnedBook.number >= quantity:
+        if returnedBook.number == quantity:
+            returnedBook.delete()
+        else:
+            returnedBook.number -= quantity
+            returnedBook.save()
+            
+        Book.objects.filter(isbn=book_id).update(lended=F('lended') - quantity)
+        return Response({'success': f"{quantity} book(s) returned successfully."})
+    else:
+        return Response({'error': "Cannot return more books than borrowed."}, status=400)

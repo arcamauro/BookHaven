@@ -4,7 +4,7 @@ body, html {
   background-color: #e5e5e5;
 }
 
-.librarian-container {
+.librarian-wrapper {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
@@ -12,27 +12,27 @@ body, html {
   background-color: #e5e5e5;
 }
 
-.librarian-title {
+.librarian-header {
   font-size: 2.5rem;
   color: #14213D;
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
-.librarian-subtitle {
+.librarian-description {
   font-size: 1.1rem;
   color: #666;
   margin-bottom: 2rem;
 }
 
-.search-box {
+.search-container {
   display: flex;
   gap: 1rem;
   max-width: 600px;
   margin: 0 auto 2rem auto;
 }
 
-.search-input {
+.search-field {
   flex: 1;
   padding: 0.8rem 1rem;
   font-size: 1rem;
@@ -42,11 +42,11 @@ body, html {
   transition: border-color 0.2s;
 }
 
-.search-input:focus {
+.search-field:focus {
   border-color: #FFBA08;
 }
 
-.search-button {
+.search-btn {
   padding: 0 2rem;
   background-color: #FFBA08;
   color: #14213D;
@@ -57,19 +57,63 @@ body, html {
   transition: background-color 0.2s;
 }
 
-.search-button:hover {
+.search-btn:hover {
   background-color: #ffc534;
 }
 
-.book-list {
+.librarian-book-collection {
   list-style: none;
   padding: 0;
 }
 
-.book-list li {
+.librarian-book-item {
   margin: 1rem 0;
   padding: 1rem;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-} 
+}
+
+.book-cover-image {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.book-info-section {
+  text-align: center;
+}
+
+.book-title-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.book-author-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.book-borrower-text {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+.return-btn {
+  padding: 0.5rem 1rem;
+  background-color: #FF5733;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.return-btn:hover {
+  background-color: #FF6F61;
+}
