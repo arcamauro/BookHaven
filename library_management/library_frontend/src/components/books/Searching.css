@@ -63,6 +63,23 @@
   margin: 0 auto;
 }
 
+/* Add styles for book covers in search results */
+.book-grid .book-cover {
+  width: 100%;
+  height: 280px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+  background-color: #f5f5f5; /* fallback color while loading */
+}
+
+.book-grid .book-cover:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Responsive adjustments */
 @media (max-width: 1200px) {
   .book-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -73,23 +90,17 @@
   .book-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .book-grid .book-cover {
+    height: 240px;
+  }
 }
 
 @media (max-width: 600px) {
-  .book-search-box {
-    flex-direction: column;
-  }
-  
   .book-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
   }
-  
-  .book-search-container {
-    padding: 1rem;
+  .book-grid .book-cover {
+    height: 220px;
   }
 }
 
-.book-list {
-  background-color: #f5f5f5;
-} 

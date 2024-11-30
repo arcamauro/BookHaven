@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { searchBooks } from '../../services/api';
 import BookCard from './BookCard';
 import BookModal from './BookModal';
-import './BookList.css';
 import './Searching.css';
 
 export default function Searching() {

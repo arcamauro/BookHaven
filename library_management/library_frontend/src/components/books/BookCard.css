@@ -1,6 +1,7 @@
 .book-card {
   max-width: 250px;
-  height: 400px;
+  min-height: 400px;
+  height: auto;
   margin: 16px;
   transition: all 0.3s ease;
   background-color: #FFFFFF;
@@ -38,6 +39,10 @@
   font-weight: 600 !important;
   margin-bottom: 4px !important;
   color: #333;
+  font-size: 1rem !important;
+  line-height: 1.2 !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .book-genre {

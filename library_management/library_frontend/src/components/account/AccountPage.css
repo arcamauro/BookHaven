@@ -1,0 +1,109 @@
+.loading {
+  text-align: center;
+  margin-top: 20%;
+}
+
+.username {
+  color: #FFBA08;
+}
+
+.account-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.account-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.account-info {
+  padding: 20px;
+}
+
+.account-title {
+  color: #333;
+  border-bottom: 2px solid #FFBA08;
+  padding-bottom: 10px;
+}
+
+.account-details {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.book-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.book-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.book-cover {
+  width: 60px;
+  height: 90px;
+  object-fit: cover;
+}
+
+.book-details {
+  flex: 1;
+}
+
+.book-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.borrowed-on, .return-on {
+  color: #555;
+}
+
+.copies-borrowed {
+  background: #14213D;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.number {
+  color: #FFBA08;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.copies-text {
+  font-size: 0.9rem;
+}
+
+.no-books {
+  font-style: italic;
+  font-size: 0.9em;
+  color: #777;
+}
+
+.authors {
+  color: #666;
+  font-size: 0.9em;
+  margin-top: 5px;
+} 

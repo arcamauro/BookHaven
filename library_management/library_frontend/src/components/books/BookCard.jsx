@@ -9,10 +9,10 @@ const BookCard = ({ book, onClick }) => {
         <img src={book.cover} className="book-cover" alt={`${book.title} cover`} />
       </Box>
       <CardContent>
-        <Typography variant="h6" className="book-title" noWrap>
+        <Typography variant="h6" className="book-title">
           {book.title}
         </Typography>
-        <Typography variant="subtitle2" color="text.secondary" noWrap>
+        <Typography variant="subtitle2" color="text.secondary">
           by {book.authors.map(author => author.name).join(', ')}
         </Typography>
         <Typography variant="body2" color="text.secondary" className="book-genre">
