@@ -6,7 +6,6 @@ const LibrarianPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [notification, setNotification] = useState('');
-  const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
 
   const handleSearch = async () => {
     try {
@@ -35,13 +34,7 @@ const LibrarianPage = () => {
       {notification && <div className="notification success">{notification}</div>}
       <h1 className="librarian-header">Welcome to the Librarian Page</h1>
       <p className="librarian-description">Manage and search user books efficiently.</p>
-      
-      <div className="librarian-actions">
-        <button 
-          onClick={() => setIsAddBookModalOpen(true)} 
-          className="add-book-btn"
-        >
-          Add New Book
+
       <div className="search-container">
         <input
           type="text"
@@ -55,12 +48,6 @@ const LibrarianPage = () => {
         </button>
       </div>
 
-      {isAddBookModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <button 
-              className="modal-close-btn"
-              onClick={() => setIsAddBookModalOpen(false)}
       <ul className="librarian-book-collection">
         {searchedBooks.map((book) => (
           <li key={book.id} className="librarian-book-item">
