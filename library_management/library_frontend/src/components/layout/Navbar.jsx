@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
@@ -10,6 +10,7 @@ import './Navbar.css';
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLoginOpen, setLoginOpen] = useState(false);
   const [isRegisterOpen, setRegisterOpen] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
@@ -28,6 +29,10 @@ export default function Navbar() {
 
     fetchStaffStatus();
   }, [user]);
+
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
 
   return (
     <AppBar 
@@ -49,14 +54,14 @@ export default function Navbar() {
         <Box className="nav-links">
           <Button 
             onClick={() => navigate('/')} 
-            className="nav-button"
+            className={`nav-button ${isActive('/') ? 'active' : ''}`}
           >
             Home
           </Button>
           
           <Button 
             onClick={() => navigate('/search')} 
-            className="nav-button"
+            className={`nav-button ${isActive('/search') ? 'active' : ''}`}
           >
             Search Books
           </Button>
@@ -66,7 +71,7 @@ export default function Navbar() {
             <Box className="auth-buttons">
               <Button 
                 onClick={() => navigate('/account')} 
-                className="nav-button"
+                className={`nav-button ${isActive('/account') ? 'active' : ''}`}
               >
                 Account
               </Button>
@@ -74,7 +79,7 @@ export default function Navbar() {
               {isStaff && (
                 <Button 
                   onClick={() => navigate('/librarian-page')} 
-                  className="nav-button"
+                  className={`nav-button ${isActive('/librarian-page') ? 'active' : ''}`}
                 >
                   Librarian
                 </Button>

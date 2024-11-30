@@ -1,12 +1,14 @@
 .navbar {
-  background-color: #14213D !important;  /* Force secondary.main color */
+  background-color: #14213D !important;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .navbar-brand {
-  font-weight: bold;
-  color: #FFFFFF !important;  /* Force white color */
+  font-size: 1.75rem !important;
+  font-weight: 600 !important;
+  color: #FFFFFF !important;
   cursor: pointer;
+  letter-spacing: 0.5px;
 }
 
 .navbar-brand:hover {
@@ -14,13 +16,32 @@
 }
 
 .nav-button {
-  color: #FFBA08 !important;  /* Force primary.main color */
-  background-color: transparent !important;  /* Remove background */
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  color: #FFBA08 !important;
+  background-color: transparent !important;
   transition: all 0.2s ease-in-out;
+  position: relative !important;
+  letter-spacing: 0.3px;
 }
 
 .nav-button:hover {
-  background-color: rgba(255, 186, 8, 0.1) !important;  /* Semi-transparent primary color */
+  background-color: rgba(255, 186, 8, 0.1) !important;
+}
+
+.nav-button.active {
+  font-weight: 600 !important;
+}
+
+.nav-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background-color: #FFBA08;
 }
 
 .nav-links {
@@ -32,4 +53,8 @@
 .auth-buttons {
   display: flex;
   gap: 8px;
+}
+
+.nav-button-bold {
+  font-weight: 600 !important;
 }
