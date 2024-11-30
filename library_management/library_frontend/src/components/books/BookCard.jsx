@@ -23,4 +23,4 @@ const BookCard = ({ book, onClick }) => {
   );
 };
 
-export default BookCard; 
+export default BookCard;

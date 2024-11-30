@@ -9,6 +9,7 @@ import BookModal from './BookModal';
 export default function BookList() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
   const navigate = useNavigate();
 
@@ -19,6 +20,7 @@ export default function BookList() {
         setBooks(data);
       } catch (error) {
         console.error('Failed to fetch books:', error);
+        setError('Unable to load books. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -27,13 +29,22 @@ export default function BookList() {
     loadBooks();
   }, []);
 
-  const handleBookClick = (book) => {
-    setSelectedBook(book);
-  };
+  if (loading) {
+    return (
+      <div className="rh-books-loading">
+        <CircularProgress size={40} />
+        <span className="rh-loading-text">Loading our collection of books...</span>
+      </div>
+    );
+  }
 
-  const handleCloseModal = () => {
-    setSelectedBook(null);
-  };
+  if (error) {
+    return (
+      <div className="rh-books-error">
+        <span className="rh-error-text">{error}</span>
+      </div>
+    );
+  }
 
   return (
     <div className="book-list">
@@ -44,26 +55,19 @@ export default function BookList() {
       
       <div className="books-section">
         <h2 className="section-title">The books you can find here</h2>
-        {loading ? (
-          <div className="loading-container">
-            <CircularProgress />
-            <span>Loading books...</span>
-          </div>
-        ) : (
-          <div className="book-grid">
-            {books.map((book) => (
-              <BookCard 
-                key={book.isbn} 
-                book={book} 
-                onClick={() => handleBookClick(book)} 
-              />
-            ))}
-          </div>
-        )}
+        <div className="book-grid">
+          {books.map((book) => (
+            <BookCard 
+              key={book.isbn} 
+              book={book} 
+              onClick={() => setSelectedBook(book)} 
+            />
+          ))}
+        </div>
       </div>
 
       {selectedBook && (
-        <BookModal book={selectedBook} onClose={handleCloseModal} />
+        <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
       )}
     </div>
   );

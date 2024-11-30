@@ -1,20 +1,79 @@
-.book-modal {
+.rh-book-modal {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 95%;
   max-width: 1000px;
-  background-color: #FFFFFF;
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   padding: 32px;
   outline: none;
   overflow-y: auto;
   max-height: 90vh;
 }
 
-.book-modal .book-cover {
+.rh-modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.rh-modal-book-title {
+  font-family: var(--serif-font) !important;
+  color: var(--primary-dark) !important;
+  font-size: 2.5rem !important;
+  letter-spacing: -0.5px;
+}
+
+.rh-book-author {
+  font-family: 'Georgia', serif !important;
+  color: #5c4033 !important;
+  font-style: italic;
+}
+
+.rh-book-genre, .rh-book-isbn {
+  color: #6b4f3f !important;
+  font-family: 'Georgia', serif;
+}
+
+.rh-action-buttons {
+  display: flex;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.rh-borrow-button {
+  background-color: #2c1810 !important;
+  color: #f5f2e9 !important;
+  font-family: 'Georgia', serif !important;
+  text-transform: none !important;
+  padding: 8px 24px !important;
+  transition: all 0.3s ease !important;
+}
+
+.rh-borrow-button:hover {
+  background-color: #3d241c !important;
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.2) !important;
+}
+
+.rh-wishlist-button {
+  border-color: #2c1810 !important;
+  color: #2c1810 !important;
+  font-family: 'Georgia', serif !important;
+  text-transform: none !important;
+}
+
+.rh-wishlist-button.active {
+  background-color: #5c4033 !important;
+  color: #f5f2e9 !important;
+}
+
+.rh-wishlist-button:hover {
+  background-color: rgba(92, 64, 51, 0.1) !important;
+}
+
+.rh-book-modal .rh-book-cover {
   min-width: 200px;
   min-height: 300px;
   width: auto;
@@ -27,12 +86,12 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.book-modal .book-info {
+.rh-book-modal .rh-book-info {
   text-align: center;
   margin-bottom: 24px;
 }
 
-.book-modal .button-group {
+.rh-book-modal .rh-button-group {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -40,47 +99,51 @@
   margin: 24px 0;
 }
 
-.book-modal .review-section {
+.rh-book-modal .rh-review-section {
   background-color: #E5E5E5;
   padding: 24px;
   border-radius: 12px;
   margin: 24px 0;
 }
 
-.book-modal .reviews-list {
+.rh-book-modal .rh-reviews-list {
   margin-top: 24px;
 }
 
-.book-modal .review-item {
+.rh-book-modal .rh-review-item {
   background-color: #E5E5E5;
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 16px;
 }
 
-.book-modal .review-header {
+.rh-book-modal .rh-review-header {
   display: flex;
   align-items: center;
   margin-bottom: 8px;
 }
 
-.book-modal .review-username {
+.rh-book-modal .rh-review-username {
   font-weight: 500;
   min-width: 80px;
 }
 
-.book-modal .review-content {
+.rh-book-modal .rh-review-content {
   margin-top: 8px;
   padding-left: 4px;
 }
 
 @media (max-width: 768px) {
-  .book-modal {
+  .rh-book-modal {
     max-width: 500px;
+    padding: 16px;
   }
-  .book-modal .book-cover {
+  .rh-book-modal .rh-book-cover {
     min-width: 150px;
     min-height: 225px;
     max-width: 200px;
+  }
+  .rh-action-buttons {
+    flex-direction: column;
   }
 } 

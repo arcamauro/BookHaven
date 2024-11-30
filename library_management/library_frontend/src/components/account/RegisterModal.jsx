@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, Button, Alert } from '@mui/material';
 import { registerUser } from '../../services/api';
+import './AuthModals.css';
 
 export default function RegisterModal({ open, handleClose }) {
   const [formData, setFormData] = useState({
@@ -40,108 +41,105 @@ export default function RegisterModal({ open, handleClose }) {
         });
         setTimeout(() => {
           handleClose();
-        }, 3000);
+        }, 2000);
       }
     } catch (error) {
-      console.error('Registration error:', error);
-      if (Array.isArray(error.error)) {
-        setError(error.error.join(' '));
-      } else if (error.error) {
-        setError(error.error);
-      } else {
-        setError('Registration failed. Please try again.');
-      }
+      setError(error.response?.data?.error || 'Registration failed');
     }
   };
 
   return (
     <Modal open={open} onClose={handleClose}>
-      <Box component="form" onSubmit={handleRegister} sx={{ 
-        position: 'absolute', 
-        top: '50%', 
-        left: '50%', 
-        transform: 'translate(-50%, -50%)', 
-        width: 400, 
-        bgcolor: 'background.paper', 
-        boxShadow: 24, 
-        p: 4 
-      }}>
-        <Typography variant="h6" component="h2" gutterBottom>
-          Register
+      <Box className="rh-auth-modal">
+        <Typography variant="h5" className="rh-auth-title">
+          Create Account
         </Typography>
+        
+        {error && (
+          <Alert severity="error" className="rh-auth-alert">
+            {error}
+          </Alert>
+        )}
+        
+        {success && (
+          <Alert severity="success" className="rh-auth-alert">
+            {success}
+          </Alert>
+        )}
 
-        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-        {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
-
-        <TextField
-          name="first_name"
-          label="First Name"
-          fullWidth
-          margin="normal"
-          value={formData.first_name}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          name="last_name"
-          label="Last Name"
-          fullWidth
-          margin="normal"
-          value={formData.last_name}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          name="email"
-          label="Email"
-          type="email"
-          fullWidth
-          margin="normal"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          name="username"
-          label="Username"
-          fullWidth
-          margin="normal"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          name="password"
-          label="Password"
-          type="password"
-          fullWidth
-          margin="normal"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          name="confirm_password"
-          label="Confirm Password"
-          type="password"
-          fullWidth
-          margin="normal"
-          value={formData.confirm_password}
-          onChange={handleChange}
-          required
-        />
-        <Button 
-          variant="contained" 
-          sx={{ 
-            backgroundColor: '#FFBA08', 
-            color: '#000000', 
-            '&:hover': { backgroundColor: '#e0a806' } 
-          }}
-          fullWidth 
-          type="submit"
-        >
-          Register
-        </Button>
+        <form onSubmit={handleRegister} className="rh-auth-form">
+          <TextField
+            className="rh-auth-input"
+            name="first_name"
+            label="First Name"
+            fullWidth
+            margin="normal"
+            value={formData.first_name}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            className="rh-auth-input"
+            name="last_name"
+            label="Last Name"
+            fullWidth
+            margin="normal"
+            value={formData.last_name}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            className="rh-auth-input"
+            name="email"
+            label="Email"
+            type="email"
+            fullWidth
+            margin="normal"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            className="rh-auth-input"
+            name="username"
+            label="Username"
+            fullWidth
+            margin="normal"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            className="rh-auth-input"
+            name="password"
+            label="Password"
+            type="password"
+            fullWidth
+            margin="normal"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            className="rh-auth-input"
+            name="confirm_password"
+            label="Confirm Password"
+            type="password"
+            fullWidth
+            margin="normal"
+            value={formData.confirm_password}
+            onChange={handleChange}
+            required
+          />
+          <Button 
+            className="rh-auth-submit"
+            variant="contained"
+            fullWidth
+            type="submit"
+          >
+            Register
+          </Button>
+        </form>
       </Box>
     </Modal>
   );

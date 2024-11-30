@@ -38,40 +38,40 @@ export default function Navbar() {
     <AppBar 
       position="static" 
       elevation={0} 
-      className="navbar"
+      className="rh-navbar"
     >
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         {/* Logo/Brand Section */}
         <Typography 
           variant="h5" 
-          className="navbar-brand"
+          className="rh-navbar-brand"
           onClick={() => navigate('/')}
         >
           ReadHaven
         </Typography>
 
         {/* Navigation Links */}
-        <Box className="nav-links">
+        <Box className="rh-nav-links">
           <Button 
             onClick={() => navigate('/')} 
-            className={`nav-button ${isActive('/') ? 'active' : ''}`}
+            className={`rh-nav-button ${isActive('/') ? 'active' : ''}`}
           >
             Home
           </Button>
           
           <Button 
             onClick={() => navigate('/search')} 
-            className={`nav-button ${isActive('/search') ? 'active' : ''}`}
+            className={`rh-nav-button ${isActive('/search') ? 'active' : ''}`}
           >
             Search Books
           </Button>
 
           {/* Auth Buttons */}
           {user ? (
-            <Box className="auth-buttons">
+            <Box className="rh-auth-buttons">
               <Button 
                 onClick={() => navigate('/account')} 
-                className={`nav-button ${isActive('/account') ? 'active' : ''}`}
+                className={`rh-nav-button ${isActive('/account') ? 'active' : ''}`}
               >
                 Account
               </Button>
@@ -79,7 +79,7 @@ export default function Navbar() {
               {isStaff && (
                 <Button 
                   onClick={() => navigate('/librarian-page')} 
-                  className={`nav-button ${isActive('/librarian-page') ? 'active' : ''}`}
+                  className={`rh-nav-button ${isActive('/librarian-page') ? 'active' : ''}`}
                 >
                   Librarian
                 </Button>
@@ -87,23 +87,23 @@ export default function Navbar() {
               
               <Button 
                 onClick={logout} 
-                className="nav-button"
+                className="rh-nav-button"
               >
                 Logout
               </Button>
             </Box>
           ) : (
-            <Box className="auth-buttons">
+            <Box className="rh-auth-buttons">
               <Button 
                 onClick={() => setLoginOpen(true)} 
-                className="nav-button nav-button-bold"
+                className="rh-nav-button rh-nav-button-bold"
               >
                 Login
               </Button>
               
               <Button 
                 onClick={() => setRegisterOpen(true)} 
-                className="nav-button nav-button-bold"
+                className="rh-nav-button rh-nav-button-bold"
               >
                 Register
               </Button>

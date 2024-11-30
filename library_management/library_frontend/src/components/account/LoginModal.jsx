@@ -20,20 +20,12 @@ export default function LoginModal({ open, handleClose }) {
 
   return (
     <Modal open={open} onClose={handleClose}>
-      <Box sx={{ 
-        position: 'absolute', 
-        top: '50%', 
-        left: '50%', 
-        transform: 'translate(-50%, -50%)', 
-        width: 300,
-        bgcolor: 'background.paper', 
-        boxShadow: 24, 
-        p: 4 
-      }}>
-        <Typography variant="h6" component="h2">
+      <Box className="rh-auth-modal">
+        <Typography className="rh-auth-title">
           Login
         </Typography>
         <TextField
+          className="rh-auth-input"
           label="Username"
           fullWidth
           margin="normal"
@@ -41,6 +33,7 @@ export default function LoginModal({ open, handleClose }) {
           onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
+          className="rh-auth-input"
           label="Password"
           type="password"
           fullWidth
@@ -49,6 +42,7 @@ export default function LoginModal({ open, handleClose }) {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button 
+          className="rh-auth-button"
           variant="contained" 
           sx={{ 
             backgroundColor: '#FFBA08', 

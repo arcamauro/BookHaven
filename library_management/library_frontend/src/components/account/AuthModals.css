@@ -1,0 +1,62 @@
+.rh-auth-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 400px;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.rh-auth-title {
+  font-family: var(--serif-font) !important;
+  color: var(--primary-dark) !important;
+  margin-bottom: 1.5rem !important;
+  text-align: center;
+}
+
+.rh-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rh-auth-input {
+  margin-bottom: 1rem !important;
+}
+
+.rh-auth-input .MuiOutlinedInput-root {
+  border-radius: 8px;
+}
+
+.rh-auth-input .MuiOutlinedInput-root:hover fieldset {
+  border-color: var(--primary-dark);
+}
+
+.rh-auth-submit {
+  margin-top: 1rem !important;
+  background-color: var(--primary-light) !important;
+  color: var(--primary-dark) !important;
+  font-weight: 600 !important;
+  padding: 0.75rem !important;
+  border-radius: 8px !important;
+  text-transform: none !important;
+}
+
+.rh-auth-submit:hover {
+  background-color: #e0a806 !important;
+}
+
+.rh-auth-alert {
+  margin-bottom: 1rem !important;
+}
+
+@media (max-width: 768px) {
+  .rh-auth-modal {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}

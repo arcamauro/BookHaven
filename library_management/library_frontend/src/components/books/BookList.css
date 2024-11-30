@@ -50,12 +50,6 @@
   margin: 0 auto;
 }
 
-.book-grid > div:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
 .loading-container {
   display: flex;
   justify-content: center;
@@ -88,4 +82,55 @@
 
 .readhaven-title {
   color: #FFBA08;
+}
+
+/* Loading and Error States */
+.rh-books-loading {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  background-color: #E5E5E5;
+  padding: 2rem;
+}
+
+.rh-loading-text {
+  color: #666;
+  font-size: 1.1rem;
+  font-family: 'Roboto', sans-serif;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.rh-books-error {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #E5E5E5;
+  padding: 2rem;
+}
+
+.rh-error-text {
+  color: #dc3545;
+  font-size: 1.1rem;
+  text-align: center;
+  max-width: 400px;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
 }
