@@ -175,7 +175,10 @@ from django.views.decorators.http import require_http_methods
 @permission_classes([AllowAny])
 def api_book_list(request):
     books = Book.objects.all()
-    serializer = BookSerializer(books, many=True, context={'request': request})
+    serializer = BookSerializer(books, many=True, context={
+        'request': request,
+        'user': request.user if request.user.is_authenticated else None
+    })
     return Response(serializer.data)
 
 @csrf_exempt

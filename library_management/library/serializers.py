@@ -16,18 +16,17 @@ class GenreSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     authors = AuthorSerializer(many=True, read_only=True)
     genres = GenreSerializer(many=True, read_only=True)
-    cover = serializers.SerializerMethodField()
+    in_wishlist = serializers.SerializerMethodField()
 
     class Meta:
         model = Book
-        fields = ['isbn', 'title', 'cover', 'authors', 'genres', 'lended']
+        fields = ['isbn', 'title', 'authors', 'genres', 'cover', 'copies', 'lended', 'in_wishlist']
 
-    def get_cover(self, obj):
-        if obj.cover:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.cover.url)
-        return None
+    def get_in_wishlist(self, obj):
+        user = self.context.get('user')
+        if user and user.is_authenticated:
+            return Wishlist.objects.filter(user=user, book=obj).exists()
+        return False
 
 class ReviewSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)

@@ -13,6 +13,7 @@ const BookModal = ({ book, onClose }) => {
     message: '',
     severity: 'info'
   });
+  const [isInWishlist, setIsInWishlist] = useState(book?.in_wishlist || false);
 
   useEffect(() => {
     const loadReviews = async () => {
@@ -57,9 +58,10 @@ const BookModal = ({ book, onClose }) => {
   const handleToggleWishlist = async () => {
     try {
       await toggleWishlist(book.isbn);
+      setIsInWishlist(!isInWishlist);
       setNotification({
         open: true,
-        message: 'Wishlist updated successfully!',
+        message: isInWishlist ? 'Removed from wishlist!' : 'Added to wishlist!',
         severity: 'success'
       });
     } catch (error) {
@@ -126,15 +128,20 @@ const BookModal = ({ book, onClose }) => {
             Borrow Book
           </Button>
           <Button 
-            variant="outlined" 
+            variant={isInWishlist ? "contained" : "outlined"}
             sx={{ 
+              backgroundColor: isInWishlist ? '#e0a806' : 'transparent',
               borderColor: '#FFBA08', 
-              color: '#FFBA08', 
-              '&:hover': { borderColor: '#e0a806', color: '#e0a806' } 
+              color: isInWishlist ? '#000000' : '#FFBA08', 
+              '&:hover': { 
+                backgroundColor: isInWishlist ? '#FFBA08' : 'transparent',
+                borderColor: '#e0a806', 
+                color: isInWishlist ? '#000000' : '#e0a806' 
+              } 
             }}
             onClick={handleToggleWishlist}
           >
-            Add to Wishlist
+            {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
           </Button>
         </div>
         <div className="review-section">
