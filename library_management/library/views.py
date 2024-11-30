@@ -215,37 +215,53 @@ def api_user_account(request):
 @permission_classes([IsAuthenticated])
 def api_borrow_book(request):
     isbn = request.data.get('isbn')
+    quantity = request.data.get('quantity', 1)  # Default to 1 if not provided
     book = get_object_or_404(Book, isbn=isbn)
 
     # Check if user already has borrowed this book
-    if LendedBook.objects.filter(user=request.user, book=book).exists():
-        return Response(
-            {
-                'error': 'You have already borrowed this book.',
-                'type': 'already_borrowed'
-            }, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
+    existing_lended_book = LendedBook.objects.filter(user=request.user, book=book).first()
 
-    if book.copies > book.lended:
-        book.lended += 1
-        book.save()
-        LendedBook.objects.create(user=request.user, book=book, number=1)
-        return Response(
-            {
-                'success': 'Book borrowed successfully.',
-                'type': 'success'
-            }, 
-            status=status.HTTP_200_OK
-        )
+    if existing_lended_book:
+        if book.copies >= book.lended + quantity:
+            existing_lended_book.number += quantity
+            existing_lended_book.save()
+            book.lended += quantity
+            book.save()
+            return Response(
+                {
+                    'success': f'{quantity} copies borrowed successfully.',
+                    'type': 'success'
+                }, 
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {
+                    'error': 'Not enough copies available.',
+                    'type': 'no_copies'
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
     else:
-        return Response(
-            {
-                'error': 'No copies available. You can add it to your wishlist to be notified when it becomes available.',
-                'type': 'no_copies'
-            }, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        if book.copies >= book.lended + quantity:
+            book.lended += quantity
+            book.save()
+            LendedBook.objects.create(user=request.user, book=book, number=quantity)
+            return Response(
+                {
+                    'success': f'{quantity} copies borrowed successfully.',
+                    'type': 'success'
+                }, 
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {
+                    'error': 'Not enough copies available.',
+                    'type': 'no_copies'
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

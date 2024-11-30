@@ -120,12 +120,15 @@ def api_search_user_books(request):
     books_data = []
     for lended_book in searched_books:
         authors = ', '.join(author.name for author in lended_book.book.authors.all())
+        cover_url = request.build_absolute_uri(lended_book.book.cover.url) if lended_book.book.cover else None
         books_data.append({
             'id': lended_book.id,
             'isbn': lended_book.book.isbn,
             'title': lended_book.book.title,
             'authors': authors,
-            'borrower': lended_book.user.username
+            'borrower': lended_book.user.username,
+            'lended': lended_book.number,
+            'cover': cover_url
         })
 
     return Response({'books': books_data, 'query': query})

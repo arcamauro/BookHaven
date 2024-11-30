@@ -20,7 +20,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ['isbn', 'title', 'cover', 'authors', 'genres']
+        fields = ['isbn', 'title', 'cover', 'authors', 'genres', 'lended']
 
     def get_cover(self, obj):
         if obj.cover:

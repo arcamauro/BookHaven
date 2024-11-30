@@ -64,6 +64,10 @@ body, html {
 .librarian-book-collection {
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .librarian-book-item {
@@ -72,17 +76,23 @@ body, html {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  display: inline-block;
+  margin: 1rem;
 }
 
 .book-cover-image {
-  width: 100px;
-  height: 150px;
+  width: 80px;
+  height: 120px;
   object-fit: cover;
   margin-bottom: 1rem;
 }
 
 .book-info-section {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .book-title-text {
@@ -116,4 +126,57 @@ body, html {
 
 .return-btn:hover {
   background-color: #FF6F61;
+}
+
+.book-copies-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #14213D;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  margin: 0.8rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.copies-number {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+  color: #FFBA08;
+}
+
+.copies-text {
+  font-size: 0.9rem;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  animation: slideIn 0.3s ease-out;
+  z-index: 1000;
+}
+
+.success {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.error {
+  background-color: #f44336;
+  color: white;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

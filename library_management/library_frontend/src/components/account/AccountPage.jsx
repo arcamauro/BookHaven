@@ -39,10 +39,34 @@ function AccountPage() {
           {accountInfo.borrowed_books.length > 0 ? (
             <ul style={{ listStyleType: 'none', padding: '0' }}>
               {accountInfo.borrowed_books.map(item => (
-                <li key={item.book.isbn} style={{ marginBottom: '15px', padding: '10px', border: '1px solid #ddd', borderRadius: '5px' }}>
-                  <strong>{item.book.title}</strong><br />
-                  <span style={{ color: '#555' }}>Borrowed On: {new Date(item.borrowed_on).toLocaleString()}</span><br />
-                  <span style={{ color: '#555' }}>Return On: {item.return_on ? new Date(item.return_on).toLocaleString() : 'N/A'}</span>
+                <li key={item.book.isbn} style={{ marginBottom: '15px', padding: '10px', border: '1px solid #ddd', borderRadius: '5px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                  {item.book.cover && (
+                    <img 
+                      src={item.book.cover} 
+                      alt={item.book.title} 
+                      style={{ width: '60px', height: '90px', objectFit: 'cover' }}
+                    />
+                  )}
+                  <div style={{ flex: 1 }}>
+                    <strong>{item.book.title}</strong><br />
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '5px' }}>
+                      <div>
+                        <span style={{ color: '#555' }}>Borrowed On: {new Date(item.borrowed_on).toLocaleString()}</span><br />
+                        <span style={{ color: '#555' }}>Return On: {item.return_on ? new Date(item.return_on).toLocaleString() : 'N/A'}</span>
+                      </div>
+                      <div style={{ 
+                        background: '#14213D', 
+                        color: 'white', 
+                        padding: '8px 12px', 
+                        borderRadius: '20px',
+                        display: 'inline-flex',
+                        alignItems: 'center'
+                      }}>
+                        <span style={{ color: '#FFBA08', fontWeight: 'bold', marginRight: '5px' }}>{item.number}</span>
+                        <span style={{ fontSize: '0.9rem' }}>copies borrowed</span>
+                      </div>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -54,8 +78,30 @@ function AccountPage() {
           {accountInfo.wishlist.length > 0 ? (
             <ul style={{ listStyleType: 'none', padding: '0' }}>
               {accountInfo.wishlist.map(item => (
-                <li key={item.book.isbn} style={{ marginBottom: '10px', padding: '10px', border: '1px solid #ddd', borderRadius: '5px' }}>
-                  <strong>{item.book.title}</strong>
+                <li key={item.book.isbn} style={{ 
+                  marginBottom: '15px', 
+                  padding: '10px', 
+                  border: '1px solid #ddd', 
+                  borderRadius: '5px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '15px'
+                }}>
+                  {item.book.cover && (
+                    <img 
+                      src={item.book.cover} 
+                      alt={item.book.title} 
+                      style={{ width: '60px', height: '90px', objectFit: 'cover' }}
+                    />
+                  )}
+                  <div style={{ flex: 1 }}>
+                    <strong>{item.book.title}</strong>
+                    {item.book.authors && (
+                      <div style={{ color: '#666', fontSize: '0.9em', marginTop: '5px' }}>
+                        by {item.book.authors.map(author => author.name).join(', ')}
+                      </div>
+                    )}
+                  </div>
                 </li>
               ))}
             </ul>

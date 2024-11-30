@@ -31,10 +31,10 @@ const BookModal = ({ book, onClose }) => {
 
   const handleBorrow = async () => {
     try {
-      const response = await borrowBook(book.isbn);
+      const response = await borrowBook(book.isbn, 1);
       setNotification({
         open: true,
-        message: 'Book borrowed successfully!',
+        message: '1 copy borrowed successfully!',
         severity: 'success'
       });
     } catch (error) {
