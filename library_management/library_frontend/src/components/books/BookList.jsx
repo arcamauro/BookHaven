@@ -3,8 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import { fetchBooks } from '../../services/api';
 import BookCard from './BookCard';
 import './BookList.css';
-import CircularProgress from '@mui/material/CircularProgress';
+import Skeleton from '@mui/material/Skeleton';
 import BookModal from './BookModal';
+
+// Add Skeleton component
+const BookCardSkeleton = () => (
+  <div className="book-card-skeleton">
+    <Skeleton 
+      variant="rectangular" 
+      className="book-cover-skeleton" 
+      height={320}
+    />
+    <div className="book-info-skeleton">
+      <Skeleton variant="text" width="80%" height={24} />
+      <Skeleton variant="text" width="60%" height={20} />
+      <Skeleton variant="text" width="40%" height={20} />
+    </div>
+  </div>
+);
 
 export default function BookList() {
   const [books, setBooks] = useState([]);
@@ -31,9 +47,20 @@ export default function BookList() {
 
   if (loading) {
     return (
-      <div className="rh-books-loading">
-        <CircularProgress size={40} />
-        <span className="rh-loading-text">Loading our collection of books...</span>
+      <div className="book-list">
+        <div className="welcome-section">
+          <h1>Welcome to <span className="readhaven-title">ReadHaven</span>!</h1>
+          <p>Here you will find a safe place to read and share your favorite books.</p>
+        </div>
+        
+        <div className="books-section">
+          <h2 className="section-title">The books you can find here</h2>
+          <div className="book-grid">
+            {[...Array(12)].map((_, index) => (
+              <BookCardSkeleton key={index} />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

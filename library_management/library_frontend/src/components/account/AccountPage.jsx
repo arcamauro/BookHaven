@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserAccount } from '../../services/api';
-import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
 import './AccountPage.css';
 
