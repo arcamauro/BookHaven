@@ -287,3 +287,90 @@
   }
 }
 
+/* Enhanced skeleton visibility */
+.book-card-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.MuiSkeleton-root {
+  background: linear-gradient(
+    90deg,
+    rgba(224, 224, 224, 1) 0%,
+    rgba(246, 246, 246, 1) 50%,
+    rgba(224, 224, 224, 1) 100%
+  ) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 2.5s ease-in-out infinite, pulse 1.5s ease-in-out infinite !important;
+  opacity: 1 !important;
+}
+
+.book-cover-skeleton {
+  width: 100% !important;
+  height: 280px !important;
+  border-radius: 8px !important;
+  background-color: rgba(224, 224, 224, 1) !important;
+  transform-origin: center;
+  animation: shimmer 2.5s ease-in-out infinite, skeletonPulse 1.5s ease-in-out infinite !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Enhanced shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  50% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Adjusted pulse animation for more visibility */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Adjusted skeleton pulse for more visibility */
+@keyframes skeletonPulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 900px) {
+  .book-cover-skeleton {
+    height: 240px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .book-cover-skeleton {
+    height: 220px !important;
+  }
+}
+

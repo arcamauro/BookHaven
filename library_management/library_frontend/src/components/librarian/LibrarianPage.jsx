@@ -1,18 +1,52 @@
 import React, { useState } from 'react';
 import { searchUserBooks, returnBook } from '../../services/api';
-import './LibrarianPage.css'; 
+import Skeleton from '@mui/material/Skeleton';
+import './LibrarianPage.css';
+
+// Add Skeleton component
+const BookItemSkeleton = () => (
+  <li className="rh-librarian-book-item">
+    <Skeleton 
+      variant="rectangular" 
+      width={120} 
+      height={180} 
+      className="rh-book-cover-skeleton" 
+    />
+    <div className="rh-book-info-section">
+      <Skeleton variant="text" width="80%" height={28} className="rh-book-title-skeleton" />
+      <Skeleton variant="text" width="60%" height={20} />
+      <Skeleton variant="text" width="70%" height={20} />
+      <Skeleton 
+        variant="rectangular" 
+        width={100} 
+        height={32} 
+        className="rh-copies-badge-skeleton" 
+      />
+      <Skeleton 
+        variant="rectangular" 
+        width="100%" 
+        height={40} 
+        className="rh-return-btn-skeleton" 
+      />
+    </div>
+  </li>
+);
 
 const LibrarianPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [notification, setNotification] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
     try {
+      setLoading(true);
       const books = await searchUserBooks(searchQuery);
       setSearchedBooks(books);
     } catch (error) {
       console.error('Error searching user books:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,6 +63,12 @@ const LibrarianPage = () => {
       setNotification('Failed to return book');
       setTimeout(() => setNotification(''), 3000);
     }
+  };
+
+  const isOverdue = (returnDate) => {
+    const today = new Date();
+    const dueDate = new Date(returnDate);
+    return today > dueDate;
   };
 
   return (
@@ -58,26 +98,39 @@ const LibrarianPage = () => {
       )}
 
       <ul className="rh-librarian-book-collection">
-        {searchedBooks.map((book) => (
-          <li key={book.id} className="rh-librarian-book-item">
-            <img src={book.cover} alt={book.title} className="rh-book-cover-image" />
-            <div className="rh-book-info-section">
-              <div className="rh-book-title-text">{book.title}</div>
-              <div className="rh-book-author-text">by {book.authors}</div>
-              <div className="rh-book-borrower-text">Borrowed by {book.borrower}</div>
-              <div className="rh-book-copies-badge">
-                <span className="rh-copies-number">{book.lended}</span>
-                <span className="rh-copies-text">copies borrowed</span>
+        {loading ? (
+          // Show 6 skeleton items while loading
+          [...Array(6)].map((_, index) => (
+            <BookItemSkeleton key={index} />
+          ))
+        ) : (
+          searchedBooks.map((book) => (
+            <li 
+              key={book.id} 
+              className={`rh-librarian-book-item ${isOverdue(book.return_date) ? 'overdue' : ''}`}
+            >
+              <img src={book.cover} alt={book.title} className="rh-book-cover-image" />
+              <div className="rh-book-info-section">
+                <div className="rh-book-title-text">{book.title}</div>
+                <div className="rh-book-author-text">by {book.authors}</div>
+                <div className="rh-book-borrower-text">Borrowed by {book.borrower}</div>
+                <div className={`rh-book-return-date ${isOverdue(book.return_date) ? 'overdue' : ''}`}>
+                  Return by: {new Date(book.return_date).toLocaleDateString()}
+                </div>
+                <div className="rh-book-copies-badge">
+                  <span className="rh-copies-number">{book.lended}</span>
+                  <span className="rh-copies-text">copies borrowed</span>
+                </div>
+                <button 
+                  onClick={() => handleReturnBook(book.isbn, book.borrower)} 
+                  className="rh-return-btn"
+                >
+                  Return Book
+                </button>
               </div>
-              <button 
-                onClick={() => handleReturnBook(book.isbn, book.borrower)} 
-                className="rh-return-btn"
-              >
-                Return Book
-              </button>
-            </div>
-          </li>
-        ))}
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );

@@ -339,3 +339,64 @@ body, html {
 .rh-notification.error {
   background-color: #f44336;
 }
+
+.rh-librarian-book-item.overdue {
+  border: 2px solid #ff4444;
+  background-color: #fff1f1;
+}
+
+.rh-book-return-date {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.rh-book-return-date.overdue {
+  color: #ff4444;
+  font-weight: 600;
+}
+
+/* Add these new skeleton styles */
+.rh-book-cover-skeleton {
+  border-radius: 8px !important;
+  flex-shrink: 0;
+  background-color: rgba(224, 224, 224, 1) !important;
+  transform-origin: center;
+  animation: shimmer 2.5s ease-in-out infinite, skeletonPulse 1.5s ease-in-out infinite !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.rh-copies-badge-skeleton {
+  border-radius: 16px !important;
+  background-color: rgba(224, 224, 224, 1) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.rh-return-btn-skeleton {
+  border-radius: 8px !important;
+  background-color: rgba(224, 224, 224, 1) !important;
+}
+
+.MuiSkeleton-root {
+  background: linear-gradient(
+    90deg,
+    rgba(224, 224, 224, 1) 0%,
+    rgba(246, 246, 246, 1) 50%,
+    rgba(224, 224, 224, 1) 100%
+  ) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 2.5s ease-in-out infinite, pulse 1.5s ease-in-out infinite !important;
+  opacity: 1 !important;
+}
+
+/* Enhanced shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  50% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200%
+  }
+}

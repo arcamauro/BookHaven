@@ -3,7 +3,16 @@ import { searchBooks } from '../../services/api';
 import BookCard from './BookCard';
 import BookModal from './BookModal';
 import CircularProgress from '@mui/material/CircularProgress';
+import Skeleton from '@mui/material/Skeleton';
 import './Searching.css';
+
+const BookCardSkeleton = () => (
+  <div className="book-card-skeleton">
+    <Skeleton variant="rectangular" className="book-cover-skeleton" />
+    <Skeleton variant="text" width="80%" height={24} style={{ marginTop: 8 }} />
+    <Skeleton variant="text" width="60%" height={20} />
+  </div>
+);
 
 export default function Searching() {
   const [query, setQuery] = useState('');
@@ -60,9 +69,10 @@ export default function Searching() {
         </div>
 
         {loading ? (
-          <div className="rh-books-loading">
-            <CircularProgress size={40} />
-            <span className="rh-loading-text">Searching for books...</span>
+          <div className="book-grid">
+            {[...Array(8)].map((_, index) => (
+              <BookCardSkeleton key={index} />
+            ))}
           </div>
         ) : error ? (
           <div className="rh-books-error">

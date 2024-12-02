@@ -128,7 +128,8 @@ def api_search_user_books(request):
             'authors': authors,
             'borrower': lended_book.user.username,
             'lended': lended_book.number,
-            'cover': cover_url
+            'cover': cover_url,
+            'return_date': lended_book.return_on.isoformat()
         })
 
     return Response({'books': books_data, 'query': query})
