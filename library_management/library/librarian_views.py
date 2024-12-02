@@ -152,3 +152,30 @@ def api_return_book(request, book_id, username):
         return Response({'success': f"{quantity} book(s) returned successfully."})
     else:
         return Response({'error': "Cannot return more books than borrowed."}, status=400)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_get_all_borrowed_books(request):
+    borrowed_books = LendedBook.objects.all().select_related(
+        'book', 'user'
+    ).prefetch_related(
+        Prefetch('book__authors', queryset=Author.objects.all())
+    )
+
+    books_data = []
+    for lended_book in borrowed_books:
+        authors = ', '.join(author.name for author in lended_book.book.authors.all())
+        cover_url = request.build_absolute_uri(lended_book.book.cover.url) if lended_book.book.cover else None
+        books_data.append({
+            'id': lended_book.id,
+            'isbn': lended_book.book.isbn,
+            'title': lended_book.book.title,
+            'authors': authors,
+            'borrower': lended_book.user.username,
+            'lended': lended_book.number,
+            'cover': cover_url,
+            'borrowed_on': lended_book.borrowed_on.isoformat(),
+            'return_date': lended_book.return_on.isoformat()
+        })
+
+    return Response({'books': books_data})

@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
-import { searchUserBooks, returnBook } from '../../services/api';
+import React, { useState, useEffect } from 'react';
+import { searchUserBooks, returnBook, fetchAllBorrowedBooks } from '../../services/api';
 import Skeleton from '@mui/material/Skeleton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import './LibrarianPage.css';
 
 // Add Skeleton component
@@ -35,8 +42,25 @@ const BookItemSkeleton = () => (
 const LibrarianPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchedBooks, setSearchedBooks] = useState([]);
+  const [allBorrowedBooks, setAllBorrowedBooks] = useState([]);
   const [notification, setNotification] = useState('');
   const [loading, setLoading] = useState(false);
+  const [tableLoading, setTableLoading] = useState(true);
+
+  useEffect(() => {
+    loadAllBorrowedBooks();
+  }, []);
+
+  const loadAllBorrowedBooks = async () => {
+    try {
+      const response = await fetchAllBorrowedBooks();
+      setAllBorrowedBooks(response.books);
+    } catch (error) {
+      console.error('Error loading borrowed books:', error);
+    } finally {
+      setTableLoading(false);
+    }
+  };
 
   const handleSearch = async () => {
     try {
@@ -55,8 +79,9 @@ const LibrarianPage = () => {
       await returnBook(bookId, username, 1);
       setNotification('Book returned successfully!');
       setTimeout(() => setNotification(''), 3000);
+      loadAllBorrowedBooks(); // Refresh the table
       if (searchQuery) {
-        handleSearch();
+        handleSearch(); // Refresh search results if any
       }
     } catch (error) {
       console.error('Error returning book:', error);
@@ -74,64 +99,119 @@ const LibrarianPage = () => {
   return (
     <div className="rh-librarian-wrapper">
       <h1 className="rh-librarian-header">Librarian Dashboard</h1>
-      <p className="rh-librarian-description">
-        Search for borrowed books by username or book title
-      </p>
+      
+      {/* Search Section */}
+      <div className="rh-librarian-search-section">
+        <h2>Search Books</h2>
+        <div className="rh-librarian-search">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by username or book title..."
+            className="rh-librarian-search-input"
+          />
+          <button onClick={handleSearch} className="rh-librarian-search-button">
+            Search
+          </button>
+        </div>
 
-      <div className="rh-librarian-search">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search by username or book title..."
-          className="rh-librarian-search-input"
-        />
-        <button onClick={handleSearch} className="rh-librarian-search-button">
-          Search
-        </button>
+        {/* Search Results */}
+        {searchQuery && (
+          <ul className="rh-librarian-book-collection">
+            {loading ? (
+              [...Array(6)].map((_, index) => <BookItemSkeleton key={index} />)
+            ) : (
+              searchedBooks.map((book) => (
+                <li 
+                  key={book.id} 
+                  className={`rh-librarian-book-item ${isOverdue(book.return_date) ? 'overdue' : ''}`}
+                >
+                  <img src={book.cover} alt={book.title} className="rh-book-cover-image" />
+                  <div className="rh-book-info-section">
+                    <div className="rh-book-title-text">{book.title}</div>
+                    <div className="rh-book-author-text">by {book.authors}</div>
+                    <div className="rh-book-borrower-text">Borrowed by {book.borrower}</div>
+                    <div className={`rh-book-return-date ${isOverdue(book.return_date) ? 'overdue' : ''}`}>
+                      Return by: {new Date(book.return_date).toLocaleDateString()}
+                    </div>
+                    <div className="rh-book-copies-badge">
+                      <span className="rh-copies-number">{book.lended}</span>
+                      <span className="rh-copies-text">copies borrowed</span>
+                    </div>
+                    <button 
+                      onClick={() => handleReturnBook(book.isbn, book.borrower)} 
+                      className="rh-return-btn"
+                    >
+                      Return Book
+                    </button>
+                  </div>
+                </li>
+              ))
+            )}
+          </ul>
+        )}
       </div>
 
-      {notification && (
-        <div className={`rh-notification ${notification.includes('Failed') ? 'error' : 'success'}`}>
-          {notification}
-        </div>
-      )}
-
-      <ul className="rh-librarian-book-collection">
-        {loading ? (
-          // Show 6 skeleton items while loading
-          [...Array(6)].map((_, index) => (
-            <BookItemSkeleton key={index} />
-          ))
-        ) : (
-          searchedBooks.map((book) => (
-            <li 
-              key={book.id} 
-              className={`rh-librarian-book-item ${isOverdue(book.return_date) ? 'overdue' : ''}`}
-            >
-              <img src={book.cover} alt={book.title} className="rh-book-cover-image" />
-              <div className="rh-book-info-section">
-                <div className="rh-book-title-text">{book.title}</div>
-                <div className="rh-book-author-text">by {book.authors}</div>
-                <div className="rh-book-borrower-text">Borrowed by {book.borrower}</div>
-                <div className={`rh-book-return-date ${isOverdue(book.return_date) ? 'overdue' : ''}`}>
-                  Return by: {new Date(book.return_date).toLocaleDateString()}
-                </div>
-                <div className="rh-book-copies-badge">
-                  <span className="rh-copies-number">{book.lended}</span>
-                  <span className="rh-copies-text">copies borrowed</span>
-                </div>
-                <button 
-                  onClick={() => handleReturnBook(book.isbn, book.borrower)} 
-                  className="rh-return-btn"
-                >
-                  Return Book
-                </button>
-              </div>
-            </li>
-          ))
-        )}
-      </ul>
+      {/* All Borrowed Books Table */}
+      <div className="rh-librarian-table-section">
+        <h2>All Borrowed Books</h2>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Title</TableCell>
+                <TableCell>Author(s)</TableCell>
+                <TableCell>Borrower</TableCell>
+                <TableCell>Borrowed On</TableCell>
+                <TableCell>Return Date</TableCell>
+                <TableCell>
+                  <button onClick={loadAllBorrowedBooks} className="rh-librarian-refresh-button">
+                    Refresh
+                  </button>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tableLoading ? (
+                [...Array(6)].map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell><Skeleton variant="text" width="100%" height={28} /></TableCell>
+                    <TableCell><Skeleton variant="text" width="100%" height={20} /></TableCell>
+                    <TableCell><Skeleton variant="text" width="100%" height={20} /></TableCell>
+                    <TableCell><Skeleton variant="text" width="100%" height={20} /></TableCell>
+                    <TableCell><Skeleton variant="text" width="100%" height={20} /></TableCell>
+                    <TableCell><Skeleton variant="text" width="100%" height={20} /></TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                allBorrowedBooks.map((book) => (
+                  <TableRow 
+                    key={book.id}
+                    className={isOverdue(book.return_date) ? 'overdue-row' : ''}
+                  >
+                    <TableCell>{book.title}</TableCell>
+                    <TableCell>{book.authors}</TableCell>
+                    <TableCell>{book.borrower}</TableCell>
+                    <TableCell>{new Date(book.borrowed_on).toLocaleDateString()}</TableCell>
+                    <TableCell className={isOverdue(book.return_date) ? 'overdue-status' : 'active-status'}>
+                      {new Date(book.return_date).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      <button 
+                        onClick={() => handleReturnBook(book.isbn, book.borrower)} 
+                        className="rh-return-btn"
+                      >
+                        Return Book
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
     </div>
   );
 };

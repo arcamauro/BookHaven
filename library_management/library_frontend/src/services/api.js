@@ -177,4 +177,15 @@ export const returnBook = async (bookId, username, quantity) => {
   }
 };
 
+// Function to fetch all borrowed books
+export const fetchAllBorrowedBooks = async () => {
+  try {
+    const response = await api.get('borrowed_books/');
+    return response.data;
+  } catch (error) {
+    console.error('Fetch borrowed books error:', error);
+    throw error;
+  }
+};
+
 // Add more API functions as needed

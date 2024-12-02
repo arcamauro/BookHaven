@@ -341,8 +341,8 @@ body, html {
 }
 
 .rh-librarian-book-item.overdue {
-  border: 2px solid #ff4444;
-  background-color: #fff1f1;
+  border: 2px solid #ff0000;
+  background-color: #ffe6e6;
 }
 
 .rh-book-return-date {
@@ -351,8 +351,8 @@ body, html {
 }
 
 .rh-book-return-date.overdue {
-  color: #ff4444;
-  font-weight: 600;
+  color: #ff0000;
+  font-weight: 700;
 }
 
 /* Add these new skeleton styles */
@@ -398,5 +398,55 @@ body, html {
   }
   100% {
     background-position: 200%
+  }
+}
+
+.rh-librarian-table-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.rh-librarian-search-section {
+  margin-bottom: 2rem;
+}
+
+.overdue-row {
+  background-color: #ffe6e6;
+  border: 2px solid #ff0000 !important;
+}
+
+.overdue-status {
+  color: #ff0000;
+  font-weight: 700;
+}
+
+.active-status {
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.rh-table-return-btn {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rh-table-return-btn:hover {
+  background-color: var(--primary-dark);
+  color: var(--white);
+}
+
+/* Add responsive styles for the table */
+@media (max-width: 768px) {
+  .rh-librarian-table-section {
+    overflow-x: auto;
   }
 }
