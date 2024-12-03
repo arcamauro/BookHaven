@@ -188,4 +188,15 @@ export const fetchAllBorrowedBooks = async () => {
   }
 };
 
+// Function to delete a review
+export const deleteReview = async (reviewId) => {
+  try {
+    const response = await api.delete(`review/${reviewId}/`);
+    return response.data;
+  } catch (error) {
+    console.error('Delete review error:', error);
+    throw error;
+  }
+};
+
 // Add more API functions as needed

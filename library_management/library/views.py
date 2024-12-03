@@ -432,3 +432,13 @@ def api_verify_email(request, uidb64, token):
         return Response({'success': 'Email verified successfully.'}, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'Invalid verification link.'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def api_delete_review(request, review_id):
+    try:
+        review = Review.objects.get(id=review_id, user=request.user)
+        review.delete()
+        return Response({'success': 'Review deleted successfully.'}, status=status.HTTP_200_OK)
+    except Review.DoesNotExist:
+        return Response({'error': 'Review not found or not authorized to delete.'}, status=status.HTTP_404_NOT_FOUND)

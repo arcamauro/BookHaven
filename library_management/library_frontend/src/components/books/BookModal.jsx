@@ -4,9 +4,10 @@ import Rating from '@mui/material/Rating'; // Import Rating component
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import CloseIcon from '@mui/icons-material/Close';
 import { useAuth } from '../../context/AuthContext'; // Add this import
 import './BookModal.css';
-import { borrowBook, toggleWishlist, leaveReview, fetchReviews } from '../../services/api'; // Import fetchReviews
+import { borrowBook, toggleWishlist, leaveReview, fetchReviews, deleteReview } from '../../services/api'; // Import fetchReviews
 
 const BookModal = ({ book, onClose }) => {
   const [reviewContent, setReviewContent] = useState('');
@@ -19,6 +20,7 @@ const BookModal = ({ book, onClose }) => {
   });
   const [isInWishlist, setIsInWishlist] = useState(book?.in_wishlist || false);
   const { user } = useAuth(); // Add this line to get user context
+  const currentUser = { ...user, username: 'arcamauro' }; // Temporary fix
 
   useEffect(() => {
     const loadReviews = async () => {
@@ -99,6 +101,25 @@ const BookModal = ({ book, onClose }) => {
     }
   };
 
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await deleteReview(reviewId);
+      setNotification({
+        open: true,
+        message: 'Review deleted successfully!',
+        severity: 'success'
+      });
+      const updatedReviews = await fetchReviews(book.isbn);
+      setReviews(updatedReviews);
+    } catch (error) {
+      setNotification({
+        open: true,
+        message: 'Failed to delete review.',
+        severity: 'error'
+      });
+    }
+  };
+
   const handleCloseNotification = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -124,7 +145,7 @@ const BookModal = ({ book, onClose }) => {
             <Typography variant="subtitle2" className="rh-book-isbn" gutterBottom>ISBN: {book.isbn}</Typography>
           </div>
 
-          {user && ( // Only show action buttons if user is logged in
+          {currentUser && ( // Only show action buttons if user is logged in
             <div className="rh-action-buttons">
               <Button 
                 variant="contained" 
@@ -173,19 +194,27 @@ const BookModal = ({ book, onClose }) => {
           <div className="rh-reviews-list">
             <Typography variant="h6" className="rh-review-title" gutterBottom>Reviews</Typography>
             {reviews.length > 0 ? (
-              reviews.map((review, index) => (
-                <Box key={index} className="rh-review-item">
-                  <div className="rh-review-header">
-                    <Typography variant="subtitle1" className="rh-review-username">
-                      {review.username || 'Anonymous'}
+              reviews.map((review, index) => {         
+                return (
+                  <Box key={index} className="rh-review-item">
+                    <div className="rh-review-header">
+                      <Typography variant="subtitle1" className="rh-review-username">
+                        {review.username || 'Anonymous'}
+                      </Typography>
+                      <Rating value={review.rating} readOnly size="small" />
+                      {currentUser && review.username === currentUser.username && ( // Check if the review belongs to the logged-in user
+                        <CloseIcon 
+                          className="rh-delete-review-icon" 
+                          onClick={() => handleDeleteReview(review.id)} 
+                        />
+                      )}
+                    </div>
+                    <Typography variant="body2" className="rh-review-content">
+                      {review.content}
                     </Typography>
-                    <Rating value={review.rating} readOnly size="small" />
-                  </div>
-                  <Typography variant="body2" className="rh-review-content">
-                    {review.content}
-                  </Typography>
-                </Box>
-              ))
+                  </Box>
+                );
+              })
             ) : (
               <Typography variant="body2">No reviews yet.</Typography>
             )}
