@@ -169,4 +169,51 @@
   .rh-action-buttons {
     flex-direction: column;
   }
-} 
+}
+
+.rh-login-prompt {
+  text-align: center;
+  padding: 16px;
+  margin: 16px 0;
+  background-color: rgba(245, 245, 245, 0.9);
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.rh-login-prompt a {
+  color: var(--primary-dark);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.rh-login-prompt a:hover {
+  text-decoration: underline;
+  color: #3d241c;
+}
+
+/* Guest view specific styles */
+.rh-book-modal.guest-view .rh-modal-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.rh-book-modal.guest-view .rh-book-info {
+  margin-bottom: 32px;
+}
+
+.rh-book-modal.guest-view .rh-reviews-list {
+  margin-top: 32px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .rh-book-modal.guest-view .rh-modal-content {
+    padding: 16px;
+  }
+  
+  .rh-login-prompt {
+    padding: 12px;
+    margin: 12px 0;
+  }
+}

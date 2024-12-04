@@ -19,8 +19,8 @@ const BookModal = ({ book, onClose }) => {
     severity: 'info'
   });
   const [isInWishlist, setIsInWishlist] = useState(book?.in_wishlist || false);
-  const { user } = useAuth(); // Add this line to get user context
-  const currentUser = { ...user}
+  const { user } = useAuth();
+  const isAuthenticated = !!user;
 
   useEffect(() => {
     const loadReviews = async () => {
@@ -129,7 +129,7 @@ const BookModal = ({ book, onClose }) => {
 
   return (
     <Modal open={!!book} onClose={onClose}>
-      <Box className="rh-book-modal">
+      <Box className={`rh-book-modal ${!isAuthenticated ? 'guest-view' : ''}`}>
         <div className="rh-modal-content">
           <img src={book.cover} alt={`${book.title} cover`} className="rh-book-cover" />
           <div className="rh-book-info">
@@ -142,10 +142,20 @@ const BookModal = ({ book, onClose }) => {
             <Typography variant="body2" className="rh-book-genre" gutterBottom>
               Genre: {book.genres.map(genre => genre.name).join(', ')}
             </Typography>
-            <Typography variant="subtitle2" className="rh-book-isbn" gutterBottom>ISBN: {book.isbn}</Typography>
+            <Typography variant="subtitle2" className="rh-book-isbn" gutterBottom>
+              ISBN: {book.isbn}
+            </Typography>
+            
+            {!isAuthenticated && (
+              <div className="rh-login-prompt">
+                <Typography variant="body1">
+                  Please <a href="/login">login</a> to borrow books, manage your wishlist, and leave reviews.
+                </Typography>
+              </div>
+            )}
           </div>
 
-          {currentUser && ( // Only show action buttons if user is logged in
+          {isAuthenticated && (
             <div className="rh-action-buttons">
               <Button 
                 variant="contained" 
@@ -166,46 +176,26 @@ const BookModal = ({ book, onClose }) => {
             </div>
           )}
 
-          <div className="rh-review-section">
-            <Typography variant="h6" className="rh-review-title" gutterBottom>Leave a Review</Typography>
-            <Rating
-              name="review-rating"
-              value={reviewRating}
-              onChange={(event, newValue) => {
-                setReviewRating(newValue);
-              }}
-              precision={0.5}
-              size="large"
-            />
-            <TextField
-              label="Review"
-              multiline
-              rows={4}
-              value={reviewContent}
-              onChange={(e) => setReviewContent(e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-            <Button variant="contained" color="primary" onClick={handleLeaveReview}>
-              Submit Review
-            </Button>
-          </div>
-
           <div className="rh-reviews-list">
-            <Typography variant="h6" className="rh-review-title" gutterBottom>Reviews</Typography>
+            <Typography variant="h6" className="rh-review-title" gutterBottom>
+              Reviews
+            </Typography>
+            {console.log('Full user object:', JSON.stringify(user, null, 2))}
             {reviews.length > 0 ? (
-              reviews.map((review, index) => {         
+              reviews.map((review) => {
+                console.log('Review:', review);
                 return (
-                  <Box key={index} className="rh-review-item">
+                  <Box key={review.id} className="rh-review-item">
                     <div className="rh-review-header">
                       <Typography variant="subtitle1" className="rh-review-username">
                         {review.username || 'Anonymous'}
                       </Typography>
                       <Rating value={review.rating} readOnly size="small" />
-                      {currentUser && review.username === currentUser.username && ( // Check if the review belongs to the logged-in user
+                      {user && review.username === user.data?.username && (
                         <CloseIcon 
                           className="rh-delete-review-icon" 
-                          onClick={() => handleDeleteReview(review.id)} 
+                          onClick={() => handleDeleteReview(review.id)}
+                          titleAccess="Delete review"
                         />
                       )}
                     </div>
@@ -220,7 +210,41 @@ const BookModal = ({ book, onClose }) => {
             )}
           </div>
 
-          <Button variant="contained" color="primary" onClick={onClose} style={{ marginTop: '10px' }}>
+          {isAuthenticated && (
+            <div className="rh-review-section">
+              <Typography variant="h6" className="rh-review-title" gutterBottom>
+                Leave a Review
+              </Typography>
+              <Rating
+                name="review-rating"
+                value={reviewRating}
+                onChange={(event, newValue) => {
+                  setReviewRating(newValue);
+                }}
+                precision={0.5}
+                size="large"
+              />
+              <TextField
+                label="Review"
+                multiline
+                rows={4}
+                value={reviewContent}
+                onChange={(e) => setReviewContent(e.target.value)}
+                fullWidth
+                margin="normal"
+              />
+              <Button variant="contained" color="primary" onClick={handleLeaveReview}>
+                Submit Review
+              </Button>
+            </div>
+          )}
+
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={onClose} 
+            style={{ marginTop: '24px' }}
+          >
             Close
           </Button>
 
