@@ -449,4 +449,233 @@ body, html {
   .rh-librarian-table-section {
     overflow-x: auto;
   }
+
+  .MuiTableCell-root {
+    padding: 14px 10px !important;
+    font-size: 0.9rem !important;
+    text-align: center !important;
+  }
+
+  .MuiTableCell-head {
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+
+  .rh-return-btn {
+    padding: 0.5rem 0 !important;
+    font-size: 0.9rem !important;
+    display: block !important;
+    margin: 0 !important;
+    width: 100% !important;
+    border-radius: 4px !important;
+  }
+
+  /* Center the date status */
+  .overdue-status, .active-status {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .rh-librarian-table-section {
+    padding: 0.5rem;
+  }
+
+  .MuiTableCell-root {
+    padding: 12px 8px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .rh-return-btn {
+    padding: 0.4rem 0 !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Base table styles */
+.rh-librarian-table-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1024px) {
+  .MuiTableCell-root {
+    padding: 12px 8px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .rh-return-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Card-style rows with animation */
+  .MuiTableRow-root {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08) !important;
+    padding: 1rem !important;
+    transition: all 0.3s ease !important;
+    border-left: 4px solid transparent !important;
+  }
+
+  .MuiTableCell-root {
+    display: grid !important;
+    grid-template-columns: 90px 1fr !important;
+    gap: 0.75rem !important;
+    align-items: center !important;
+    border: none !important;
+    padding: 0.5rem !important;
+    position: relative !important;
+    min-height: 40px !important;
+  }
+
+  /* Label styling with accent color */
+  .MuiTableCell-root::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+  }
+
+  /* Value styling */
+  .MuiTableCell-root {
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Hide table headers */
+  .MuiTableHead-root {
+    display: none !important;
+  }
+
+  /* Action button styling */
+  .MuiTableCell-root:last-child {
+    grid-column: 1 / -1 !important;
+    margin-top: 0.75rem !important;
+    padding-top: 0.75rem !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .MuiTableCell-root:last-child::before {
+    display: none;
+  }
+
+  .rh-return-btn {
+    width: 100%;
+    padding: 0.75rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  /* Enhanced overdue styling */
+  .overdue-row {
+    border-left: 4px solid #ff0000 !important;
+    background-color: #fff5f5 !important;
+  }
+
+  .overdue-status, .active-status {
+    font-size: 0.9rem !important;
+  }
+
+  .overdue-status::after, .active-status::after {
+    width: 18px;
+    height: 18px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Additional refinements for very small screens */
+@media (max-width: 480px) {
+  .rh-librarian-table-section {
+    padding: 0.5rem;
+  }
+
+  .MuiTableRow-root {
+    padding: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .MuiTableCell-root {
+    grid-template-columns: 80px 1fr !important;
+    gap: 0.5rem !important;
+    padding: 0.4rem !important;
+  }
+
+  .MuiTableCell-root::before {
+    font-size: 0.75rem !important;
+  }
+
+  .rh-return-btn {
+    padding: 0.6rem !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Common styles for both mobile and desktop */
+.overdue-status {
+  color: #ff0000 !important;
+  font-weight: 600 !important;
+}
+
+.active-status {
+  color: #4CAF50 !important;
+  font-weight: 600 !important;
+}
+
+.overdue-row {
+  background-color: #fff5f5 !important;
+  border-left: 4px solid #ff0000 !important;
+}
+
+/* Table styles */
+.MuiTableCell-root {
+  padding: 16px 12px !important;
+}
+
+.rh-return-btn {
+  padding: 0.8rem 1.5rem !important;
+  font-size: 1rem !important;
+  min-width: 140px !important;
+}
+
+/* Sortable headers */
+.rh-sortable-header {
+  cursor: pointer !important;
+  user-select: none;
+  transition: background-color 0.2s ease;
+  position: relative;
+  font-weight: 600 !important;
+  color: var(--primary-dark) !important;
+}
+
+.rh-sortable-header:hover {
+  background-color: rgba(20, 33, 61, 0.05);
+}
+
+.sort-indicator {
+  margin-left: 8px;
+  font-size: 0.8em;
+  color: var(--primary-light);
+}
+
+.MuiTableCell-head:last-child {
+  color: #14213D !important;
+  font-weight: bold !important;
 }

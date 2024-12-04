@@ -20,7 +20,7 @@ const BookModal = ({ book, onClose }) => {
   });
   const [isInWishlist, setIsInWishlist] = useState(book?.in_wishlist || false);
   const { user } = useAuth(); // Add this line to get user context
-  const currentUser = { ...user, username: 'arcamauro' }; // Temporary fix
+  const currentUser = { ...user}
 
   useEffect(() => {
     const loadReviews = async () => {

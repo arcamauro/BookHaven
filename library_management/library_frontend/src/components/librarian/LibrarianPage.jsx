@@ -46,6 +46,7 @@ const LibrarianPage = () => {
   const [notification, setNotification] = useState('');
   const [loading, setLoading] = useState(false);
   const [tableLoading, setTableLoading] = useState(true);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
   useEffect(() => {
     loadAllBorrowedBooks();
@@ -94,6 +95,35 @@ const LibrarianPage = () => {
     const today = new Date();
     const dueDate = new Date(returnDate);
     return today > dueDate;
+  };
+
+  const sortBooks = (books) => {
+    if (!sortConfig.key) return books;
+
+    return [...books].sort((a, b) => {
+      let valueA = a[sortConfig.key];
+      let valueB = b[sortConfig.key];
+
+      if (typeof valueA === 'string') {
+        valueA = valueA.toLowerCase();
+        valueB = valueB.toLowerCase();
+      }
+
+      if (valueA < valueB) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (valueA > valueB) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  };
+
+  const handleSort = (key) => {
+    setSortConfig((prevConfig) => ({
+      key,
+      direction: prevConfig.key === key && prevConfig.direction === 'asc' ? 'desc' : 'asc',
+    }));
   };
 
   return (
@@ -160,16 +190,57 @@ const LibrarianPage = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Title</TableCell>
-                <TableCell>Author(s)</TableCell>
-                <TableCell>Borrower</TableCell>
-                <TableCell>Borrowed On</TableCell>
-                <TableCell>Return Date</TableCell>
-                <TableCell>
-                  <button onClick={loadAllBorrowedBooks} className="rh-librarian-refresh-button">
-                    Refresh
-                  </button>
+                <TableCell 
+                  className="rh-sortable-header"
+                  onClick={() => handleSort('title')}
+                >
+                  Title {sortConfig.key === 'title' && (
+                    <span className="sort-indicator">
+                      {sortConfig.direction === 'asc' ? '↑' : '↓'}
+                    </span>
+                  )}
                 </TableCell>
+                <TableCell 
+                  className="rh-sortable-header"
+                  onClick={() => handleSort('authors')}
+                >
+                  Author(s) {sortConfig.key === 'authors' && (
+                    <span className="sort-indicator">
+                      {sortConfig.direction === 'asc' ? '↑' : '↓'}
+                    </span>
+                  )}
+                </TableCell>
+                <TableCell 
+                  className="rh-sortable-header"
+                  onClick={() => handleSort('borrower')}
+                >
+                  Borrower {sortConfig.key === 'borrower' && (
+                    <span className="sort-indicator">
+                      {sortConfig.direction === 'asc' ? '↑' : '↓'}
+                    </span>
+                  )}
+                </TableCell>
+                <TableCell 
+                  className="rh-sortable-header"
+                  onClick={() => handleSort('borrowed_on')}
+                >
+                  Borrowed On {sortConfig.key === 'borrowed_on' && (
+                    <span className="sort-indicator">
+                      {sortConfig.direction === 'asc' ? '↑' : '↓'}
+                    </span>
+                  )}
+                </TableCell>
+                <TableCell 
+                  className="rh-sortable-header"
+                  onClick={() => handleSort('return_date')}
+                >
+                  Return Date {sortConfig.key === 'return_date' && (
+                    <span className="sort-indicator">
+                      {sortConfig.direction === 'asc' ? '↑' : '↓'}
+                    </span>
+                  )}
+                </TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -185,19 +256,22 @@ const LibrarianPage = () => {
                   </TableRow>
                 ))
               ) : (
-                allBorrowedBooks.map((book) => (
+                sortBooks(allBorrowedBooks).map((book) => (
                   <TableRow 
                     key={book.id}
                     className={isOverdue(book.return_date) ? 'overdue-row' : ''}
                   >
-                    <TableCell>{book.title}</TableCell>
-                    <TableCell>{book.authors}</TableCell>
-                    <TableCell>{book.borrower}</TableCell>
-                    <TableCell>{new Date(book.borrowed_on).toLocaleDateString()}</TableCell>
-                    <TableCell className={isOverdue(book.return_date) ? 'overdue-status' : 'active-status'}>
+                    <TableCell data-label="Title">{book.title}</TableCell>
+                    <TableCell data-label="Author(s)">{book.authors}</TableCell>
+                    <TableCell data-label="Borrower">{book.borrower}</TableCell>
+                    <TableCell data-label="Borrowed On">{new Date(book.borrowed_on).toLocaleDateString()}</TableCell>
+                    <TableCell 
+                      data-label="Return Date" 
+                      className={isOverdue(book.return_date) ? 'overdue-status' : 'active-status'}
+                    >
                       {new Date(book.return_date).toLocaleDateString()}
                     </TableCell>
-                    <TableCell>
+                    <TableCell data-label="Actions">
                       <button 
                         onClick={() => handleReturnBook(book.isbn, book.borrower)} 
                         className="rh-return-btn"

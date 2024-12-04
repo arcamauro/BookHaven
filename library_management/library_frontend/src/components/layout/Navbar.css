@@ -59,3 +59,65 @@
 .rh-nav-button-bold {
   font-weight: 600 !important;
 }
+
+/* Mobile Menu Styles */
+.rh-mobile-menu-icon {
+  display: none !important;
+  color: #FFBA08 !important;
+}
+
+.rh-mobile-drawer .MuiDrawer-paper {
+  width: 280px;
+  background-color: #14213D !important;
+  padding: 16px;
+}
+
+.rh-mobile-drawer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.rh-mobile-close-button {
+  align-self: flex-end;
+  color: #FFBA08 !important;
+  margin-bottom: 16px !important;
+}
+
+.rh-mobile-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 !important;
+}
+
+.rh-nav-button-mobile {
+  font-size: 1.1rem !important;
+  font-weight: 500 !important;
+  color: #FFBA08 !important;
+  background-color: transparent !important;
+  transition: all 0.2s ease-in-out;
+  padding: 12px 16px !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+
+.rh-nav-button-mobile:hover {
+  background-color: rgba(255, 186, 8, 0.1) !important;
+}
+
+.rh-nav-button-mobile.active {
+  background-color: rgba(255, 186, 8, 0.15) !important;
+  font-weight: 600 !important;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .rh-mobile-menu-icon {
+    display: block !important;
+  }
+
+  .rh-nav-links.desktop-only {
+    display: none !important;
+  }
+}

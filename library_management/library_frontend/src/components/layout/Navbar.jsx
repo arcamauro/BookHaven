@@ -1,7 +1,9 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import LoginModal from '../account/LoginModal';
 import RegisterModal from '../account/RegisterModal';
 import { checkStaffStatus } from '../../services/api';
@@ -14,6 +16,7 @@ export default function Navbar() {
   const [isLoginOpen, setLoginOpen] = useState(false);
   const [isRegisterOpen, setRegisterOpen] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchStaffStatus = async () => {
@@ -34,82 +37,131 @@ export default function Navbar() {
     return location.pathname === path;
   };
 
+  const handleNavigation = (path) => {
+    navigate(path);
+    setMobileMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setMobileMenuOpen(false);
+  };
+
+  const renderNavLinks = (isMobile = false) => {
+    const buttonClass = isMobile ? 'rh-nav-button-mobile' : 'rh-nav-button';
+    
+    return (
+      <>
+        <Button 
+          onClick={() => handleNavigation('/')} 
+          className={`${buttonClass} ${isActive('/') ? 'active' : ''}`}
+          fullWidth={isMobile}
+        >
+          Home
+        </Button>
+        
+        <Button 
+          onClick={() => handleNavigation('/search')} 
+          className={`${buttonClass} ${isActive('/search') ? 'active' : ''}`}
+          fullWidth={isMobile}
+        >
+          Search Books
+        </Button>
+
+        {user ? (
+          <>
+            <Button 
+              onClick={() => handleNavigation('/account')} 
+              className={`${buttonClass} ${isActive('/account') ? 'active' : ''}`}
+              fullWidth={isMobile}
+            >
+              Account
+            </Button>
+            
+            {isStaff && (
+              <Button 
+                onClick={() => handleNavigation('/librarian-page')} 
+                className={`${buttonClass} ${isActive('/librarian-page') ? 'active' : ''}`}
+                fullWidth={isMobile}
+              >
+                Librarian
+              </Button>
+            )}
+            
+            <Button 
+              onClick={handleLogout} 
+              className={buttonClass}
+              fullWidth={isMobile}
+            >
+              Logout
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button 
+              onClick={() => { setLoginOpen(true); setMobileMenuOpen(false); }} 
+              className={`${buttonClass} rh-nav-button-bold`}
+              fullWidth={isMobile}
+            >
+              Login
+            </Button>
+            
+            <Button 
+              onClick={() => { setRegisterOpen(true); setMobileMenuOpen(false); }} 
+              className={`${buttonClass} rh-nav-button-bold`}
+              fullWidth={isMobile}
+            >
+              Register
+            </Button>
+          </>
+        )}
+      </>
+    );
+  };
+
   return (
-    <AppBar 
-      position="static" 
-      elevation={0} 
-      className="rh-navbar"
-    >
+    <AppBar position="static" elevation={0} className="rh-navbar">
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        {/* Logo/Brand Section */}
         <Typography 
           variant="h5" 
           className="rh-navbar-brand"
-          onClick={() => navigate('/')}
+          onClick={() => handleNavigation('/')}
         >
           ReadHaven
         </Typography>
 
-        {/* Navigation Links */}
-        <Box className="rh-nav-links">
-          <Button 
-            onClick={() => navigate('/')} 
-            className={`rh-nav-button ${isActive('/') ? 'active' : ''}`}
-          >
-            Home
-          </Button>
-          
-          <Button 
-            onClick={() => navigate('/search')} 
-            className={`rh-nav-button ${isActive('/search') ? 'active' : ''}`}
-          >
-            Search Books
-          </Button>
-
-          {/* Auth Buttons */}
-          {user ? (
-            <Box className="rh-auth-buttons">
-              <Button 
-                onClick={() => navigate('/account')} 
-                className={`rh-nav-button ${isActive('/account') ? 'active' : ''}`}
-              >
-                Account
-              </Button>
-              
-              {isStaff && (
-                <Button 
-                  onClick={() => navigate('/librarian-page')} 
-                  className={`rh-nav-button ${isActive('/librarian-page') ? 'active' : ''}`}
-                >
-                  Librarian
-                </Button>
-              )}
-              
-              <Button 
-                onClick={logout} 
-                className="rh-nav-button"
-              >
-                Logout
-              </Button>
-            </Box>
-          ) : (
-            <Box className="rh-auth-buttons">
-              <Button 
-                onClick={() => setLoginOpen(true)} 
-                className="rh-nav-button rh-nav-button-bold"
-              >
-                Login
-              </Button>
-              
-              <Button 
-                onClick={() => setRegisterOpen(true)} 
-                className="rh-nav-button rh-nav-button-bold"
-              >
-                Register
-              </Button>
-            </Box>
-          )}
+        {/* Desktop Navigation */}
+        <Box className="rh-nav-links desktop-only">
+          {renderNavLinks()}
         </Box>
+
+        {/* Mobile Menu Icon */}
+        <IconButton
+          className="rh-mobile-menu-icon"
+          onClick={() => setMobileMenuOpen(true)}
+        >
+          <MenuIcon />
+        </IconButton>
+
+        {/* Mobile Navigation Drawer */}
+        <Drawer
+          anchor="right"
+          open={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
+          className="rh-mobile-drawer"
+        >
+          <Box className="rh-mobile-drawer-content">
+            <IconButton
+              className="rh-mobile-close-button"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <CloseIcon />
+            </IconButton>
+            <List className="rh-mobile-nav-list">
+              {renderNavLinks(true)}
+            </List>
+          </Box>
+        </Drawer>
       </Toolbar>
       <LoginModal open={isLoginOpen} handleClose={() => setLoginOpen(false)} />
       <RegisterModal open={isRegisterOpen} handleClose={() => setRegisterOpen(false)} />
