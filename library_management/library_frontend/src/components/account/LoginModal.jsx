@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+import { Modal, Box, Typography, TextField, Button, IconButton, InputAdornment } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export default function LoginModal({ open, handleClose, onRegisterClick }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
 
   const handleLogin = async () => {
@@ -35,11 +38,23 @@ export default function LoginModal({ open, handleClose, onRegisterClick }) {
         <TextField
           className="rh-auth-input"
           label="Password"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           fullWidth
           margin="normal"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <Button 
           className="rh-auth-submit"

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, TextField, Button, Alert } from '@mui/material';
+import { Modal, Box, Typography, TextField, Button, Alert, InputAdornment, IconButton } from '@mui/material';
 import { registerUser } from '../../services/api';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import './AuthModals.css';
 
 export default function RegisterModal({ open, handleClose }) {
@@ -12,6 +14,7 @@ export default function RegisterModal({ open, handleClose }) {
     password: '',
     confirm_password: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -109,21 +112,45 @@ export default function RegisterModal({ open, handleClose }) {
             className="rh-auth-input"
             name="password"
             label="Password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             fullWidth
             value={formData.password}
             onChange={handleChange}
             required
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
             className="rh-auth-input"
             name="confirm_password"
             label="Confirm Password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             fullWidth
             value={formData.confirm_password}
             onChange={handleChange}
             required
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <div className="submit-container">
             <Button 
