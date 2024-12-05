@@ -50,7 +50,7 @@ export default function RegisterModal({ open, handleClose }) {
 
   return (
     <Modal open={open} onClose={handleClose}>
-      <Box className="rh-auth-modal">
+      <Box className="rh-auth-modal register">
         <Typography variant="h5" className="rh-auth-title">
           Create Account
         </Typography>
@@ -73,7 +73,6 @@ export default function RegisterModal({ open, handleClose }) {
             name="first_name"
             label="First Name"
             fullWidth
-            margin="normal"
             value={formData.first_name}
             onChange={handleChange}
             required
@@ -83,28 +82,25 @@ export default function RegisterModal({ open, handleClose }) {
             name="last_name"
             label="Last Name"
             fullWidth
-            margin="normal"
             value={formData.last_name}
             onChange={handleChange}
             required
           />
           <TextField
-            className="rh-auth-input"
+            className="rh-auth-input full-width"
             name="email"
             label="Email"
             type="email"
             fullWidth
-            margin="normal"
             value={formData.email}
             onChange={handleChange}
             required
           />
           <TextField
-            className="rh-auth-input"
+            className="rh-auth-input full-width"
             name="username"
             label="Username"
             fullWidth
-            margin="normal"
             value={formData.username}
             onChange={handleChange}
             required
@@ -115,7 +111,6 @@ export default function RegisterModal({ open, handleClose }) {
             label="Password"
             type="password"
             fullWidth
-            margin="normal"
             value={formData.password}
             onChange={handleChange}
             required
@@ -126,19 +121,20 @@ export default function RegisterModal({ open, handleClose }) {
             label="Confirm Password"
             type="password"
             fullWidth
-            margin="normal"
             value={formData.confirm_password}
             onChange={handleChange}
             required
           />
-          <Button 
-            className="rh-auth-submit"
-            variant="contained"
-            fullWidth
-            type="submit"
-          >
-            Register
-          </Button>
+          <div className="submit-container">
+            <Button 
+              className="rh-auth-submit"
+              variant="contained"
+              fullWidth
+              type="submit"
+            >
+              Register
+            </Button>
+          </div>
         </form>
       </Box>
     </Modal>

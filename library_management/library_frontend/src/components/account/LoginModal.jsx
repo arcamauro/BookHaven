@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
 
-export default function LoginModal({ open, handleClose }) {
+export default function LoginModal({ open, handleClose, onRegisterClick }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
@@ -42,18 +42,22 @@ export default function LoginModal({ open, handleClose }) {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button 
-          className="rh-auth-button"
+          className="rh-auth-submit"
           variant="contained" 
-          sx={{ 
-            backgroundColor: '#FFBA08', 
-            color: '#000000', 
-            '&:hover': { backgroundColor: '#e0a806' } 
-          }}
           fullWidth 
           onClick={handleLogin}
         >
           Login
         </Button>
+        <Typography 
+          className="rh-auth-link" 
+          onClick={() => {
+            handleClose();
+            onRegisterClick();
+          }}
+        >
+          Are you new? Register here
+        </Typography>
       </Box>
     </Modal>
   );

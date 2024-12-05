@@ -163,7 +163,14 @@ export default function Navbar() {
           </Box>
         </Drawer>
       </Toolbar>
-      <LoginModal open={isLoginOpen} handleClose={() => setLoginOpen(false)} />
+      <LoginModal 
+        open={isLoginOpen} 
+        handleClose={() => setLoginOpen(false)} 
+        onRegisterClick={() => {
+          setLoginOpen(false);
+          setRegisterOpen(true);
+        }}
+      />
       <RegisterModal open={isRegisterOpen} handleClose={() => setRegisterOpen(false)} />
     </AppBar>
   );
