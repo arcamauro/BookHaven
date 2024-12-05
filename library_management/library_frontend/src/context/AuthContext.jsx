@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from 'react';
-import { logoutUser } from '../services/api';
+import { logoutUser, fetchUserAccount } from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -12,8 +12,23 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set loading to false once the user is loaded
-    setLoading(false);
+    // Fetch user account data to validate and refresh user state
+    const initializeUser = async () => {
+      if (user) {
+        try {
+          const userAccount = await fetchUserAccount();
+          setUser(userAccount);
+          localStorage.setItem('user', JSON.stringify(userAccount));
+        } catch (error) {
+          console.error('Failed to fetch user account:', error);
+          setUser(null);
+          localStorage.removeItem('user');
+        }
+      }
+      setLoading(false);
+    };
+
+    initializeUser();
   }, []);
 
   const login = async (username, password) => {

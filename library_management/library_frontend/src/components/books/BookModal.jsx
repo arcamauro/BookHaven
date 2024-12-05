@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, Button, TextField, Snackbar, Alert } from '@mui/material';
-import Rating from '@mui/material/Rating'; // Import Rating component
+import Rating from '@mui/material/Rating';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import CloseIcon from '@mui/icons-material/Close';
-import { useAuth } from '../../context/AuthContext'; // Add this import
+import { useAuth } from '../../context/AuthContext';
 import './BookModal.css';
-import { borrowBook, toggleWishlist, leaveReview, fetchReviews, deleteReview } from '../../services/api'; // Import fetchReviews
+import { borrowBook, toggleWishlist, leaveReview, fetchReviews, deleteReview } from '../../services/api';
 
 const BookModal = ({ book, onClose }) => {
+  const { user, loading } = useAuth();
   const [reviewContent, setReviewContent] = useState('');
   const [reviewRating, setReviewRating] = useState(5);
   const [reviews, setReviews] = useState([]);
@@ -19,7 +20,6 @@ const BookModal = ({ book, onClose }) => {
     severity: 'info'
   });
   const [isInWishlist, setIsInWishlist] = useState(book?.in_wishlist || false);
-  const { user } = useAuth();
   const isAuthenticated = !!user;
 
   useEffect(() => {
@@ -127,6 +127,10 @@ const BookModal = ({ book, onClose }) => {
     setNotification({ ...notification, open: false });
   };
 
+  if (loading) {
+    return null;
+  }
+
   return (
     <Modal open={!!book} onClose={onClose}>
       <Box className={`rh-book-modal ${!isAuthenticated ? 'guest-view' : ''}`}>
@@ -191,7 +195,7 @@ const BookModal = ({ book, onClose }) => {
                         {review.username || 'Anonymous'}
                       </Typography>
                       <Rating value={review.rating} readOnly size="small" />
-                      {user && review.username === user.data?.username && (
+                      {user && review.username === user.username && (
                         <CloseIcon 
                           className="rh-delete-review-icon" 
                           onClick={() => handleDeleteReview(review.id)}
@@ -252,13 +256,8 @@ const BookModal = ({ book, onClose }) => {
             open={notification.open} 
             autoHideDuration={6000} 
             onClose={handleCloseNotification}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           >
-            <Alert 
-              onClose={handleCloseNotification} 
-              severity={notification.severity}
-              sx={{ width: '100%' }}
-            >
+            <Alert onClose={handleCloseNotification} severity={notification.severity} sx={{ width: '100%' }}>
               {notification.message}
             </Alert>
           </Snackbar>

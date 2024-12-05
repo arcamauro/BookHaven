@@ -195,7 +195,8 @@ def api_login(request):
     
     if user is not None:
         login(request, user)
-        return Response({'success': 'Logged in successfully.'}, status=status.HTTP_200_OK)
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
 
