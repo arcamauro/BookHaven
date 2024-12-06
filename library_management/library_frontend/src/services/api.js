@@ -223,4 +223,18 @@ export const confirmPasswordReset = async (uidb64, token, newPassword) => {
   }
 };
 
+// Function to change password
+export const changePassword = async (currentPassword, newPassword) => {
+  try {
+    const response = await api.post('change-password/', {
+      current_password: currentPassword,
+      new_password: newPassword
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Change password error:', error);
+    throw error;
+  }
+};
+
 // Add more API functions as needed

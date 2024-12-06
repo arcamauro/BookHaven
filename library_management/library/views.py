@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, get_user_model, logout
+from django.contrib.auth import authenticate, login, get_user_model, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -487,3 +487,43 @@ def api_password_reset_confirm(request, uidb64, token):
         except ValidationError as e:
             return Response({'error': list(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
     return Response({'error': 'Invalid reset link.'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def api_change_password(request):
+    try:
+        current_password = request.data.get('current_password')
+        new_password = request.data.get('new_password')
+        
+        # Check if current password is correct
+        if not request.user.check_password(current_password):
+            return Response(
+                {'error': 'Current password is incorrect.'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Validate new password
+        try:
+            validate_password(new_password)
+        except ValidationError as e:
+            return Response(
+                {'error': list(e.messages)}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Change password
+        request.user.set_password(new_password)
+        request.user.save()
+        
+        # Update session to prevent logout
+        update_session_auth_hash(request, request.user)
+        
+        return Response(
+            {'success': 'Password changed successfully.'}, 
+            status=status.HTTP_200_OK
+        )
+    except Exception as e:
+        return Response(
+            {'error': str(e)}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )

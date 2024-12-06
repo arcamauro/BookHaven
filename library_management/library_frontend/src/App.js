@@ -7,6 +7,7 @@ import Searching from './components/books/Searching';
 import LibrarianPage from './components/librarian/LibrarianPage';
 import EmailVerification from './components/account/EmailVerification';
 import ResetPassword from './components/account/ResetPassword';
+import ChangePassword from './components/account/ChangePassword';
 function App() {
   return (
     <Router>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/librarian-page" element={<LibrarianPage />} />
         <Route path="/verify-email/:uidb64/:token" element={<EmailVerification />} />
         <Route path="/reset-password/:uidb64/:token" element={<ResetPassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
       </Routes>
     </Router>
   );

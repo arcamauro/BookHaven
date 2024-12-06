@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchUserAccount } from '../../services/api';
 import Skeleton from '@mui/material/Skeleton';
 import './AccountPage.css';
+import { Link } from 'react-router-dom';
 
 // Add Skeleton components
 const AccountInfoSkeleton = () => (
@@ -105,6 +106,9 @@ function AccountPage() {
             <p><strong>First Name:</strong> {accountInfo.first_name}</p>
             <p><strong>Last Name:</strong> {accountInfo.last_name}</p>
             <p><strong>Email:</strong> {accountInfo.email}</p>
+            <Link to="/change-password" className="rh-auth-link">
+              Change Password
+            </Link>
           </div>
           
           <h2 className="rh-section-title">Borrowed Books</h2>
