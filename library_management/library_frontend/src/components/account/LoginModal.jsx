@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, TextField, Button, IconButton, InputAdornment } from '@mui/material';
+import { 
+  Modal, 
+  Box, 
+  Typography, 
+  TextField, 
+  Button, 
+  IconButton, 
+  InputAdornment,
+  Alert,
+  Collapse 
+} from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -11,33 +21,77 @@ export default function LoginModal({ open, handleClose, onRegisterClick }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
+  const [alert, setAlert] = useState({ show: false, message: '', severity: 'success' });
   const { login } = useAuth();
 
   const handleLogin = async () => {
-    const success = await login(username, password);
-    if (success) {
-      setUsername('');
-      setPassword('');
-      handleClose();
-    } else {
-      alert('Login failed. Please check your credentials.');
+    try {
+      const success = await login(username, password);
+      if (success) {
+        setUsername('');
+        setPassword('');
+        handleClose();
+      } else {
+        setAlert({
+          show: true,
+          message: 'Login failed. Please check your credentials.',
+          severity: 'error'
+        });
+      }
+    } catch (error) {
+      setAlert({
+        show: true,
+        message: 'An error occurred. Please try again.',
+        severity: 'error'
+      });
     }
   };
 
   const handlePasswordReset = async () => {
     try {
       await requestPasswordReset(resetEmail);
-      alert('If an account exists with this email, you will receive password reset instructions.');
-      setShowForgotPassword(false);
-      setResetEmail('');
+      setAlert({
+        show: true,
+        message: 'If an account exists with this email, you will receive password reset instructions.',
+        severity: 'success'
+      });
+      // Clear the form after 3 seconds and return to login
+      setTimeout(() => {
+        setShowForgotPassword(false);
+        setResetEmail('');
+        setAlert({ show: false, message: '', severity: 'success' });
+      }, 3000);
     } catch (error) {
-      alert('An error occurred. Please try again.');
+      setAlert({
+        show: true,
+        message: 'An error occurred. Please try again.',
+        severity: 'error'
+      });
     }
   };
 
+  const resetForm = () => {
+    setAlert({ show: false, message: '', severity: 'success' });
+    setUsername('');
+    setPassword('');
+    setResetEmail('');
+    setShowForgotPassword(false);
+    handleClose();
+  };
+
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal open={open} onClose={resetForm}>
       <Box className="rh-auth-modal">
+        <Collapse in={alert.show}>
+          <Alert 
+            severity={alert.severity}
+            className="rh-auth-alert"
+            onClose={() => setAlert({ ...alert, show: false })}
+          >
+            {alert.message}
+          </Alert>
+        </Collapse>
+
         {!showForgotPassword ? (
           <>
             <Typography className="rh-auth-title">
@@ -89,7 +143,7 @@ export default function LoginModal({ open, handleClose, onRegisterClick }) {
             <Typography 
               className="rh-auth-link" 
               onClick={() => {
-                handleClose();
+                resetForm();
                 onRegisterClick();
               }}
             >
