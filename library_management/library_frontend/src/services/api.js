@@ -199,4 +199,28 @@ export const deleteReview = async (reviewId) => {
   }
 };
 
+// Function to request password reset
+export const requestPasswordReset = async (email) => {
+  try {
+    const response = await api.post('password-reset/', { email });
+    return response.data;
+  } catch (error) {
+    console.error('Password reset request error:', error);
+    throw error;
+  }
+};
+
+// Function to confirm password reset
+export const confirmPasswordReset = async (uidb64, token, newPassword) => {
+  try {
+    const response = await api.post(`password-reset-confirm/${uidb64}/${token}/`, {
+      new_password: newPassword
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Password reset confirmation error:', error);
+    throw error;
+  }
+};
+
 // Add more API functions as needed

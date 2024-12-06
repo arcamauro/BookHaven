@@ -37,6 +37,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.mail import send_mail
 
 # # Old Views (Template-based)
 
@@ -443,3 +445,45 @@ def api_delete_review(request, review_id):
         return Response({'success': 'Review deleted successfully.'}, status=status.HTTP_200_OK)
     except Review.DoesNotExist:
         return Response({'error': 'Review not found or not authorized to delete.'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def api_password_reset_request(request):
+    email = request.data.get('email')
+    try:
+        user = User.objects.get(email=email)
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        reset_url = f"http://localhost:3000/reset-password/{uid}/{token}/"
+        
+        send_mail(
+            'Password Reset Request',
+            f'Click the following link to reset your password: {reset_url}',
+            'from@example.com',
+            [email],
+            fail_silently=False,
+        )
+        return Response({'success': 'Password reset email sent successfully.'}, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        # Return success even if email doesn't exist (security best practice)
+        return Response({'success': 'If an account exists with this email, a password reset link will be sent.'}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def api_password_reset_confirm(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        new_password = request.data.get('new_password')
+        try:
+            validate_password(new_password)
+            user.set_password(new_password)
+            user.save()
+            return Response({'success': 'Password reset successful.'}, status=status.HTTP_200_OK)
+        except ValidationError as e:
+            return Response({'error': list(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'error': 'Invalid reset link.'}, status=status.HTTP_400_BAD_REQUEST)
