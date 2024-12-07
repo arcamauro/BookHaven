@@ -24,7 +24,7 @@ Then you have to install the dependencies:
 And then you can run the frontend:
 - npm start
 
-Use localhost:3000 to access the frontend.
+Use localhost:3000(which is the default port) to access the frontend.
 
 > Made by Davide Scaccia, Danilo Spera, Giovanni Romano, Arcangelo Mauro
 > This specific application is made by Arcangelo Mauro
