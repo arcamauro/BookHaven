@@ -1,3 +1,6 @@
+/* BookModal.css */
+
+/* Styles for the book modal */
 .rh-book-modal {
   position: absolute;
   top: 50%;
@@ -15,12 +18,14 @@
   background:url('../../../../media/img/bg-modal.jpg') rgba(0, 0, 0, 0.3);
 }
 
+/* Styles for the modal content */
 .rh-modal-content {
   background: rgba(255, 255, 255, 0.95);
   padding: 24px;
   border-radius: 12px;
 }
 
+/* Styles for the modal book title */
 .rh-modal-book-title {
   font-family: var(--serif-font) !important;
   color: var(--primary-dark) !important;
@@ -28,23 +33,27 @@
   letter-spacing: -0.5px;
 }
 
+/* Styles for the book author */
 .rh-book-author {
   font-family: 'Georgia', serif !important;
   color: #5c4033 !important;
   font-style: italic;
 }
 
+/* Styles for the book genre and ISBN */
 .rh-book-genre, .rh-book-isbn {
   color: #6b4f3f !important;
   font-family: 'Georgia', serif;
 }
 
+/* Styles for the action buttons */
 .rh-action-buttons {
   display: flex;
   gap: 16px;
   margin: 24px 0;
 }
 
+/* Styles for the borrow button */
 .rh-borrow-button {
   background-color: #2c1810 !important;
   color: #f5f2e9 !important;
@@ -54,11 +63,13 @@
   transition: all 0.3s ease !important;
 }
 
+/* Hover effect for the borrow button */
 .rh-borrow-button:hover {
   background-color: #3d241c !important;
   box-shadow: 0 4px 12px rgba(44, 24, 16, 0.2) !important;
 }
 
+/* Styles for the wishlist button */
 .rh-wishlist-button {
   border-color: #2c1810 !important;
   color: #2c1810 !important;
@@ -66,15 +77,18 @@
   text-transform: none !important;
 }
 
+/* Active state for the wishlist button */
 .rh-wishlist-button.active {
   background-color: #5c4033 !important;
   color: #f5f2e9 !important;
 }
 
+/* Hover effect for the wishlist button */
 .rh-wishlist-button:hover {
   background-color: rgba(92, 64, 51, 0.1) !important;
 }
 
+/* Styles for the book cover in the modal */
 .rh-book-modal .rh-book-cover {
   min-width: 200px;
   min-height: 300px;
@@ -88,11 +102,13 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Styles for the book info in the modal */
 .rh-book-modal .rh-book-info {
   text-align: center;
   margin-bottom: 24px;
 }
 
+/* Styles for the button group in the modal */
 .rh-book-modal .rh-button-group {
   display: flex;
   flex-direction: row;
@@ -101,6 +117,7 @@
   margin: 24px 0;
 }
 
+/* Styles for the review section in the modal */
 .rh-book-modal .rh-review-section {
   background-color: #E5E5E5;
   padding: 24px;
@@ -108,10 +125,12 @@
   margin: 24px 0;
 }
 
+/* Styles for the reviews list in the modal */
 .rh-book-modal .rh-reviews-list {
   margin-top: 24px;
 }
 
+/* Styles for the review item in the modal */
 .rh-book-modal .rh-review-item {
   background-color: #E5E5E5;
   padding: 16px;
@@ -119,6 +138,7 @@
   margin-bottom: 16px;
 }
 
+/* Styles for the review header in the modal */
 .rh-book-modal .rh-review-header {
   display: flex;
   align-items: center;
@@ -126,16 +146,19 @@
   gap: 8px;
 }
 
+/* Styles for the review username in the modal */
 .rh-book-modal .rh-review-username {
   font-weight: 500;
   min-width: 80px;
 }
 
+/* Styles for the review content in the modal */
 .rh-book-modal .rh-review-content {
   margin-top: 8px;
   padding-left: 4px;
 }
 
+/* Styles for the delete review icon */
 .rh-delete-review-icon {
   margin-left: auto;
   cursor: pointer;
@@ -146,16 +169,19 @@
   background-color: rgba(244, 67, 54, 0.1);
 }
 
+/* Hover effect for the delete review icon */
 .rh-delete-review-icon:hover {
   color: #d32f2f;
   background-color: rgba(244, 67, 54, 0.2);
   transform: scale(1.1);
 }
 
+/* Styles for the delete review icon */
 .rh-delete-review-icon {
   border: none !important;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .rh-book-modal {
     max-width: 500px;
@@ -171,6 +197,7 @@
   }
 }
 
+/* Styles for the login prompt */
 .rh-login-prompt {
   text-align: center;
   padding: 16px;
@@ -180,6 +207,7 @@
   border: 1px solid #ddd;
 }
 
+/* Styles for the login prompt link */
 .rh-login-prompt a {
   color: var(--primary-dark);
   text-decoration: none;
@@ -187,6 +215,7 @@
   transition: all 0.3s ease;
 }
 
+/* Hover effect for the login prompt link */
 .rh-login-prompt a:hover {
   text-decoration: underline;
   color: #3d241c;
@@ -198,10 +227,12 @@
   margin: 0 auto;
 }
 
+/* Styles for the book info in guest view */
 .rh-book-modal.guest-view .rh-book-info {
   margin-bottom: 32px;
 }
 
+/* Styles for the reviews list in guest view */
 .rh-book-modal.guest-view .rh-reviews-list {
   margin-top: 32px;
 }
@@ -218,6 +249,7 @@
   }
 }
 
+/* Styles for the copies info */
 .rh-copies-info {
   display: flex;
   align-items: center;
@@ -230,6 +262,7 @@
   justify-content: center;
 }
 
+/* Styles for the availability status */
 .rh-availability-status {
   padding: 0.25rem 0.75rem;
   border-radius: 16px;
@@ -239,28 +272,33 @@
   letter-spacing: 0.5px;
 }
 
+/* Styles for the available status */
 .rh-availability-status.available {
   background-color: #e8f5e9;
   color: #2e7d32;
 }
 
+/* Styles for the unavailable status */
 .rh-availability-status.unavailable {
   background-color: #ffebee;
   color: #c62828;
 }
 
+/* Styles for the copies count */
 .rh-copies-count {
   color: #666;
   font-size: 0.875rem;
   font-weight: 500;
 }
 
+/* Styles for the lended count */
 .rh-lended-count {
   color: #666;
   font-size: 0.875rem;
   font-style: italic;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .rh-copies-info {
     flex-direction: column;

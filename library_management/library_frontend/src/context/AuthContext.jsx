@@ -1,18 +1,17 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import { logoutUser, fetchUserAccount } from '../services/api';
-
+//this file implements the authentication context for the application
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    // Load user from localStorage if available
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
   const [loading, setLoading] = useState(true);
 
+  // Function to fetch the user's account data to validate and refresh the user state
   useEffect(() => {
-    // Fetch user account data to validate and refresh user state
     const initializeUser = async () => {
       if (user) {
         try {
@@ -31,6 +30,7 @@ export const AuthProvider = ({ children }) => {
     initializeUser();
   }, []);
 
+  // Function to login a user
   const login = async (username, password) => {
     try {
       const response = await fetch('http://localhost:8000/api/login/', {
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData)); // Save user to localStorage
+        localStorage.setItem('user', JSON.stringify(userData));
         return true;
       }
       return false;
@@ -55,11 +55,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Function to logout a user
   const logout = async () => {
     try {
       await logoutUser();
       setUser(null);
-      localStorage.removeItem('user'); // Remove user from localStorage
+      localStorage.removeItem('user');
     } catch (error) {
       console.error('Logout failed:', error);
     }

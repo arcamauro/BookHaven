@@ -1,3 +1,6 @@
+/* BookList.css */
+
+/* Styles for the book list */
 .book-list {
   padding: 32px 32px 32px 64px;
   max-width: 1800px;
@@ -7,6 +10,7 @@
   background-color: #E5E5E5;
 }
 
+/* Styles for the welcome section */
 .welcome-section {
   text-align: center;
   margin-bottom: 32px;
@@ -24,6 +28,7 @@
   position: relative;
 }
 
+/* Styles for the welcome section title */
 .welcome-section h1 {
   font-size: 2.5rem;
   color: white;
@@ -32,6 +37,7 @@
   font-weight: 600;
 }
 
+/* Styles for the welcome section paragraph */
 .welcome-section p {
   font-size: 1.2rem;
   color: white;
@@ -41,6 +47,7 @@
   line-height: 1.6;
 }
 
+/* Styles for the book grid */
 .book-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -50,6 +57,7 @@
   margin: 0 auto;
 }
 
+/* Styles for the loading container */
 .loading-container {
   display: flex;
   justify-content: center;
@@ -59,6 +67,7 @@
   color: #333;
 }
 
+/* Responsive adjustments */
 @media (max-width: 700px) {
   .book-list {
     padding: 16px;
@@ -68,23 +77,26 @@
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 16px;
   }
-} 
+}
 
+/* Styles for the books section */
 .books-section {
   text-align: center;
   max-width: 1700px;
   margin: 0 auto;
 }
 
+/* Styles for the section title */
 .section-title {
   margin-bottom: 24px;
 }
 
+/* Styles for the ReadHaven title */
 .readhaven-title {
   color: #FFBA08;
 }
 
-/* Loading and Error States */
+/* Loading and error states */
 .rh-books-loading {
   min-height: calc(100vh - 64px);
   display: flex;
@@ -96,6 +108,7 @@
   padding: 2rem;
 }
 
+/* Styles for the loading text */
 .rh-loading-text {
   color: #666;
   font-size: 1.1rem;
@@ -103,6 +116,7 @@
   animation: pulse 1.5s ease-in-out infinite;
 }
 
+/* Styles for the books error */
 .rh-books-error {
   min-height: calc(100vh - 64px);
   display: flex;
@@ -112,6 +126,7 @@
   padding: 2rem;
 }
 
+/* Styles for the error text */
 .rh-error-text {
   color: #dc3545;
   font-size: 1.1rem;
@@ -123,6 +138,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Pulse animation */
 @keyframes pulse {
   0% {
     opacity: 0.6;
@@ -135,7 +151,7 @@
   }
 }
 
-/* Add these new skeleton styles */
+/* Skeleton styles */
 .book-card-skeleton {
   background: white;
   border-radius: 12px;
@@ -146,12 +162,14 @@
   gap: 12px;
 }
 
+/* Styles for the book info skeleton */
 .book-info-skeleton {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
+/* Styles for the book cover skeleton */
 .book-cover-skeleton {
   border-radius: 8px !important;
   background-color: rgba(224, 224, 224, 1) !important;
@@ -160,6 +178,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Styles for the MuiSkeleton root */
 .MuiSkeleton-root {
   background: linear-gradient(
     90deg,

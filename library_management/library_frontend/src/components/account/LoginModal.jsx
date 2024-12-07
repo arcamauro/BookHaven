@@ -15,6 +15,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { requestPasswordReset } from '../../services/api';
 
+// Modal component to handle the login process
 export default function LoginModal({ open, handleClose, onRegisterClick }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -24,6 +25,7 @@ export default function LoginModal({ open, handleClose, onRegisterClick }) {
   const [alert, setAlert] = useState({ show: false, message: '', severity: 'success' });
   const { login } = useAuth();
 
+  // Function to handle the login process
   const handleLogin = async () => {
     try {
       const success = await login(username, password);
@@ -47,6 +49,7 @@ export default function LoginModal({ open, handleClose, onRegisterClick }) {
     }
   };
 
+  // Function to handle the password reset process
   const handlePasswordReset = async () => {
     try {
       await requestPasswordReset(resetEmail);
@@ -70,6 +73,7 @@ export default function LoginModal({ open, handleClose, onRegisterClick }) {
     }
   };
 
+  // Function to reset the form
   const resetForm = () => {
     setAlert({ show: false, message: '', severity: 'success' });
     setUsername('');
@@ -79,6 +83,7 @@ export default function LoginModal({ open, handleClose, onRegisterClick }) {
     handleClose();
   };
 
+  // Render the login modal with the login form and the password reset form
   return (
     <Modal open={open} onClose={resetForm}>
       <Box className="rh-auth-modal">

@@ -1,9 +1,13 @@
+/* LibrarianPage.css */
+
+/* Global styles for body and html */
 body, html {
   margin: 0;
   padding: 0;
   background-color: #E5E5E5;
 }
 
+/* Styles for the librarian wrapper */
 .librarian-wrapper {
   max-width: 1200px;
   margin: 0 auto;
@@ -12,6 +16,7 @@ body, html {
   background-color: #e5e5e5;
 }
 
+/* Styles for the librarian header */
 .librarian-header {
   font-size: 2.5rem;
   color: #14213D;
@@ -19,12 +24,14 @@ body, html {
   font-weight: 600;
 }
 
+/* Styles for the librarian description */
 .librarian-description {
   font-size: 1.1rem;
   color: #666;
   margin-bottom: 2rem;
 }
 
+/* Styles for the search container */
 .search-container {
   display: flex;
   gap: 1rem;
@@ -32,6 +39,7 @@ body, html {
   margin: 0 auto 2rem auto;
 }
 
+/* Styles for the search field */
 .search-field {
   flex: 1;
   padding: 0.8rem 1rem;
@@ -42,10 +50,12 @@ body, html {
   transition: border-color 0.2s;
 }
 
+/* Focus effect for the search field */
 .search-field:focus {
   border-color: #FFBA08;
 }
 
+/* Styles for the search button */
 .search-btn {
   padding: 0.8rem 1.5rem;
   background-color: #FFBA08;
@@ -57,10 +67,12 @@ body, html {
   transition: background-color 0.2s;
 }
 
+/* Hover effect for the search button */
 .search-btn:hover {
   background-color: #ffc534;
 }
 
+/* Styles for the librarian book collection */
 .librarian-book-collection {
   list-style: none;
   padding: 0;
@@ -70,6 +82,7 @@ body, html {
   margin-top: 2rem;
 }
 
+/* Styles for the librarian book item */
 .librarian-book-item {
   background: white;
   border-radius: 12px;
@@ -78,20 +91,24 @@ body, html {
   transition: transform 0.2s;
 }
 
+/* Hover effect for the librarian book item */
 .librarian-book-item:hover {
   transform: translateY(-5px);
 }
 
+/* Styles for the book cover image */
 .book-cover-image {
   width: 100%;
   height: 200px;
   object-fit: cover;
 }
 
+/* Styles for the book info section */
 .book-info-section {
   padding: 1.5rem;
 }
 
+/* Styles for the book title text */
 .book-title-text {
   font-size: 1.25rem;
   font-weight: 600;
@@ -99,34 +116,12 @@ body, html {
   margin-bottom: 0.5rem;
 }
 
-.book-author-text {
-  color: #666;
-  margin-bottom: 0.5rem;
-}
-
-.book-borrower-text {
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-.book-copies-badge {
-  display: inline-block;
-  background: #E5E5E5;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  margin-bottom: 1rem;
-}
-
-.copies-number {
-  font-weight: bold;
-  color: #14213D;
-  margin-right: 0.5rem;
-}
-
+/* Styles for the copies text */
 .copies-text {
   color: #666;
 }
 
+/* Styles for the return button */
 .return-btn {
   width: 100%;
   padding: 0.8rem;
@@ -139,10 +134,12 @@ body, html {
   transition: background-color 0.2s;
 }
 
+/* Hover effect for the return button */
 .return-btn:hover {
   background-color: #ffc534;
 }
 
+/* Styles for the notification */
 .notification {
   position: fixed;
   top: 20px;
@@ -155,6 +152,7 @@ body, html {
   animation: slideIn 0.3s ease-out;
 }
 
+/* Slide-in animation */
 @keyframes slideIn {
   from {
     transform: translateX(100%);
@@ -166,14 +164,17 @@ body, html {
   }
 }
 
+/* Styles for the notification success */
 .notification.success {
   background-color: #4CAF50;
 }
 
+/* Styles for the notification error */
 .notification.error {
   background-color: #f44336;
 }
 
+/* Styles for the librarian wrapper */
 .rh-librarian-wrapper {
   max-width: 1200px;
   margin: 0 auto;
@@ -182,6 +183,7 @@ body, html {
   background-color: var(--background);
 }
 
+/* Styles for the librarian header */
 .rh-librarian-header {
   font-family: var(--serif-font);
   color: var(--primary-dark);
@@ -190,12 +192,14 @@ body, html {
   font-weight: 600;
 }
 
+/* Styles for the librarian description */
 .rh-librarian-description {
   font-size: 1.1rem;
   color: var(--text-secondary);
   margin-bottom: 2rem;
 }
 
+/* Styles for the librarian search */
 .rh-librarian-search {
   display: flex;
   gap: 1rem;
@@ -203,6 +207,7 @@ body, html {
   margin: 0 auto 2rem;
 }
 
+/* Styles for the librarian search input */
 .rh-librarian-search-input {
   flex: 1;
   padding: 0.75rem 1rem;
@@ -211,6 +216,7 @@ body, html {
   font-size: 1rem;
 }
 
+/* Styles for the librarian search button */
 .rh-librarian-search-button {
   padding: 0.75rem 1.5rem;
   background-color: var(--primary-light);
@@ -222,11 +228,13 @@ body, html {
   transition: all 0.3s ease;
 }
 
+/* Hover effect for the librarian search button */
 .rh-librarian-search-button:hover {
   background-color: var(--primary-dark);
   color: var(--white);
 }
 
+/* Styles for the librarian book collection */
 .rh-librarian-book-collection {
   list-style: none;
   padding: 0;
@@ -235,6 +243,7 @@ body, html {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
+/* Styles for the librarian book item */
 .rh-librarian-book-item {
   background: var(--white);
   border-radius: 12px;
@@ -245,6 +254,7 @@ body, html {
   gap: 1rem;
 }
 
+/* Styles for the book cover image */
 .rh-book-cover-image {
   width: 120px;
   height: 180px;
@@ -252,6 +262,7 @@ body, html {
   border-radius: 8px;
 }
 
+/* Styles for the book info section */
 .rh-book-info-section {
   flex: 1;
   display: flex;
@@ -260,6 +271,7 @@ body, html {
   text-align: left;
 }
 
+/* Styles for the book title text */
 .rh-book-title-text {
   font-family: var(--serif-font);
   font-size: 1.25rem;
@@ -267,16 +279,19 @@ body, html {
   font-weight: 600;
 }
 
+/* Styles for the book author text */
 .rh-book-author-text {
   color: var(--text-secondary);
   font-style: italic;
 }
 
+/* Styles for the book borrower text */
 .rh-book-borrower-text {
   color: var(--primary-dark);
   font-weight: 500;
 }
 
+/* Styles for the book copies badge */
 .rh-book-copies-badge {
   display: inline-flex;
   align-items: center;
@@ -287,12 +302,14 @@ body, html {
   margin: 0.5rem 0;
 }
 
+/* Styles for the copies number */
 .rh-copies-number {
   color: var(--primary-light);
   font-weight: 600;
   margin-right: 0.5rem;
 }
 
+/* Styles for the return button */
 .rh-return-btn {
   background-color: var(--primary-light);
   color: var(--primary-dark);
@@ -304,11 +321,13 @@ body, html {
   transition: all 0.3s ease;
 }
 
+/* Hover effect for the return button */
 .rh-return-btn:hover {
   background-color: var(--primary-dark);
   color: var(--white);
 }
 
+/* Styles for the notification */
 .rh-notification {
   position: fixed;
   top: 1rem;
@@ -321,6 +340,7 @@ body, html {
   animation: slideIn 0.3s ease-out;
 }
 
+/* Slide-in animation */
 @keyframes slideIn {
   from {
     transform: translateX(100%);
@@ -332,30 +352,35 @@ body, html {
   }
 }
 
+/* Styles for the notification success */
 .rh-notification.success {
   background-color: #4CAF50;
 }
 
+/* Styles for the notification error */
 .rh-notification.error {
   background-color: #f44336;
 }
 
+/* Styles for the librarian book item overdue */
 .rh-librarian-book-item.overdue {
   border: 2px solid #ff0000;
   background-color: #ffe6e6;
 }
 
+/* Styles for the book return date */
 .rh-book-return-date {
   color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
+/* Styles for the book return date overdue */
 .rh-book-return-date.overdue {
   color: #ff0000;
   font-weight: 700;
 }
 
-/* Add these new skeleton styles */
+/* Skeleton styles */
 .rh-book-cover-skeleton {
   border-radius: 8px !important;
   flex-shrink: 0;
@@ -365,17 +390,20 @@ body, html {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Styles for the copies badge skeleton */
 .rh-copies-badge-skeleton {
   border-radius: 16px !important;
   background-color: rgba(224, 224, 224, 1) !important;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Styles for the return button skeleton */
 .rh-return-btn-skeleton {
   border-radius: 8px !important;
   background-color: rgba(224, 224, 224, 1) !important;
 }
 
+/* Styles for the MuiSkeleton root */
 .MuiSkeleton-root {
   background: linear-gradient(
     90deg,
@@ -397,10 +425,11 @@ body, html {
     background-position: 0 0;
   }
   100% {
-    background-position: 200%
+    background-position: 200% 0;
   }
 }
 
+/* Styles for the librarian table section */
 .rh-librarian-table-section {
   margin-top: 2rem;
   padding: 1rem;
@@ -409,25 +438,30 @@ body, html {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Styles for the librarian search section */
 .rh-librarian-search-section {
   margin-bottom: 2rem;
 }
 
+/* Styles for the overdue row */
 .overdue-row {
   background-color: #ffe6e6;
   border: 2px solid #ff0000 !important;
 }
 
+/* Styles for the overdue status */
 .overdue-status {
   color: #ff0000;
   font-weight: 700;
 }
 
+/* Styles for the active status */
 .active-status {
   color: #4CAF50;
   font-weight: 600;
 }
 
+/* Styles for the table return button */
 .rh-table-return-btn {
   background-color: var(--primary-light);
   color: var(--primary-dark);
@@ -439,28 +473,29 @@ body, html {
   transition: all 0.3s ease;
 }
 
+/* Hover effect for the table return button */
 .rh-table-return-btn:hover {
   background-color: var(--primary-dark);
   color: var(--white);
 }
 
-/* Add responsive styles for the table */
+/* Responsive styles for the table */
 @media (max-width: 768px) {
   .rh-librarian-table-section {
     overflow-x: auto;
   }
-
+  
   .MuiTableCell-root {
     padding: 14px 10px !important;
     font-size: 0.9rem !important;
     text-align: center !important;
   }
-
+  
   .MuiTableCell-head {
     text-align: center !important;
     white-space: nowrap !important;
   }
-
+  
   .rh-return-btn {
     padding: 0.5rem 0 !important;
     font-size: 0.9rem !important;
@@ -469,7 +504,7 @@ body, html {
     width: 100% !important;
     border-radius: 4px !important;
   }
-
+  
   /* Center the date status */
   .overdue-status, .active-status {
     justify-content: center !important;
@@ -477,16 +512,17 @@ body, html {
   }
 }
 
+/* Additional refinements for very small screens */
 @media (max-width: 480px) {
   .rh-librarian-table-section {
     padding: 0.5rem;
   }
-
+  
   .MuiTableCell-root {
     padding: 12px 8px !important;
     font-size: 0.85rem !important;
   }
-
+  
   .rh-return-btn {
     padding: 0.4rem 0 !important;
     font-size: 0.85rem !important;
@@ -502,18 +538,20 @@ body, html {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Responsive styles for the table */
 @media (max-width: 1024px) {
   .MuiTableCell-root {
     padding: 12px 8px !important;
     font-size: 0.9rem !important;
   }
-
+  
   .rh-return-btn {
     padding: 0.4rem 0.8rem;
     font-size: 0.9rem;
   }
 }
 
+/* Responsive styles for the table */
 @media (max-width: 768px) {
   /* Card-style rows with animation */
   .MuiTableRow-root {
@@ -528,7 +566,7 @@ body, html {
     transition: all 0.3s ease !important;
     border-left: 4px solid transparent !important;
   }
-
+  
   .MuiTableCell-root {
     display: grid !important;
     grid-template-columns: 90px 1fr !important;
@@ -539,7 +577,7 @@ body, html {
     position: relative !important;
     min-height: 40px !important;
   }
-
+  
   /* Label styling with accent color */
   .MuiTableCell-root::before {
     content: attr(data-label);
@@ -550,18 +588,18 @@ body, html {
     letter-spacing: 0.5px;
     opacity: 0.8;
   }
-
+  
   /* Value styling */
   .MuiTableCell-root {
     font-size: 0.95rem !important;
     line-height: 1.4 !important;
   }
-
+  
   /* Hide table headers */
   .MuiTableHead-root {
     display: none !important;
   }
-
+  
   /* Action button styling */
   .MuiTableCell-root:last-child {
     grid-column: 1 / -1 !important;
@@ -569,11 +607,11 @@ body, html {
     padding-top: 0.75rem !important;
     border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
   }
-
+  
   .MuiTableCell-root:last-child::before {
     display: none;
   }
-
+  
   .rh-return-btn {
     width: 100%;
     padding: 0.75rem !important;
@@ -583,17 +621,17 @@ body, html {
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
   }
-
+  
   /* Enhanced overdue styling */
   .overdue-row {
     border-left: 4px solid #ff0000 !important;
     background-color: #fff5f5 !important;
   }
-
+  
   .overdue-status, .active-status {
     font-size: 0.9rem !important;
   }
-
+  
   .overdue-status::after, .active-status::after {
     width: 18px;
     height: 18px;
@@ -606,22 +644,22 @@ body, html {
   .rh-librarian-table-section {
     padding: 0.5rem;
   }
-
+  
   .MuiTableRow-root {
     padding: 0.75rem !important;
     margin-bottom: 0.75rem !important;
   }
-
+  
   .MuiTableCell-root {
     grid-template-columns: 80px 1fr !important;
     gap: 0.5rem !important;
     padding: 0.4rem !important;
   }
-
+  
   .MuiTableCell-root::before {
     font-size: 0.75rem !important;
   }
-
+  
   .rh-return-btn {
     padding: 0.6rem !important;
     font-size: 0.85rem !important;
@@ -634,11 +672,13 @@ body, html {
   font-weight: 600 !important;
 }
 
+/* Styles for the active status */
 .active-status {
   color: #4CAF50 !important;
   font-weight: 600 !important;
 }
 
+/* Styles for the overdue row */
 .overdue-row {
   background-color: #fff5f5 !important;
   border-left: 4px solid #ff0000 !important;
@@ -649,6 +689,7 @@ body, html {
   padding: 16px 12px !important;
 }
 
+/* Styles for the return button */
 .rh-return-btn {
   padding: 0.8rem 1.5rem !important;
   font-size: 1rem !important;
@@ -665,16 +706,19 @@ body, html {
   color: var(--primary-dark) !important;
 }
 
+/* Hover effect for the sortable header */
 .rh-sortable-header:hover {
   background-color: rgba(20, 33, 61, 0.05);
 }
 
+/* Styles for the sort indicator */
 .sort-indicator {
   margin-left: 8px;
   font-size: 0.8em;
   color: var(--primary-light);
 }
 
+/* Styles for the MuiTableCell head */
 .MuiTableCell-head:last-child {
   color: #14213D !important;
   font-weight: bold !important;

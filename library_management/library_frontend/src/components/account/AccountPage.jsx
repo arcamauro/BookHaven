@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import { Button, Snackbar, Alert } from '@mui/material';
 
-// Add Skeleton components
+// Skeleton component for the account information
 const AccountInfoSkeleton = () => (
   <div className="rh-account-card">
     <div className="rh-account-info">
@@ -62,6 +62,7 @@ const AccountInfoSkeleton = () => (
   </div>
 );
 
+// AccountPage component to display the user's account information
 export default function AccountPage() {
   const [accountInfo, setAccountInfo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -86,11 +87,11 @@ export default function AccountPage() {
     getAccountInfo();
   }, []);
 
+  // Function to remove a book from the wishlist
   const handleRemoveFromWishlist = async (isbn) => {
     try {
       await toggleWishlist(isbn);
       
-      // Update local state
       setAccountInfo(prev => ({
         ...prev,
         wishlist: prev.wishlist.filter(item => item.book.isbn !== isbn)
@@ -110,6 +111,7 @@ export default function AccountPage() {
     }
   };
 
+  // Function to close the notification about the success or failure of an action
   const handleCloseNotification = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -133,6 +135,7 @@ export default function AccountPage() {
     );
   }
 
+  // Render the account information such as first name, last name, email, borrowed books, and wishlist and allows the user to change their password
   return (
     <div className="rh-account-page">
       <div className="rh-account-card">

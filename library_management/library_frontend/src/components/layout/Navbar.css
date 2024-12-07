@@ -1,8 +1,12 @@
+/* Navbar.css */
+
+/* Styles for the navbar */
 .rh-navbar {
   background-color: #14213D !important;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Styles for the navbar brand */
 .rh-navbar-brand {
   font-family: var(--serif-font) !important;
   color: #FFFFFF !important;
@@ -12,10 +16,12 @@
   letter-spacing: 0.5px;
 }
 
+/* Hover effect for the navbar brand */
 .rh-navbar-brand:hover {
   opacity: 0.9;
 }
 
+/* Styles for the navigation button */
 .rh-nav-button {
   font-size: 1rem !important;
   font-weight: 500 !important;
@@ -26,14 +32,17 @@
   letter-spacing: 0.3px;
 }
 
+/* Hover effect for the navigation button */
 .rh-nav-button:hover {
   background-color: rgba(255, 186, 8, 0.1) !important;
 }
 
+/* Active state for the navigation button */
 .rh-nav-button.active {
   font-weight: 600 !important;
 }
 
+/* Active state indicator for the navigation button */
 .rh-nav-button.active::after {
   content: '';
   position: absolute;
@@ -45,45 +54,52 @@
   background-color: var(--primary-light);
 }
 
+/* Styles for the navigation links */
 .rh-nav-links {
   display: flex;
   gap: 16px;
   align-items: center;
 }
 
+/* Styles for the authentication buttons */
 .rh-auth-buttons {
   display: flex;
   gap: 8px;
 }
 
+/* Bold style for the navigation button */
 .rh-nav-button-bold {
   font-weight: 600 !important;
 }
 
-/* Mobile Menu Styles */
+/* Mobile menu styles */
 .rh-mobile-menu-icon {
   display: none !important;
   color: #FFBA08 !important;
 }
 
+/* Styles for the mobile drawer */
 .rh-mobile-drawer .MuiDrawer-paper {
   width: 280px;
   background-color: #14213D !important;
   padding: 16px;
 }
 
+/* Styles for the mobile drawer content */
 .rh-mobile-drawer-content {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
+/* Styles for the mobile close button */
 .rh-mobile-close-button {
   align-self: flex-end;
   color: #FFBA08 !important;
   margin-bottom: 16px !important;
 }
 
+/* Styles for the mobile navigation list */
 .rh-mobile-nav-list {
   display: flex;
   flex-direction: column;
@@ -91,6 +107,7 @@
   padding: 0 !important;
 }
 
+/* Styles for the mobile navigation button */
 .rh-nav-button-mobile {
   font-size: 1.1rem !important;
   font-weight: 500 !important;
@@ -102,21 +119,23 @@
   justify-content: flex-start !important;
 }
 
+/* Hover effect for the mobile navigation button */
 .rh-nav-button-mobile:hover {
   background-color: rgba(255, 186, 8, 0.1) !important;
 }
 
+/* Active state for the mobile navigation button */
 .rh-nav-button-mobile.active {
   background-color: rgba(255, 186, 8, 0.15) !important;
   font-weight: 600 !important;
 }
 
-/* Responsive Breakpoints */
+/* Responsive breakpoints */
 @media (max-width: 768px) {
   .rh-mobile-menu-icon {
     display: block !important;
   }
-
+  
   .rh-nav-links.desktop-only {
     display: none !important;
   }

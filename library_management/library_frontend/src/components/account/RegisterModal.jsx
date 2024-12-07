@@ -5,6 +5,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import './AuthModals.css';
 
+// Modal component to handle the registration process
 export default function RegisterModal({ open, handleClose }) {
   const [formData, setFormData] = useState({
     first_name: '',
@@ -24,7 +25,8 @@ export default function RegisterModal({ open, handleClose }) {
       [e.target.name]: e.target.value
     });
   };
-
+  
+  // Function to handle the registration process
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
@@ -51,6 +53,7 @@ export default function RegisterModal({ open, handleClose }) {
     }
   };
 
+  // Render the registration modal with the registration form
   return (
     <Modal open={open} onClose={handleClose}>
       <Box className="rh-auth-modal register">

@@ -1,21 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  Box, 
-  Typography, 
-  TextField, 
-  Button, 
-  Container, 
-  Alert,
-  Collapse,
-  CircularProgress,
-  IconButton,
-  InputAdornment
-} from '@mui/material';
+import { Box, Typography, TextField, Button, Container, Alert, Collapse, CircularProgress, IconButton, InputAdornment} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { changePassword } from '../../services/api';
 
+// Component to change the user's password and handle the form submission
 export default function ChangePassword() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -27,6 +17,7 @@ export default function ChangePassword() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Function to handle the form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setAlert({ show: false, message: '', severity: 'success' });
@@ -63,6 +54,7 @@ export default function ChangePassword() {
     }
   };
 
+  // Render the change password form
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

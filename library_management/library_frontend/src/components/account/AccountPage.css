@@ -1,21 +1,6 @@
-.rh-account-loading {
-  min-height: calc(100vh - 64px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  background-color: var(--background);
-  padding: 2rem;
-}
+/* AccountPage.css */
 
-.rh-loading-text {
-  color: var(--text-secondary);
-  font-size: 1.1rem;
-  font-family: var(--sans-font);
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
+/* Styles for the error message */
 .rh-account-error {
   min-height: calc(100vh - 64px);
   display: flex;
@@ -25,6 +10,7 @@
   padding: 2rem;
 }
 
+/* Styles for the error text */
 .rh-error-text {
   color: #dc3545;
   font-size: 1.1rem;
@@ -36,6 +22,7 @@
   box-shadow: var(--shadow-md);
 }
 
+/* Pulse animation */
 @keyframes pulse {
   0% {
     opacity: 0.6;
@@ -48,25 +35,21 @@
   }
 }
 
+/* Styles for the account page */
 .rh-account-page {
   max-width: 1000px;
   margin: 2rem auto;
 }
 
+/* Styles for the account card */
 .rh-account-card {
   background: var(--white);
   border-radius: 16px;
 }
 
+/* Styles for the account title */
 .rh-account-title {
   font-family: var(--serif-font);
-}
-
-.rh-account-info {
-  padding: 2.5rem;
-}
-
-.rh-account-title {
   color: #14213D;
   font-size: 2rem;
   font-weight: 600;
@@ -75,11 +58,18 @@
   border-bottom: 3px solid #FFBA08;
 }
 
+/* Styles for the username */
 .rh-username {
   color: #FFBA08;
   font-weight: 600;
 }
 
+/* Styles for the account information */
+.rh-account-info {
+  padding: 2.5rem;
+}
+
+/* Styles for the account details */
 .rh-account-details {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -90,11 +80,13 @@
   border-radius: 12px;
 }
 
+/* Styles for the account details paragraph */
 .rh-account-details p {
   margin: 0;
   line-height: 1.6;
 }
 
+/* Styles for the account details strong */
 .rh-account-details strong {
   color: #14213D;
   display: block;
@@ -104,6 +96,7 @@
   letter-spacing: 0.5px;
 }
 
+/* Styles for the section title */
 .rh-section-title {
   color: #14213D;
   font-size: 1.75rem;
@@ -113,6 +106,7 @@
   border-bottom: 2px solid #E5E5E5;
 }
 
+/* Styles for the book list */
 .rh-book-list {
   list-style-type: none;
   padding: 0;
@@ -121,6 +115,7 @@
   gap: 1.25rem;
 }
 
+/* Styles for the book item */
 .rh-book-item {
   padding: 1.5rem;
   border: 1px solid #E5E5E5;
@@ -131,11 +126,13 @@
   transition: all 0.2s ease;
 }
 
+/* Styles for the book item hover */
 .rh-book-item:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transform: translateY(-2px);
 }
 
+/* Styles for the book cover */
 .rh-book-cover {
   width: 80px;
   height: 120px;
@@ -144,6 +141,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Styles for the book details */
 .rh-book-details {
   flex: 1;
   display: flex;
@@ -151,6 +149,7 @@
   gap: 0.75rem;
 }
 
+/* Styles for the book details strong */
 .rh-book-details strong {
   font-size: 1.1rem;
   color: #14213D;
@@ -158,6 +157,7 @@
   margin-bottom: 0.25rem;
 }
 
+/* Styles for the book meta */
 .rh-book-meta {
   display: flex;
   justify-content: space-between;
@@ -166,12 +166,7 @@
   gap: 1rem;
 }
 
-.rh-dates-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
+/* Styles for the borrowed on and return on */
 .rh-borrowed-on, .rh-return-on {
   color: #666;
   font-size: 0.9rem;
@@ -180,6 +175,7 @@
   gap: 0.5rem;
 }
 
+/* Styles for the copies borrowed */
 .rh-copies-borrowed {
   background: #14213D;
   color: white;
@@ -191,18 +187,21 @@
   font-size: 0.9rem;
 }
 
+/* Styles for the number */
 .rh-number {
   color: #FFBA08;
   font-weight: 600;
   font-size: 1.1rem;
 }
 
+/* Styles for the authors */
 .rh-authors {
   color: #666;
   font-size: 0.9rem;
   margin-top: 0.25rem;
 }
 
+/* Styles for the no books */
 .rh-no-books {
   text-align: center;
   padding: 2rem;
@@ -213,6 +212,7 @@
   margin: 1rem 0;
 }
 
+/* Styles for the media query */
 @media (max-width: 768px) {
   .rh-account-page {
     padding: 1rem;
@@ -236,21 +236,19 @@
     flex-direction: column;
     align-items: center;
   }
-  
-  .rh-dates-group {
-    text-align: center;
-  }
 }
 
-/* Add these new styles for skeletons */
+/* Styles for the account title skeleton */
 .rh-account-title-skeleton {
   margin-bottom: 2rem !important;
 }
 
+/* Styles for the section title skeleton */
 .rh-section-title-skeleton {
   margin: 3rem 0 1.5rem !important;
 }
 
+/* Styles for the book cover skeleton */
 .rh-book-cover-skeleton {
   border-radius: 8px !important;
   flex-shrink: 0;
@@ -260,13 +258,14 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Styles for the copies skeleton */
 .rh-copies-skeleton {
   border-radius: 24px !important;
   background-color: rgba(224, 224, 224, 1) !important;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Enhanced shimmer effect */
+/* Animations for the shimmer and pulse effect */
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -279,7 +278,6 @@
   }
 }
 
-/* Adjusted pulse animation for more visibility */
 @keyframes pulse {
   0% {
     opacity: 1;
@@ -308,19 +306,7 @@
   }
 }
 
-.MuiSkeleton-root {
-  background: linear-gradient(
-    90deg,
-    rgba(224, 224, 224, 1) 0%,
-    rgba(246, 246, 246, 1) 50%,
-    rgba(224, 224, 224, 1) 100%
-  ) !important;
-  background-size: 200% 100% !important;
-  animation: shimmer 2.5s ease-in-out infinite, pulse 1.5s ease-in-out infinite !important;
-  opacity: 1 !important;
-}
-
-/* Update media queries for skeleton responsiveness */
+/* Media queries for skeleton responsiveness */
 @media (max-width: 768px) {
   .rh-book-cover-skeleton {
     margin: 0 auto;

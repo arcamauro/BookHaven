@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+//this file implements the api calls to the backend
+
 // Create an axios instance with default settings
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api/', // Ensure this matches your server's address
-  withCredentials: true, // Include cookies for authentication
+  baseURL: 'http://localhost:8000/api/',
+  withCredentials: true,
 });
 
 // Add a request interceptor to include the CSRF token
@@ -15,7 +17,7 @@ api.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
-// Function to fetch the list of books
+// Function to fetch the list of books from the backend
 export const fetchBooks = async () => {
   try {
     const response = await api.get('books/');
@@ -115,7 +117,7 @@ export const searchBooks = async (query) => {
   }
 };
 
-// Function to check if the user is staff
+// Function to check if the user is a staff member
 export const checkStaffStatus = async () => {
   try {
     const response = await api.get('check_staff/');
@@ -126,6 +128,7 @@ export const checkStaffStatus = async () => {
   }
 };
 
+// Function to search for books borrowed by a user
 export const searchUserBooks = async (query) => {
   try {
     const response = await api.get('search_user/', { params: { query } });
@@ -236,5 +239,3 @@ export const changePassword = async (currentPassword, newPassword) => {
     throw error;
   }
 };
-
-// Add more API functions as needed

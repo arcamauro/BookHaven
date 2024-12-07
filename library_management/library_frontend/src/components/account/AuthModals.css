@@ -1,3 +1,6 @@
+/* AuthModals.css */
+
+/* Styles for the authentication modal */
 .rh-auth-modal {
   position: absolute;
   top: 50%;
@@ -11,6 +14,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
+/* Styles for the authentication title */
 .rh-auth-title {
   font-family: var(--serif-font) !important;
   color: var(--primary-dark) !important;
@@ -20,38 +24,46 @@
   font-weight: 600 !important;
 }
 
+/* Styles for the authentication form */
 .rh-auth-form {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
+/* Styles for the authentication input */
 .rh-auth-input {
   margin-bottom: 0.5rem !important;
 }
 
+/* Styles for the input root */
 .rh-auth-input .MuiOutlinedInput-root {
   border-radius: 8px;
   background-color: #f8f9fa;
   transition: all 0.2s ease;
 }
 
+/* Styles for the input root hover */
 .rh-auth-input .MuiOutlinedInput-root:hover {
   background-color: #f0f1f2;
 }
 
+/* Styles for the focused input root */
 .rh-auth-input .MuiOutlinedInput-root.Mui-focused {
   background-color: white;
 }
 
+/* Styles for the input root hover fieldset */
 .rh-auth-input .MuiOutlinedInput-root:hover fieldset {
   border-color: var(--primary-dark);
 }
 
+/* Styles for the input label */
 .rh-auth-input .MuiInputLabel-root {
   color: var(--primary-dark);
 }
 
+/* Styles for the submit button */
 .rh-auth-submit {
   margin-top: 1.5rem !important;
   background-color: var(--primary-light) !important;
@@ -64,17 +76,20 @@
   transition: all 0.2s ease !important;
 }
 
+/* Styles for the submit button hover */
 .rh-auth-submit:hover {
   background-color: #e0a806 !important;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Styles for the alert */
 .rh-auth-alert {
   margin-bottom: 1.5rem !important;
   border-radius: 8px !important;
 }
 
+/* Styles for the link */
 .rh-auth-link {
   margin-top: 1.5rem !important;
   text-align: center !important;
@@ -86,11 +101,13 @@
   display: block !important;
 }
 
+/* Styles for the link hover */
 .rh-auth-link:hover {
   color: var(--primary-light) !important;
   text-decoration: underline !important;
 }
 
+/* Media query for smaller screens */
 @media (max-width: 768px) {
   .rh-auth-modal {
     width: 95%;
@@ -114,27 +131,30 @@
   padding: 2.5rem;
 }
 
+/* Styles for the register form */
 .rh-auth-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
+/* Styles for the register form input */
 .rh-auth-form .rh-auth-input {
   margin: 0 !important;
 }
 
-/* Full width fields */
+/* Styles for full width fields */
 .rh-auth-form .rh-auth-input.full-width {
   grid-column: 1 / -1;
 }
 
-/* Submit button container */
+/* Styles for the submit button container */
 .rh-auth-form .submit-container {
   grid-column: 1 / -1;
   margin-top: 1.5rem;
 }
 
+/* Media query for smaller screens in register modal */
 @media (max-width: 600px) {
   .rh-auth-modal.register {
     padding: 2rem 1.5rem;

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {Box, Typography, TextField, Button, Container, Alert, Collapse, CircularProgress} from '@mui/material';
 import { confirmPasswordReset } from '../../services/api';
 
+// Component to reset the user's password and handle the form submission
 export default function ResetPassword() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -11,6 +12,7 @@ export default function ResetPassword() {
   const { uidb64, token } = useParams();
   const navigate = useNavigate();
 
+  // Function to handle the form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setAlert({ show: false, message: '', severity: 'success' });
@@ -48,6 +50,7 @@ export default function ResetPassword() {
     }
   };
 
+  // Render the reset password form
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { verifyEmail } from '../../services/api';
 import { Box, Typography, CircularProgress, Alert } from '@mui/material';
 
+// Component to verify the user's email and handle the verification process
 const EmailVerification = () => {
   const { uidb64, token } = useParams();
   const [status, setStatus] = useState('verifying');

@@ -6,17 +6,20 @@
   background-color: #E5E5E5;
 }
 
+/* Styles for the book search container */
 .book-search-container {
   padding: 32px;
   min-height: calc(100vh - 64px);
   background-color: #E5E5E5;
 }
 
+/* Styles for the book search content */
 .book-search-content {
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* Styles for the book search header */
 .book-search-header {
   margin: 2rem auto 3rem;
   text-align: center;
@@ -24,6 +27,7 @@
   padding: 0 1rem;
 }
 
+/* Styles for the book search title */
 .book-search-title {
   font-family: var(--serif-font);
   color: var(--primary-dark);
@@ -32,6 +36,7 @@
   margin-bottom: 1rem;
 }
 
+/* Styles for the book search description */
 .book-search-description {
   color: var(--text-secondary);
   font-size: 1.2rem;
@@ -39,6 +44,7 @@
   line-height: 1.6;
 }
 
+/* Styles for the book search box */
 .book-search-box {
   display: flex;
   gap: 1rem;
@@ -46,6 +52,7 @@
   margin: 0 auto 2rem auto;
 }
 
+/* Styles for the book search input */
 .book-search-input {
   width: 100%;
   max-width: 600px;
@@ -58,17 +65,20 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+/* Focus effect for the book search input */
 .book-search-input:focus {
   outline: none;
   border-color: #14213D;
   box-shadow: 0 4px 12px rgba(255, 186, 8, 0.2);
 }
 
+/* Placeholder styles for the book search input */
 .book-search-input::placeholder {
   color: #666;
   opacity: 0.8;
 }
 
+/* Styles for the book loading message */
 .book-loading-message {
   text-align: center;
   padding: 3rem;
@@ -87,7 +97,7 @@
   margin: 0 auto;
 }
 
-/* Add styles for book covers in search results */
+/* Styles for book covers in search results */
 .book-grid .book-cover {
   width: 100%;
   height: 280px;
@@ -98,6 +108,7 @@
   background-color: #f5f5f5; /* fallback color while loading */
 }
 
+/* Hover effect for book covers in search results */
 .book-grid .book-cover:hover {
   transform: scale(1.03);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -148,22 +159,26 @@
   }
 }
 
+/* Styles for the search container */
 .rh-search-container {
   padding: 2rem;
   min-height: calc(100vh - 64px);
   background-color: var(--background);
 }
 
+/* Styles for the search content */
 .rh-search-content {
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* Styles for the search header */
 .rh-search-header {
   margin-bottom: 2rem;
   text-align: center;
 }
 
+/* Styles for the search input */
 .rh-search-input {
   width: 100%;
   max-width: 600px;
@@ -175,12 +190,14 @@
   transition: all 0.3s ease;
 }
 
+/* Focus effect for the search input */
 .rh-search-input:focus {
   outline: none;
   border-color: var(--primary-dark);
   box-shadow: 0 0 0 3px rgba(255, 186, 8, 0.3);
 }
 
+/* Styles for the search results */
 .rh-search-results {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -188,6 +205,7 @@
   padding: 1rem;
 }
 
+/* Styles for the loading message */
 .rh-loading-message {
   text-align: center;
   padding: 2rem;
@@ -195,6 +213,7 @@
   font-style: italic;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .rh-search-container {
     padding: 1rem;
@@ -206,7 +225,7 @@
   }
 }
 
-/* Loading and Error States */
+/* Loading and error states */
 .rh-books-loading {
   min-height: 400px;
   display: flex;
@@ -217,6 +236,7 @@
   padding: 2rem;
 }
 
+/* Styles for the loading text */
 .rh-loading-text {
   color: #666;
   font-size: 1.1rem;
@@ -224,6 +244,7 @@
   animation: pulse 1.5s ease-in-out infinite;
 }
 
+/* Styles for the books error */
 .rh-books-error {
   min-height: 400px;
   display: flex;
@@ -232,6 +253,7 @@
   padding: 2rem;
 }
 
+/* Styles for the error text */
 .rh-error-text {
   color: #dc3545;
   font-size: 1.1rem;
@@ -243,6 +265,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Styles for no results */
 .rh-no-results {
   grid-column: 1 / -1;
   text-align: center;
@@ -252,12 +275,14 @@
   font-size: 1.1rem;
 }
 
+/* Pulse animation */
 @keyframes pulse {
   0% { opacity: 0.6; }
   50% { opacity: 1; }
   100% { opacity: 0.6; }
 }
 
+/* Styles for the book grid */
 .book-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -267,6 +292,7 @@
   margin: 0 auto;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .book-search-container {
     padding: 16px;
@@ -298,6 +324,7 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Styles for the MuiSkeleton root */
 .MuiSkeleton-root {
   background: linear-gradient(
     90deg,
@@ -310,6 +337,7 @@
   opacity: 1 !important;
 }
 
+/* Styles for the book cover skeleton */
 .book-cover-skeleton {
   width: 100% !important;
   height: 280px !important;
@@ -362,12 +390,14 @@
   }
 }
 
+/* Responsive adjustments */
 @media (max-width: 900px) {
   .book-cover-skeleton {
     height: 240px !important;
   }
 }
 
+/* Responsive adjustments */
 @media (max-width: 600px) {
   .book-cover-skeleton {
     height: 220px !important;

@@ -8,6 +8,9 @@ import LibrarianPage from './components/librarian/LibrarianPage';
 import EmailVerification from './components/account/EmailVerification';
 import ResetPassword from './components/account/ResetPassword';
 import ChangePassword from './components/account/ChangePassword';
+
+// Main App component, I navigate through the different pages using the react-router-dom library
+//Each route represents a different page across the website
 function App() {
   return (
     <Router>
