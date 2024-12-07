@@ -15,7 +15,7 @@ django-allauth==65.2.0
 pillow==11.0.0
 
 # For dates
-python-dateutil==2.9.0
+python-dateutil==2.9.0.post0
 
 # Django REST framework for API
 djangorestframework==3.14.0

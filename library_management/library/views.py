@@ -27,6 +27,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
 
+# Api view to get all the books in the library
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def api_book_list(request):
@@ -37,6 +38,7 @@ def api_book_list(request):
     })
     return Response(serializer.data)
 
+# Api view to allow the user to login
 @csrf_exempt
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -56,14 +58,15 @@ def api_login(request):
     else:
         return Response({'error': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
 
+# Api view to allow the user to logout
 @csrf_exempt
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-@ensure_csrf_cookie
 def api_logout(request):
     logout(request)
     return Response({'success': 'Logged out successfully.'}, status=status.HTTP_200_OK)
 
+# Api view to get the user account details
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def api_user_account(request):
@@ -71,14 +74,14 @@ def api_user_account(request):
     serializer = UserAccountSerializer(user, context={'request': request})
     return Response(serializer.data)
 
+# Api view to allow the user to borrow a book
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def api_borrow_book(request):
     isbn = request.data.get('isbn')
-    quantity = request.data.get('quantity', 1)  # Default to 1 if not provided
+    quantity = request.data.get('quantity', 1) 
     book = get_object_or_404(Book, isbn=isbn)
 
-    # Check if user already has borrowed this book
     existing_lended_book = LendedBook.objects.filter(user=request.user, book=book).first()
 
     if existing_lended_book:
@@ -88,13 +91,12 @@ def api_borrow_book(request):
             book.lended += quantity
             book.save()
             
-            # Serialize and return the updated book data
             serializer = BookSerializer(book, context={'request': request})
             return Response(
                 {
                     'success': f'{quantity} copies borrowed successfully.',
                     'type': 'success',
-                    'book': serializer.data  # Include updated book data
+                    'book': serializer.data 
                 }, 
                 status=status.HTTP_200_OK
             )
@@ -112,13 +114,12 @@ def api_borrow_book(request):
             book.save()
             LendedBook.objects.create(user=request.user, book=book, number=quantity)
             
-            # Serialize and return the updated book data
             serializer = BookSerializer(book, context={'request': request})
             return Response(
                 {
                     'success': f'{quantity} copies borrowed successfully.',
                     'type': 'success',
-                    'book': serializer.data  # Include updated book data
+                    'book': serializer.data 
                 }, 
                 status=status.HTTP_200_OK
             )
@@ -131,6 +132,7 @@ def api_borrow_book(request):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+# Api view to allow the user to add or remove a book to their wishlist
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def api_toggle_wishlist(request):
@@ -143,8 +145,7 @@ def api_toggle_wishlist(request):
         in_wishlist = False
     else:
         in_wishlist = True
-
-    # Get the updated book data with the new wishlist state
+        
     serializer = BookSerializer(book, context={'request': request})
     
     return Response({
@@ -152,6 +153,7 @@ def api_toggle_wishlist(request):
         'book': serializer.data
     }, status=status.HTTP_200_OK)
 
+# Api view to allow the user to leave a review for a book
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def api_leave_review(request):
@@ -163,18 +165,17 @@ def api_leave_review(request):
     existing_review = Review.objects.filter(book=book, user=request.user).first()
 
     if existing_review:
-        # Update the existing review
         existing_review.rating = rating
         existing_review.content = content
         existing_review.save()
         serializer = ReviewSerializer(existing_review)
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
-        # Create a new review
         review = Review.objects.create(book=book, user=request.user, rating=rating, content=content)
         serializer = ReviewSerializer(review)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+# Api view to get all the reviews for a book
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def api_get_reviews(request, isbn):
@@ -182,12 +183,12 @@ def api_get_reviews(request, isbn):
     serializer = ReviewSerializer(reviews, many=True)
     return Response(serializer.data)
 
+# Api view to search for books by title, author or isbn
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def api_search_books(request):
     query = request.query_params.get('q', '')
     
-    # Return empty list for very short queries to avoid unnecessary searches
     if len(query) < 2:
         return Response([], status=status.HTTP_200_OK)
 
@@ -197,30 +198,30 @@ def api_search_books(request):
         Q(isbn__icontains=query)
     ).annotate(
         relevance=Count('authors') + (
-            # Prioritize matches at the start of titles
             Case(
                 When(title__istartswith=query, then=Value(10)),
                 default=Value(0),
                 output_field=IntegerField(),
             ) +
-            # Prioritize exact matches in title
             Case(
                 When(title__iexact=query, then=Value(5)),
                 default=Value(0),
                 output_field=IntegerField(),
             )
         )
-    ).order_by('-relevance').distinct()[:10]  # Limit to 10 results for better performance
+    ).order_by('-relevance').distinct()[:10]
 
     serializer = BookSerializer(books, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+# Api view to check if the user is a staff member, it's used to check if an user is a librarian, an email is sent to the user to verify their account
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def check_staff_status(request):
     is_staff = request.user.is_staff
     return Response({'is_staff': request.user.is_staff}, status=status.HTTP_200_OK)
 
+# Api view to allow the user to register to the library website
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def api_register(request):
@@ -231,8 +232,7 @@ def api_register(request):
         username = request.data.get('username')
         password = request.data.get('password')
         confirm_password = request.data.get('confirm_password')
-
-        # Validate required fields
+    
         if not all([first_name, last_name, email, username, password, confirm_password]):
             return Response({'error': 'All fields are required.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -272,7 +272,6 @@ def api_register(request):
                 fail_silently=False,
             )
         except Exception as e:
-            # If email sending fails, delete the user and return error
             user.delete()
             return Response(
                 {'error': 'Failed to send verification email. Please try again.'},
@@ -290,6 +289,7 @@ def api_register(request):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
+# Api view to verify the user's email
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def api_verify_email(request, uidb64, token):
@@ -306,6 +306,7 @@ def api_verify_email(request, uidb64, token):
     else:
         return Response({'error': 'Invalid verification link.'}, status=status.HTTP_400_BAD_REQUEST)
 
+# Api view to allow the user to delete a review of his own
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def api_delete_review(request, review_id):
@@ -316,6 +317,7 @@ def api_delete_review(request, review_id):
     except Review.DoesNotExist:
         return Response({'error': 'Review not found or not authorized to delete.'}, status=status.HTTP_404_NOT_FOUND)
 
+# Api view to allow the user to request a password reset via email
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def api_password_reset_request(request):
@@ -335,9 +337,9 @@ def api_password_reset_request(request):
         )
         return Response({'success': 'Password reset email sent successfully.'}, status=status.HTTP_200_OK)
     except User.DoesNotExist:
-        # Return success even if email doesn't exist (security best practice)
         return Response({'success': 'If an account exists with this email, a password reset link will be sent.'}, status=status.HTTP_200_OK)
 
+# Api view to allow the user to confirm the password reset
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def api_password_reset_confirm(request, uidb64, token):
@@ -358,6 +360,7 @@ def api_password_reset_confirm(request, uidb64, token):
             return Response({'error': list(e.messages)}, status=status.HTTP_400_BAD_REQUEST)
     return Response({'error': 'Invalid reset link.'}, status=status.HTTP_400_BAD_REQUEST)
 
+# Api view to allow the user to change their password
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def api_change_password(request):
@@ -365,14 +368,12 @@ def api_change_password(request):
         current_password = request.data.get('current_password')
         new_password = request.data.get('new_password')
         
-        # Check if current password is correct
         if not request.user.check_password(current_password):
             return Response(
                 {'error': 'Current password is incorrect.'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Validate new password
         try:
             validate_password(new_password)
         except ValidationError as e:
@@ -381,11 +382,9 @@ def api_change_password(request):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Change password
         request.user.set_password(new_password)
         request.user.save()
         
-        # Update session to prevent logout
         update_session_auth_hash(request, request.user)
         
         return Response(

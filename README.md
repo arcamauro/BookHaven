@@ -15,7 +15,7 @@ For admin view of the database link http://127.0.0.1:8000/admin
 Username: tester
 Password: VutAdmin0
 
-To run the frontend first you have to install node.js:
+To run the frontend first you have to install node.js if you don't have it:
 - https://nodejs.org/en/download/
 
 Then you have to install the dependencies:
