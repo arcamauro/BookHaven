@@ -75,7 +75,7 @@ export const borrowBook = async (isbn) => {
 export const toggleWishlist = async (isbn) => {
   try {
     const response = await api.post('wishlist/', { isbn });
-    return response.data;
+    return response.data.book;
   } catch (error) {
     console.error('Toggle wishlist error:', error);
     throw error;

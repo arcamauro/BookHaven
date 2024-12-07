@@ -45,6 +45,15 @@ export default function BookList() {
     loadBooks();
   }, []);
 
+  const handleBookUpdate = (updatedBook) => {
+    setBooks(prevBooks =>
+      prevBooks.map(book =>
+        book.isbn === updatedBook.isbn ? updatedBook : book
+      )
+    );
+    setSelectedBook(updatedBook);
+  };
+
   const handleWishlistChange = (isbn, newWishlistState) => {
     setBooks(prevBooks => 
       prevBooks.map(book => 
@@ -109,11 +118,10 @@ export default function BookList() {
 
       {selectedBook && (
         <BookModal 
-          book={{ 
-            ...selectedBook, 
-            onWishlistChange: handleWishlistChange 
-          }} 
-          onClose={() => setSelectedBook(null)} 
+          book={selectedBook}
+          onClose={() => setSelectedBook(null)}
+          onBookUpdate={handleBookUpdate}
+          onWishlistChange={handleWishlistChange}
         />
       )}
     </div>

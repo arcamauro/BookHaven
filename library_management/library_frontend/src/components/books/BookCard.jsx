@@ -4,11 +4,11 @@ import './BookCard.css';
 
 const BookCard = ({ book, onClick }) => {
   return (
-    <Card className="book-card" onClick={onClick}>
-      <Box className="book-cover-container">
+    <Card className="book-card">
+      <Box className="book-cover-container" onClick={onClick}>
         <img src={book.cover} className="book-cover" alt={`${book.title} cover`} />
       </Box>
-      <CardContent>
+      <CardContent onClick={onClick}>
         <Typography variant="h6" className="book-title">
           {book.title}
         </Typography>

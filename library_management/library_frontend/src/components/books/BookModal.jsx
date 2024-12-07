@@ -15,7 +15,7 @@ const calculateAverageRating = (reviews) => {
   return totalRating / reviews.length;
 };
 
-const BookModal = ({ book: initialBook, onClose, onBookUpdate }) => {
+const BookModal = ({ book: initialBook, onClose, onBookUpdate, onWishlistChange }) => {
   const { user, loading } = useAuth();
   const [bookData, setBookData] = useState(initialBook);
   const [reviewContent, setReviewContent] = useState('');
@@ -93,17 +93,31 @@ const BookModal = ({ book: initialBook, onClose, onBookUpdate }) => {
 
   const handleToggleWishlist = async () => {
     try {
-      await toggleWishlist(bookData.isbn);
-      setIsInWishlist(!isInWishlist);
-      if (bookData.onWishlistChange) {
-        bookData.onWishlistChange(bookData.isbn, !isInWishlist);
+      const response = await toggleWishlist(bookData.isbn);
+      
+      // Update local state with the new wishlist status
+      const newWishlistState = !isInWishlist;
+      setIsInWishlist(newWishlistState);
+      
+      // Update the book data with the new wishlist status
+      const updatedBook = {
+        ...bookData,
+        in_wishlist: newWishlistState
+      };
+      setBookData(updatedBook);
+      
+      // Notify parent components
+      if (onBookUpdate) {
+        onBookUpdate(updatedBook);
       }
+      
       setNotification({
         open: true,
-        message: isInWishlist ? 'Removed from wishlist!' : 'Added to wishlist!',
+        message: `Book ${newWishlistState ? 'added to' : 'removed from'} wishlist!`,
         severity: 'success'
       });
     } catch (error) {
+      console.error('Failed to toggle wishlist:', error);
       setNotification({
         open: true,
         message: 'Failed to update wishlist.',

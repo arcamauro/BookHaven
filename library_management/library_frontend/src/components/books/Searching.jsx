@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { searchBooks, fetchBooks } from '../../services/api';
 import BookCard from './BookCard';
 import BookModal from './BookModal';
-import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
 import './Searching.css';
 
@@ -34,13 +33,18 @@ export default function Searching() {
         // First get the search results
         const searchResults = await searchBooks(searchQuery);
         
-        // Then fetch the current books to get updated wishlist states
+        // Then fetch the current books to get updated wishlist states and availability
         const currentBooks = await fetchBooks();
         
-        // Update search results with current wishlist states
+        // Update search results with current wishlist states and availability
         const updatedResults = searchResults.map(searchBook => {
           const currentBook = currentBooks.find(book => book.isbn === searchBook.isbn);
-          return currentBook ? { ...searchBook, in_wishlist: currentBook.in_wishlist } : searchBook;
+          return currentBook ? { 
+            ...searchBook, 
+            in_wishlist: currentBook.in_wishlist,
+            lended: currentBook.lended,
+            copies: currentBook.copies
+          } : searchBook;
         });
         
         setResults(updatedResults);
@@ -63,6 +67,15 @@ export default function Searching() {
 
     return () => clearTimeout(timer);
   }, [query, debouncedSearch]);
+
+  const handleBookUpdate = (updatedBook) => {
+    setResults(prevResults =>
+      prevResults.map(book =>
+        book.isbn === updatedBook.isbn ? updatedBook : book
+      )
+    );
+    setSelectedBook(updatedBook);
+  };
 
   const handleWishlistChange = (isbn, newWishlistState) => {
     setResults(prevResults => 
@@ -110,7 +123,8 @@ export default function Searching() {
                 <BookCard 
                   key={book.isbn} 
                   book={book} 
-                  onClick={() => setSelectedBook(book)} 
+                  onClick={() => setSelectedBook(book)}
+                  onWishlistChange={handleWishlistChange}
                 />
               ))
             ) : query.length > 1 ? (
@@ -122,11 +136,10 @@ export default function Searching() {
       
       {selectedBook && (
         <BookModal 
-          book={{ 
-            ...selectedBook, 
-            onWishlistChange: handleWishlistChange 
-          }} 
-          onClose={() => setSelectedBook(null)} 
+          book={selectedBook}
+          onClose={() => setSelectedBook(null)}
+          onBookUpdate={handleBookUpdate}
+          onWishlistChange={handleWishlistChange}
         />
       )}
     </div>

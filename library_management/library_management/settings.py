@@ -173,7 +173,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React development server
+    "http://localhost:3000", 
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -200,7 +200,6 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',  # React development server
-    # Add other trusted origins here
+    'http://localhost:3000',
 ]
 

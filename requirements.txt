@@ -8,11 +8,17 @@ python-decouple==3.8
 # PostgreSQL database
 psycopg2-binary==2.9.6
 
-#Email Verification
+# Email Verification
 django-allauth==65.2.0
 
-#For images
+# For images
 pillow==11.0.0
 
-#For dates
+# For dates
 python-dateutil==2.9.0
+
+# Django REST framework for API
+djangorestframework==3.14.0
+
+# CORS handling
+django-cors-headers==3.14.0
