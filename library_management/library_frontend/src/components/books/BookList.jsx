@@ -30,6 +30,7 @@ export default function BookList() {
   const [selectedBook, setSelectedBook] = useState(null);
   const navigate = useNavigate();
 
+  //useEffect hook to load the books
   useEffect(() => {
     const loadBooks = async () => {
       try {
