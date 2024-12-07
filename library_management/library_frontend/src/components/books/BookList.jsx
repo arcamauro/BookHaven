@@ -45,6 +45,20 @@ export default function BookList() {
     loadBooks();
   }, []);
 
+  const handleWishlistChange = (isbn, newWishlistState) => {
+    setBooks(prevBooks => 
+      prevBooks.map(book => 
+        book.isbn === isbn 
+          ? { ...book, in_wishlist: newWishlistState }
+          : book
+      )
+    );
+    // Also update the selected book if it's currently open in the modal
+    if (selectedBook?.isbn === isbn) {
+      setSelectedBook(prev => ({ ...prev, in_wishlist: newWishlistState }));
+    }
+  };
+
   if (loading) {
     return (
       <div className="book-list">
@@ -94,7 +108,13 @@ export default function BookList() {
       </div>
 
       {selectedBook && (
-        <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
+        <BookModal 
+          book={{ 
+            ...selectedBook, 
+            onWishlistChange: handleWishlistChange 
+          }} 
+          onClose={() => setSelectedBook(null)} 
+        />
       )}
     </div>
   );

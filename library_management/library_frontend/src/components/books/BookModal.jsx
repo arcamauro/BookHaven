@@ -25,7 +25,7 @@ const BookModal = ({ book, onClose }) => {
     message: '',
     severity: 'info'
   });
-  const [isInWishlist, setIsInWishlist] = useState(book?.in_wishlist || false);
+  const [isInWishlist, setIsInWishlist] = useState(false);
   const isAuthenticated = !!user;
   const [averageRating, setAverageRating] = useState(0);
 
@@ -46,6 +46,12 @@ const BookModal = ({ book, onClose }) => {
 
     if (book) {
       loadReviews();
+    }
+  }, [book]);
+
+  useEffect(() => {
+    if (book) {
+      setIsInWishlist(book.in_wishlist || false);
     }
   }, [book]);
 
@@ -78,6 +84,9 @@ const BookModal = ({ book, onClose }) => {
     try {
       await toggleWishlist(book.isbn);
       setIsInWishlist(!isInWishlist);
+      if (book.onWishlistChange) {
+        book.onWishlistChange(book.isbn, !isInWishlist);
+      }
       setNotification({
         open: true,
         message: isInWishlist ? 'Removed from wishlist!' : 'Added to wishlist!',
