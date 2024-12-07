@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import './LibrarianPage.css';
 
-// Add Skeleton component
+// Skeleton component for the book item
 const BookItemSkeleton = () => (
   <li className="rh-librarian-book-item">
     <Skeleton 
@@ -39,6 +39,7 @@ const BookItemSkeleton = () => (
   </li>
 );
 
+//Main component for the librarian page
 const LibrarianPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchedBooks, setSearchedBooks] = useState([]);
@@ -48,6 +49,7 @@ const LibrarianPage = () => {
   const [tableLoading, setTableLoading] = useState(true);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
+  //useEffect hook to load all the borrowed books
   useEffect(() => {
     loadAllBorrowedBooks();
   }, []);
@@ -63,6 +65,7 @@ const LibrarianPage = () => {
     }
   };
 
+  //Function to search for the books by the username of the borrower or the title of the book
   const handleSearch = async () => {
     try {
       setLoading(true);
@@ -75,14 +78,15 @@ const LibrarianPage = () => {
     }
   };
 
+  //Function to return the book
   const handleReturnBook = async (bookId, username) => {
     try {
       await returnBook(bookId, username, 1);
       setNotification('Book returned successfully!');
       setTimeout(() => setNotification(''), 3000);
-      loadAllBorrowedBooks(); // Refresh the table
+      loadAllBorrowedBooks();
       if (searchQuery) {
-        handleSearch(); // Refresh search results if any
+        handleSearch();
       }
     } catch (error) {
       console.error('Error returning book:', error);
@@ -91,12 +95,14 @@ const LibrarianPage = () => {
     }
   };
 
+  //Function to check if the book is overdue by comparing the current date with the return date
   const isOverdue = (returnDate) => {
     const today = new Date();
     const dueDate = new Date(returnDate);
     return today > dueDate;
   };
 
+  //Function to sort the books by the key passed in
   const sortBooks = (books) => {
     if (!sortConfig.key) return books;
 
@@ -119,6 +125,7 @@ const LibrarianPage = () => {
     });
   };
 
+  //Function to handle the sorting of the books by the key passed in
   const handleSort = (key) => {
     setSortConfig((prevConfig) => ({
       key,
@@ -126,6 +133,7 @@ const LibrarianPage = () => {
     }));
   };
 
+  //Main part of the librarian page where the search and the table with all borrowed books are displayed
   return (
     <div className="rh-librarian-wrapper">
       <h1 className="rh-librarian-header">Librarian Dashboard</h1>
@@ -146,7 +154,6 @@ const LibrarianPage = () => {
           </button>
         </div>
 
-        {/* Search Results */}
         {searchQuery && (
           <ul className="rh-librarian-book-collection">
             {loading ? (
@@ -183,7 +190,6 @@ const LibrarianPage = () => {
         )}
       </div>
 
-      {/* All Borrowed Books Table */}
       <div className="rh-librarian-table-section">
         <h2>All Borrowed Books</h2>
         <TableContainer component={Paper}>

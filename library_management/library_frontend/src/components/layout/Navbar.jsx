@@ -9,6 +9,7 @@ import RegisterModal from '../account/RegisterModal';
 import { checkStaffStatus } from '../../services/api';
 import './Navbar.css';
 
+//Component for the navbar to navigate the user through the website
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -17,7 +18,8 @@ export default function Navbar() {
   const [isRegisterOpen, setRegisterOpen] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  
+  // useEffect hook to fetch the staff status of the user
   useEffect(() => {
     const fetchStaffStatus = async () => {
       if (user) {
@@ -29,27 +31,32 @@ export default function Navbar() {
         }
       }
     };
-
+    // Fetch the staff status of the user
     fetchStaffStatus();
   }, [user]);
 
+  //Function to check if the current path is the same as the path passed in
   const isActive = (path) => {
     return location.pathname === path;
   };
 
+  //Function to navigate the user to the path passed in
   const handleNavigation = (path) => {
     navigate(path);
     setMobileMenuOpen(false);
   };
 
+  //Function to logout the user
   const handleLogout = () => {
     logout();
     setMobileMenuOpen(false);
   };
 
+  //Function to render the navigation links
   const renderNavLinks = (isMobile = false) => {
     const buttonClass = isMobile ? 'rh-nav-button-mobile' : 'rh-nav-button';
     
+    //Part of the navbar where the buttons for the navigation links are displayed
     return (
       <>
         <Button 
@@ -69,6 +76,7 @@ export default function Navbar() {
         </Button>
 
         {user ? (
+          //If the user is logged in, display the account and, if it's also staff, display the librarian button
           <>
             <Button 
               onClick={() => handleNavigation('/account')} 
@@ -97,6 +105,7 @@ export default function Navbar() {
             </Button>
           </>
         ) : (
+          //If the user is not logged in, display the login and register buttons
           <>
             <Button 
               onClick={() => { setLoginOpen(true); setMobileMenuOpen(false); }} 
@@ -119,6 +128,8 @@ export default function Navbar() {
     );
   };
 
+  //Main component where the navbar is displayed
+  //There are two parts to the navbar, the desktop and the mobile part
   return (
     <AppBar position="static" elevation={0} className="rh-navbar">
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -130,12 +141,11 @@ export default function Navbar() {
           ReadHaven
         </Typography>
 
-        {/* Desktop Navigation */}
+        
         <Box className="rh-nav-links desktop-only">
           {renderNavLinks()}
         </Box>
 
-        {/* Mobile Menu Icon */}
         <IconButton
           className="rh-mobile-menu-icon"
           onClick={() => setMobileMenuOpen(true)}
@@ -143,7 +153,6 @@ export default function Navbar() {
           <MenuIcon />
         </IconButton>
 
-        {/* Mobile Navigation Drawer */}
         <Drawer
           anchor="right"
           open={mobileMenuOpen}

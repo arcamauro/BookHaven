@@ -5,6 +5,7 @@ import BookModal from './BookModal';
 import Skeleton from '@mui/material/Skeleton';
 import './Searching.css';
 
+//Skeleton component for the book card
 const BookCardSkeleton = () => (
   <div className="book-card-skeleton">
     <Skeleton variant="rectangular" className="book-cover-skeleton" />
@@ -13,6 +14,7 @@ const BookCardSkeleton = () => (
   </div>
 );
 
+//Main component for the book search page
 export default function Searching() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -30,13 +32,10 @@ export default function Searching() {
       setLoading(true);
       setError(null);
       try {
-        // First get the search results
         const searchResults = await searchBooks(searchQuery);
         
-        // Then fetch the current books to get updated wishlist states and availability
         const currentBooks = await fetchBooks();
         
-        // Update search results with current wishlist states and availability
         const updatedResults = searchResults.map(searchBook => {
           const currentBook = currentBooks.find(book => book.isbn === searchBook.isbn);
           return currentBook ? { 
@@ -58,6 +57,7 @@ export default function Searching() {
     []
   );
 
+  //useEffect hook to debounce the search query
   useEffect(() => {
     const timer = setTimeout(() => {
       if (query) {
@@ -68,6 +68,7 @@ export default function Searching() {
     return () => clearTimeout(timer);
   }, [query, debouncedSearch]);
 
+  //Function to update the book in the list
   const handleBookUpdate = (updatedBook) => {
     setResults(prevResults =>
       prevResults.map(book =>
@@ -76,7 +77,8 @@ export default function Searching() {
     );
     setSelectedBook(updatedBook);
   };
-
+  
+  //Function to update the wishlist state of the book
   const handleWishlistChange = (isbn, newWishlistState) => {
     setResults(prevResults => 
       prevResults.map(book => 
@@ -85,12 +87,13 @@ export default function Searching() {
           : book
       )
     );
-    // Also update the selected book if it's currently open in the modal
     if (selectedBook?.isbn === isbn) {
       setSelectedBook(prev => ({ ...prev, in_wishlist: newWishlistState }));
     }
   };
 
+  //Main part of the book search page, where the search input and the search results are displayed
+  // User can click on the book card to open the book modal
   return (
     <div className="book-search-container">
       <div className="book-search-content">

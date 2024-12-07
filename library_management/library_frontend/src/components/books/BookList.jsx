@@ -6,7 +6,7 @@ import './BookList.css';
 import Skeleton from '@mui/material/Skeleton';
 import BookModal from './BookModal';
 
-// Add Skeleton component
+//Skeleton component for the book card
 const BookCardSkeleton = () => (
   <div className="book-card-skeleton">
     <Skeleton 
@@ -22,6 +22,7 @@ const BookCardSkeleton = () => (
   </div>
 );
 
+//Component for the book list, which will display all the books in the library in the homepage
 export default function BookList() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,6 +46,7 @@ export default function BookList() {
     loadBooks();
   }, []);
 
+  //Function to update the book in the list
   const handleBookUpdate = (updatedBook) => {
     setBooks(prevBooks =>
       prevBooks.map(book =>
@@ -54,6 +56,7 @@ export default function BookList() {
     setSelectedBook(updatedBook);
   };
 
+  //Function to update the wishlist state of the book
   const handleWishlistChange = (isbn, newWishlistState) => {
     setBooks(prevBooks => 
       prevBooks.map(book => 
@@ -62,12 +65,12 @@ export default function BookList() {
           : book
       )
     );
-    // Also update the selected book if it's currently open in the modal
     if (selectedBook?.isbn === isbn) {
       setSelectedBook(prev => ({ ...prev, in_wishlist: newWishlistState }));
     }
   };
 
+  //Skeleton loading state
   if (loading) {
     return (
       <div className="book-list">
@@ -88,6 +91,7 @@ export default function BookList() {
     );
   }
 
+  //Error state
   if (error) {
     return (
       <div className="rh-books-error">
@@ -96,6 +100,7 @@ export default function BookList() {
     );
   }
 
+  //Main component where the cards will be displayed
   return (
     <div className="book-list">
       <div className="welcome-section">

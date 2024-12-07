@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import './BookCard.css';
 
+//Component for the book card, which will be used in the book search page and the book list page(homepage)
 const BookCard = ({ book, onClick }) => {
   return (
     <Card className="book-card">

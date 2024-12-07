@@ -9,12 +9,14 @@ import { useAuth } from '../../context/AuthContext';
 import './BookModal.css';
 import { borrowBook, toggleWishlist, leaveReview, fetchReviews, deleteReview } from '../../services/api';
 
+//Function to calculate the average rating of the book
 const calculateAverageRating = (reviews) => {
   if (!reviews || reviews.length === 0) return 0;
   const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
   return totalRating / reviews.length;
 };
 
+//Main component for the book modal
 const BookModal = ({ book: initialBook, onClose, onBookUpdate, onWishlistChange }) => {
   const { user, loading } = useAuth();
   const [bookData, setBookData] = useState(initialBook);
@@ -34,6 +36,7 @@ const BookModal = ({ book: initialBook, onClose, onBookUpdate, onWishlistChange 
     setBookData(initialBook);
   }, [initialBook]);
 
+  //useEffect hook to load the reviews of the book
   useEffect(() => {
     const loadReviews = async () => {
       try {
@@ -54,6 +57,7 @@ const BookModal = ({ book: initialBook, onClose, onBookUpdate, onWishlistChange 
     }
   }, [bookData]);
 
+  //Function to get the availability information of the book
   const getAvailabilityInfo = () => {
     const totalCopies = parseInt(bookData.copies) || 0;
     const lendedCopies = parseInt(bookData.lended) || 0;
@@ -67,6 +71,7 @@ const BookModal = ({ book: initialBook, onClose, onBookUpdate, onWishlistChange 
     };
   };
 
+  //Function to borrow the book
   const handleBorrow = async () => {
     try {
       const updatedBook = await borrowBook(bookData.isbn);
@@ -91,22 +96,20 @@ const BookModal = ({ book: initialBook, onClose, onBookUpdate, onWishlistChange 
     }
   };
 
+  //Function to toggle the wishlist of the book
   const handleToggleWishlist = async () => {
     try {
       const response = await toggleWishlist(bookData.isbn);
       
-      // Update local state with the new wishlist status
       const newWishlistState = !isInWishlist;
       setIsInWishlist(newWishlistState);
       
-      // Update the book data with the new wishlist status
       const updatedBook = {
         ...bookData,
         in_wishlist: newWishlistState
       };
       setBookData(updatedBook);
       
-      // Notify parent components
       if (onBookUpdate) {
         onBookUpdate(updatedBook);
       }
@@ -126,6 +129,7 @@ const BookModal = ({ book: initialBook, onClose, onBookUpdate, onWishlistChange 
     }
   };
 
+  //Function to leave a review for the book
   const handleLeaveReview = async () => {
     try {
       await leaveReview(bookData.isbn, reviewRating, reviewContent);
@@ -149,6 +153,7 @@ const BookModal = ({ book: initialBook, onClose, onBookUpdate, onWishlistChange 
     }
   };
 
+  //Function to delete a review for the book
   const handleDeleteReview = async (reviewId) => {
     try {
       await deleteReview(reviewId);
@@ -170,6 +175,7 @@ const BookModal = ({ book: initialBook, onClose, onBookUpdate, onWishlistChange 
     }
   };
 
+  //Function to close the notification for the book modal operations of adding to wishlist, borrowing, leaving a review and deleting a review
   const handleCloseNotification = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -183,6 +189,7 @@ const BookModal = ({ book: initialBook, onClose, onBookUpdate, onWishlistChange 
 
   const { available, availableCopies, totalCopies, lendedCopies } = getAvailabilityInfo();
 
+  //Main part of the book modal where the book information, the availability information, the reviews and the review section are displayed
   return (
     <Modal open={!!bookData} onClose={onClose}>
       <Box className={`rh-book-modal ${!isAuthenticated ? 'guest-view' : ''}`}>
