@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserAccount } from '../../services/api';
+import { fetchUserAccount, toggleWishlist } from '../../services/api';
 import Skeleton from '@mui/material/Skeleton';
 import './AccountPage.css';
 import { Link } from 'react-router-dom';
+import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
+import { Button, Snackbar, Alert } from '@mui/material';
 
 // Add Skeleton components
 const AccountInfoSkeleton = () => (
@@ -60,9 +62,14 @@ const AccountInfoSkeleton = () => (
   </div>
 );
 
-function AccountPage() {
+export default function AccountPage() {
   const [accountInfo, setAccountInfo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState({
+    open: false,
+    message: '',
+    severity: 'info'
+  });
 
   useEffect(() => {
     const getAccountInfo = async () => {
@@ -78,6 +85,37 @@ function AccountPage() {
 
     getAccountInfo();
   }, []);
+
+  const handleRemoveFromWishlist = async (isbn) => {
+    try {
+      await toggleWishlist(isbn);
+      
+      // Update local state
+      setAccountInfo(prev => ({
+        ...prev,
+        wishlist: prev.wishlist.filter(item => item.book.isbn !== isbn)
+      }));
+
+      setNotification({
+        open: true,
+        message: 'Removed from wishlist successfully!',
+        severity: 'success'
+      });
+    } catch (error) {
+      setNotification({
+        open: true,
+        message: 'Failed to remove from wishlist.',
+        severity: 'error'
+      });
+    }
+  };
+
+  const handleCloseNotification = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setNotification({ ...notification, open: false });
+  };
 
   if (loading) {
     return (
@@ -163,6 +201,15 @@ function AccountPage() {
                       </div>
                     )}
                   </div>
+                  <Button
+                    onClick={() => handleRemoveFromWishlist(item.book.isbn)}
+                    startIcon={<BookmarkRemoveIcon />}
+                    color="error"
+                    variant="outlined"
+                    size="small"
+                  >
+                    Remove
+                  </Button>
                 </li>
               ))} 
             </ul>
@@ -171,8 +218,15 @@ function AccountPage() {
           )}
         </div>
       </div>
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={6000}
+        onClose={handleCloseNotification}
+      >
+        <Alert onClose={handleCloseNotification} severity={notification.severity}>
+          {notification.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
-
-export default AccountPage;

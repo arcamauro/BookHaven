@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { searchBooks } from '../../services/api';
+import { searchBooks, fetchBooks } from '../../services/api';
 import BookCard from './BookCard';
 import BookModal from './BookModal';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -31,8 +31,19 @@ export default function Searching() {
       setLoading(true);
       setError(null);
       try {
-        const data = await searchBooks(searchQuery);
-        setResults(data);
+        // First get the search results
+        const searchResults = await searchBooks(searchQuery);
+        
+        // Then fetch the current books to get updated wishlist states
+        const currentBooks = await fetchBooks();
+        
+        // Update search results with current wishlist states
+        const updatedResults = searchResults.map(searchBook => {
+          const currentBook = currentBooks.find(book => book.isbn === searchBook.isbn);
+          return currentBook ? { ...searchBook, in_wishlist: currentBook.in_wishlist } : searchBook;
+        });
+        
+        setResults(updatedResults);
       } catch (error) {
         console.error('Error searching books:', error);
         setError('Unable to search books. Please try again later.');
@@ -52,6 +63,20 @@ export default function Searching() {
 
     return () => clearTimeout(timer);
   }, [query, debouncedSearch]);
+
+  const handleWishlistChange = (isbn, newWishlistState) => {
+    setResults(prevResults => 
+      prevResults.map(book => 
+        book.isbn === isbn 
+          ? { ...book, in_wishlist: newWishlistState }
+          : book
+      )
+    );
+    // Also update the selected book if it's currently open in the modal
+    if (selectedBook?.isbn === isbn) {
+      setSelectedBook(prev => ({ ...prev, in_wishlist: newWishlistState }));
+    }
+  };
 
   return (
     <div className="book-search-container">
@@ -96,7 +121,13 @@ export default function Searching() {
       </div>
       
       {selectedBook && (
-        <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
+        <BookModal 
+          book={{ 
+            ...selectedBook, 
+            onWishlistChange: handleWishlistChange 
+          }} 
+          onClose={() => setSelectedBook(null)} 
+        />
       )}
     </div>
   );
