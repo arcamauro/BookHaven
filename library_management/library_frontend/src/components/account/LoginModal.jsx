@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  Modal, 
-  Box, 
-  Typography, 
-  TextField, 
-  Button, 
-  IconButton, 
-  InputAdornment,
-  Alert,
-  Collapse 
-} from '@mui/material';
+import { Modal, Box, Typography, TextField, Button, IconButton, InputAdornment, Alert, Collapse } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
