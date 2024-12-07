@@ -9,6 +9,12 @@ import { useAuth } from '../../context/AuthContext';
 import './BookModal.css';
 import { borrowBook, toggleWishlist, leaveReview, fetchReviews, deleteReview } from '../../services/api';
 
+const calculateAverageRating = (reviews) => {
+  if (reviews.length === 0) return 0;
+  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  return totalRating / reviews.length;
+};
+
 const BookModal = ({ book, onClose }) => {
   const { user, loading } = useAuth();
   const [reviewContent, setReviewContent] = useState('');
@@ -21,12 +27,18 @@ const BookModal = ({ book, onClose }) => {
   });
   const [isInWishlist, setIsInWishlist] = useState(book?.in_wishlist || false);
   const isAuthenticated = !!user;
+  const [averageRating, setAverageRating] = useState(0);
 
   useEffect(() => {
     const loadReviews = async () => {
       try {
         const data = await fetchReviews(book.isbn);
         setReviews(data);
+        
+        if (data.length > 0) {
+          const totalRating = data.reduce((sum, review) => sum + review.rating, 0);
+          setAverageRating(totalRating / data.length);
+        }
       } catch (error) {
         console.error('Failed to fetch reviews:', error);
       }
@@ -83,6 +95,10 @@ const BookModal = ({ book, onClose }) => {
   const handleLeaveReview = async () => {
     try {
       await leaveReview(book.isbn, reviewRating, reviewContent);
+      const updatedReviews = await fetchReviews(book.isbn);
+      setReviews(updatedReviews);
+      setAverageRating(calculateAverageRating(updatedReviews));
+      
       setNotification({
         open: true,
         message: 'Review submitted successfully!',
@@ -90,8 +106,6 @@ const BookModal = ({ book, onClose }) => {
       });
       setReviewContent('');
       setReviewRating(5);
-      const updatedReviews = await fetchReviews(book.isbn);
-      setReviews(updatedReviews);
     } catch (error) {
       setNotification({
         open: true,
@@ -104,13 +118,15 @@ const BookModal = ({ book, onClose }) => {
   const handleDeleteReview = async (reviewId) => {
     try {
       await deleteReview(reviewId);
+      const updatedReviews = await fetchReviews(book.isbn);
+      setReviews(updatedReviews);
+      setAverageRating(calculateAverageRating(updatedReviews));
+      
       setNotification({
         open: true,
         message: 'Review deleted successfully!',
         severity: 'success'
       });
-      const updatedReviews = await fetchReviews(book.isbn);
-      setReviews(updatedReviews);
     } catch (error) {
       setNotification({
         open: true,
@@ -143,6 +159,20 @@ const BookModal = ({ book, onClose }) => {
             <Typography variant="subtitle1" className="rh-book-author" gutterBottom>
               by {book.authors.map(author => author.name).join(', ')}
             </Typography>
+            <div className="rh-book-rating">
+              <Rating 
+                value={averageRating} 
+                precision={0.5} 
+                readOnly 
+                size="large"
+              />
+              <Typography variant="body2" className="rh-average-rating">
+                {averageRating > 0 
+                  ? `${averageRating.toFixed(1)} / 5.0 (${reviews.length} ${reviews.length === 1 ? 'review' : 'reviews'})`
+                  : 'No ratings yet'
+                }
+              </Typography>
+            </div>
             <Typography variant="body2" className="rh-book-genre" gutterBottom>
               Genre: {book.genres.map(genre => genre.name).join(', ')}
             </Typography>
@@ -153,7 +183,7 @@ const BookModal = ({ book, onClose }) => {
             {!isAuthenticated && (
               <div className="rh-login-prompt">
                 <Typography variant="body1">
-                  Please <a href="/login">login</a> to borrow books, manage your wishlist, and leave reviews.
+                  Please <b>login</b> to borrow books, manage your wishlist, and leave reviews.
                 </Typography>
               </div>
             )}
@@ -184,31 +214,32 @@ const BookModal = ({ book, onClose }) => {
             <Typography variant="h6" className="rh-review-title" gutterBottom>
               Reviews
             </Typography>
-            {console.log('Full user object:', JSON.stringify(user, null, 2))}
             {reviews.length > 0 ? (
-              reviews.map((review) => {
-                console.log('Review:', review);
-                return (
-                  <Box key={review.id} className="rh-review-item">
-                    <div className="rh-review-header">
-                      <Typography variant="subtitle1" className="rh-review-username">
-                        {review.username || 'Anonymous'}
-                      </Typography>
-                      <Rating value={review.rating} readOnly size="small" />
-                      {user && review.username === user.username && (
-                        <CloseIcon 
-                          className="rh-delete-review-icon" 
-                          onClick={() => handleDeleteReview(review.id)}
-                          titleAccess="Delete review"
-                        />
-                      )}
-                    </div>
-                    <Typography variant="body2" className="rh-review-content">
-                      {review.content}
+              reviews.map((review) => (
+                <Box key={review.id} className="rh-review-item">
+                  <div className="rh-review-header">
+                    <Typography variant="subtitle1" className="rh-review-username">
+                      {review.username || 'Anonymous'}
                     </Typography>
-                  </Box>
-                );
-              })
+                    <Rating 
+                      value={review.rating} 
+                      precision={1} 
+                      readOnly 
+                      size="small" 
+                    />
+                    {user && review.username === user.username && (
+                      <CloseIcon 
+                        className="rh-delete-review-icon" 
+                        onClick={() => handleDeleteReview(review.id)}
+                        titleAccess="Delete review"
+                      />
+                    )}
+                  </div>
+                  <Typography variant="body2" className="rh-review-content">
+                    {review.content}
+                  </Typography>
+                </Box>
+              ))
             ) : (
               <Typography variant="body2">No reviews yet.</Typography>
             )}
@@ -223,11 +254,14 @@ const BookModal = ({ book, onClose }) => {
                 name="review-rating"
                 value={reviewRating}
                 onChange={(event, newValue) => {
-                  setReviewRating(newValue);
+                  setReviewRating(Math.round(newValue));
                 }}
-                precision={0.5}
+                precision={1}
                 size="large"
               />
+              <Typography variant="body2" className="rh-rating-value">
+                {reviewRating} stars
+              </Typography>
               <TextField
                 label="Review"
                 multiline
