@@ -21,7 +21,7 @@ To run the frontend first you have to install node.js:
 Then you have to install the dependencies:
 - npm install
 
-And then you can run the frontend:
+And then inside library_management/library_frontend/ run:
 - npm start
 
 Use localhost:3000(which is the default port) to access the frontend.
