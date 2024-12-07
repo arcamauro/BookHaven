@@ -10,13 +10,14 @@ import './BookModal.css';
 import { borrowBook, toggleWishlist, leaveReview, fetchReviews, deleteReview } from '../../services/api';
 
 const calculateAverageRating = (reviews) => {
-  if (reviews.length === 0) return 0;
+  if (!reviews || reviews.length === 0) return 0;
   const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
   return totalRating / reviews.length;
 };
 
-const BookModal = ({ book, onClose }) => {
+const BookModal = ({ book: initialBook, onClose, onBookUpdate }) => {
   const { user, loading } = useAuth();
+  const [bookData, setBookData] = useState(initialBook);
   const [reviewContent, setReviewContent] = useState('');
   const [reviewRating, setReviewRating] = useState(5);
   const [reviews, setReviews] = useState([]);
@@ -30,11 +31,14 @@ const BookModal = ({ book, onClose }) => {
   const [averageRating, setAverageRating] = useState(0);
 
   useEffect(() => {
+    setBookData(initialBook);
+  }, [initialBook]);
+
+  useEffect(() => {
     const loadReviews = async () => {
       try {
-        const data = await fetchReviews(book.isbn);
+        const data = await fetchReviews(bookData.isbn);
         setReviews(data);
-        
         if (data.length > 0) {
           const totalRating = data.reduce((sum, review) => sum + review.rating, 0);
           setAverageRating(totalRating / data.length);
@@ -44,20 +48,32 @@ const BookModal = ({ book, onClose }) => {
       }
     };
 
-    if (book) {
+    if (bookData) {
       loadReviews();
+      setIsInWishlist(bookData.in_wishlist || false);
     }
-  }, [book]);
+  }, [bookData]);
 
-  useEffect(() => {
-    if (book) {
-      setIsInWishlist(book.in_wishlist || false);
-    }
-  }, [book]);
+  const getAvailabilityInfo = () => {
+    const totalCopies = parseInt(bookData.copies) || 0;
+    const lendedCopies = parseInt(bookData.lended) || 0;
+    const availableCopies = Math.max(0, totalCopies - lendedCopies);
+    
+    return {
+      available: availableCopies > 0,
+      availableCopies,
+      totalCopies,
+      lendedCopies
+    };
+  };
 
   const handleBorrow = async () => {
     try {
-      const response = await borrowBook(book.isbn, 1);
+      const updatedBook = await borrowBook(bookData.isbn);
+      setBookData(updatedBook);
+      if (onBookUpdate) {
+        onBookUpdate(updatedBook);
+      }
       setNotification({
         open: true,
         message: '1 copy borrowed successfully!',
@@ -67,25 +83,20 @@ const BookModal = ({ book, onClose }) => {
       const errorMessage = error.response?.data?.error || 'Failed to borrow book.';
       const errorType = error.response?.data?.type;
 
-      let severity = 'error';
-      if (errorType === 'no_copies') {
-        severity = 'warning';
-      }
-
       setNotification({
         open: true,
         message: errorMessage,
-        severity: severity
+        severity: errorType === 'no_copies' ? 'warning' : 'error'
       });
     }
   };
 
   const handleToggleWishlist = async () => {
     try {
-      await toggleWishlist(book.isbn);
+      await toggleWishlist(bookData.isbn);
       setIsInWishlist(!isInWishlist);
-      if (book.onWishlistChange) {
-        book.onWishlistChange(book.isbn, !isInWishlist);
+      if (bookData.onWishlistChange) {
+        bookData.onWishlistChange(bookData.isbn, !isInWishlist);
       }
       setNotification({
         open: true,
@@ -103,8 +114,8 @@ const BookModal = ({ book, onClose }) => {
 
   const handleLeaveReview = async () => {
     try {
-      await leaveReview(book.isbn, reviewRating, reviewContent);
-      const updatedReviews = await fetchReviews(book.isbn);
+      await leaveReview(bookData.isbn, reviewRating, reviewContent);
+      const updatedReviews = await fetchReviews(bookData.isbn);
       setReviews(updatedReviews);
       setAverageRating(calculateAverageRating(updatedReviews));
       
@@ -127,7 +138,7 @@ const BookModal = ({ book, onClose }) => {
   const handleDeleteReview = async (reviewId) => {
     try {
       await deleteReview(reviewId);
-      const updatedReviews = await fetchReviews(book.isbn);
+      const updatedReviews = await fetchReviews(bookData.isbn);
       setReviews(updatedReviews);
       setAverageRating(calculateAverageRating(updatedReviews));
       
@@ -152,29 +163,27 @@ const BookModal = ({ book, onClose }) => {
     setNotification({ ...notification, open: false });
   };
 
-  if (loading) {
+  if (loading || !bookData) {
     return null;
   }
 
+  const { available, availableCopies, totalCopies, lendedCopies } = getAvailabilityInfo();
+
   return (
-    <Modal open={!!book} onClose={onClose}>
+    <Modal open={!!bookData} onClose={onClose}>
       <Box className={`rh-book-modal ${!isAuthenticated ? 'guest-view' : ''}`}>
         <div className="rh-modal-content">
-          <img src={book.cover} alt={`${book.title} cover`} className="rh-book-cover" />
+          <img src={bookData.cover} alt={`${bookData.title} cover`} className="rh-book-cover" />
           <div className="rh-book-info">
             <Typography variant="h4" className="rh-modal-book-title" gutterBottom>
-              {book.title}
+              {bookData.title}
             </Typography>
             <Typography variant="subtitle1" className="rh-book-author" gutterBottom>
-              by {book.authors.map(author => author.name).join(', ')}
+              by {bookData.authors.map(author => author.name).join(', ')}
             </Typography>
+            
             <div className="rh-book-rating">
-              <Rating 
-                value={averageRating} 
-                precision={0.5} 
-                readOnly 
-                size="large"
-              />
+              <Rating value={averageRating} precision={0.5} readOnly size="large" />
               <Typography variant="body2" className="rh-average-rating">
                 {averageRating > 0 
                   ? `${averageRating.toFixed(1)} / 5.0 (${reviews.length} ${reviews.length === 1 ? 'review' : 'reviews'})`
@@ -182,13 +191,27 @@ const BookModal = ({ book, onClose }) => {
                 }
               </Typography>
             </div>
+
             <Typography variant="body2" className="rh-book-genre" gutterBottom>
-              Genre: {book.genres.map(genre => genre.name).join(', ')}
-            </Typography>
-            <Typography variant="subtitle2" className="rh-book-isbn" gutterBottom>
-              ISBN: {book.isbn}
+              Genre: {bookData.genres.map(genre => genre.name).join(', ')}
             </Typography>
             
+            <Typography variant="subtitle2" className="rh-book-isbn" gutterBottom>
+              ISBN: {bookData.isbn}
+            </Typography>
+
+            <div className="rh-copies-info">
+              <span className={`rh-availability-status ${available ? 'available' : 'unavailable'}`}>
+                {available ? 'Available' : 'Unavailable'}
+              </span>
+              <span className="rh-copies-count">
+                {availableCopies} of {totalCopies} copies available
+              </span>
+              <span className="rh-lended-count">
+                ({lendedCopies} currently borrowed)
+              </span>
+            </div>
+
             {!isAuthenticated && (
               <div className="rh-login-prompt">
                 <Typography variant="body1">
@@ -205,8 +228,9 @@ const BookModal = ({ book, onClose }) => {
                 className="rh-borrow-button"
                 onClick={handleBorrow}
                 startIcon={<MenuBookIcon />}
+                disabled={!available}
               >
-                Borrow Book
+                Borrow Book {!available ? '(No copies available)' : ''}
               </Button>
               <Button 
                 variant={isInWishlist ? "contained" : "outlined"}

@@ -64,7 +64,7 @@ export const fetchUserAccount = async () => {
 export const borrowBook = async (isbn) => {
   try {
     const response = await api.post('borrow/', { isbn });
-    return response.data;
+    return response.data.book;
   } catch (error) {
     console.error('Borrow book error:', error);
     throw error;

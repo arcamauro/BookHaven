@@ -217,3 +217,59 @@
     margin: 12px 0;
   }
 }
+
+.rh-copies-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.rh-availability-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rh-availability-status.available {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.rh-availability-status.unavailable {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.rh-copies-count {
+  color: #666;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.rh-lended-count {
+  color: #666;
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .rh-copies-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .rh-copies-count,
+  .rh-lended-count {
+    font-size: 0.8rem;
+  }
+}

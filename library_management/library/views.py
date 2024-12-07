@@ -233,10 +233,14 @@ def api_borrow_book(request):
             existing_lended_book.save()
             book.lended += quantity
             book.save()
+            
+            # Serialize and return the updated book data
+            serializer = BookSerializer(book, context={'request': request})
             return Response(
                 {
                     'success': f'{quantity} copies borrowed successfully.',
-                    'type': 'success'
+                    'type': 'success',
+                    'book': serializer.data  # Include updated book data
                 }, 
                 status=status.HTTP_200_OK
             )
@@ -253,10 +257,14 @@ def api_borrow_book(request):
             book.lended += quantity
             book.save()
             LendedBook.objects.create(user=request.user, book=book, number=quantity)
+            
+            # Serialize and return the updated book data
+            serializer = BookSerializer(book, context={'request': request})
             return Response(
                 {
                     'success': f'{quantity} copies borrowed successfully.',
-                    'type': 'success'
+                    'type': 'success',
+                    'book': serializer.data  # Include updated book data
                 }, 
                 status=status.HTTP_200_OK
             )
