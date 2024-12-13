@@ -1,4 +1,4 @@
-# User Interface Programming
+# BookHaven
 
 Library Management System, where you can borrow books, add them to your wishlist and leave reviews, all of this through an API.
 The librarian can also do book returns.
