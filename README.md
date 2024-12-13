@@ -11,10 +11,6 @@ To run the backend use Python 3.11.5 and install the requirements:
 
 We recommend to use port 8000 or 8080 (by default django uses 8000)  
 
-For admin view of the database link http://127.0.0.1:8000/admin
-Username: tester
-Password: VutAdmin0
-
 To run the frontend first you have to install node.js if you don't have it:
 - https://nodejs.org/en/download/
 
