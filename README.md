@@ -51,13 +51,6 @@ To use the website, follow these steps:
      npm start
      ```
 
-## Features
-
-- Borrow and return books.
-- Add reviews to books.
-- Manage a personal wishlist.
-- Librarian-specific tools for managing book returns.
-
 ## Project Structure
 
 ```
@@ -73,6 +66,10 @@ BookHaven/
 ├── README.md                   # Project documentation
 └── LICENSE                     # License information
 ```
+
+## Demo Video
+
+[Download the demo video](path/to/video.mp4)
 
 ## License
 
