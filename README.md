@@ -1,26 +1,84 @@
 # BookHaven
 
-Library Management System, where you can borrow books, add them to your wishlist and leave reviews, all of this through an API.
-The librarian can also do book returns.
+BookHaven is a library management system developed as part of a university course on UI programming. The system provides functionality for two types of users:
+- **Normal User**: Can borrow books, add reviews, and manage a wishlist.
+- **Librarian**: Has all the capabilities of a normal user, with the additional ability to manage book returns for users.
 
-To run the project you need to run both the backend and the frontend, so you have to open two terminals.
+## Requirements
 
-To run the backend use Python 3.11.5 and install the requirements:  
-- pip install -r requirements.txt  
-- Inside library_management/ run: py manage.py runserver 'port' 
+To run this project, you need the following:
+- Python 3.11(preferrable, to avoid compatibility problems)
+- Django (backend framework)
+- Node.js and npm (for the frontend, if applicable)
 
-We recommend to use port 8000 or 8080 (by default django uses 8000)  
+## Getting Started
 
-To run the frontend first you have to install node.js if you don't have it:
-- https://nodejs.org/en/download/
+To use the website, follow these steps:
 
-Then you have to install the dependencies:
-- npm install
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/arcamauro/ReadHaven
+   ```
 
-And then inside library_management/library_frontend/ run:
-- npm start
+2. Navigate to the project directory:
+   ```bash
+   cd BookHaven
+   ```
 
-Use localhost:3000(which is the default port) to access the frontend.
+3. Install the required dependencies:
+   - For the backend:
+     ```bash
+     pip install -r requirements.txt
+     ```
+   - For the frontend (if applicable):
+     ```bash
+     cd library_frontend
+     npm install
+     ```
 
-> Made by Davide Scaccia, Danilo Spera, Giovanni Romano, Arcangelo Mauro
-> This specific application is made by Arcangelo Mauro
+4. Set up the environment variables:
+   - Create a `.env` file in the `library_management` directory and configure it as needed.
+
+5. Run the application:
+   - Start the backend server:
+     ```bash
+     cd library_management
+     python manage.py runserver
+     ```
+   - Start the frontend development server in a separate terminal:
+     ```bash
+     cd library_management/library_frontend
+     npm start
+     ```
+
+## Features
+
+- Borrow and return books.
+- Add reviews to books.
+- Manage a personal wishlist.
+- Librarian-specific tools for managing book returns.
+
+## Project Structure
+
+```
+BookHaven/
+├── library_management/
+│   ├── library/                # Backend application
+│   ├── library_frontend/       # Frontend application
+│   ├── media/                  # Media files (e.g., book covers)
+│   ├── manage.py               # Django management script
+│   ├── settings.py             # Project settings
+│   └── urls.py                 # URL routing
+├── requirements.txt            # Backend dependencies
+├── README.md                   # Project documentation
+└── LICENSE                     # License information
+```
+
+## License
+
+This project is licensed under the terms of the [MIT License](LICENSE).
+
+---
+
+> The backend is developed by Davide Scaccia, Danilo Spera, Giovanni Romano, and Arcangelo Mauro.  
+> This specific application is authored by Arcangelo Mauro.

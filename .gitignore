@@ -2,3 +2,5 @@
 *.pyc
 venv/
 __pycache__/
+library_management/media/book_covers/
+library_management/library_frontend/package-lock.json
