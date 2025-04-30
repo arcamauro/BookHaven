@@ -4,3 +4,6 @@ venv/
 __pycache__/
 library_management/media/book_covers/
 library_management/library_frontend/package-lock.json
+library_management/library/__pycache__/
+library_management/library/migrations/
+
