@@ -1,6 +1,6 @@
-# BookHaven
+# ReadHaven
 
-BookHaven is a library management system developed as part of a university course on UI programming. The system provides functionality for two types of users:
+ReadHaven is a library management system developed as part of a university course on UI programming. The system provides functionality for two types of users:
 - **Normal User**: Can borrow books, add reviews, and manage a wishlist.
 - **Librarian**: Has all the capabilities of a normal user, with the additional ability to manage book returns for users.
 
@@ -22,7 +22,7 @@ To use the website, follow these steps:
 
 2. Navigate to the project directory:
    ```bash
-   cd BookHaven
+   cd ReadHaven
    ```
 
 3. Install the required dependencies:
@@ -54,7 +54,7 @@ To use the website, follow these steps:
 ## Project Structure
 
 ```
-BookHaven/
+ReadHaven/
 ├── library_management/
 │   ├── library/                # Backend application
 │   ├── library_frontend/       # Frontend application
